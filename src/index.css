@@ -27,9 +27,11 @@ body {
 	--bg-accent-teal: #43c6ac;
 
 	/** Text colors */
-	--text-dominant-white: #ffffff;
-	--text-dominant-light-gray: #e5e5e5;
+	--text-primary-lightest: #ffffff;
+	--text-primary-lighter: #646464;
+	--text-primary-light: #292929;
 	--text-primary-navy-blue: #191645;
+	--text-primary-light-navy-blue: #191645d5;
 	--text-accent-teal: #44c6ac;
 
   /** Fonts*/
@@ -43,4 +45,22 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
+}
+
+::-webkit-scrollbar {
+    width: .5rem;
+    background-color: rgba(247, 247, 247, 0.3);
+    border: .5rem;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--bg-accent-teal);
+	border-bottom-left-radius: .3rem;
+	border-top-left-radius: .3rem;
+}
+
+#icon{
+	height: 20px;
+	position: relative;
+	top: 2px;
+	left: 5px;
 }
