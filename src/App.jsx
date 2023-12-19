@@ -10,14 +10,10 @@ import Explore from './pages/Explore';
 import About from './pages/About';
 import Account from './pages/Account';
 
-// components
-import Nav from './components/Nav';
-import Footer from './components/Footer';
 
 function App() {
   return (
     <Router>
-      <Nav/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign" element={<Sign />} />
@@ -25,7 +21,6 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="explore" element={<Explore/>} />
       </Routes>
-      <Footer/>
     </Router>
   );
 }
