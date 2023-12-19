@@ -1,38 +1,92 @@
-.App {
-  text-align: center;
+
+/** Navbar Section*/
+.navbar {
+	display: flex;
+	padding: 10px 20px;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--bg-dominant-light-white);
+}
+.navbar > div {
+	display: flex;
+	align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navbar > div:nth-child(1){
+  cursor: pointer;
+}
+.navbar > div:nth-child(1) > h1 {
+	color: var(--text-accent-teal);
+	font-size: 40px;
+	margin-left: 5px;
+	font-family: var(--logo-font);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navbar > div:nth-child(2) {
+	gap: 50px;
+	font-size: 13px;
+	font-family: var(--small-content-font);
+  font-weight: 600;
+	letter-spacing: 1px;
+}
+.link {
+	margin-right: 30px;
+	color: var(--text-primary-navy-blue);
+}
+.link:hover {
+	color: var(--text-accent-teal);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.info {
+	font-weight: 600;
+	border: 1px solid var(--text-accent-teal);
+	border-radius: 4px;
+	transition: 0.25s ease-in-out;
+	padding: 10px 30px;
+}
+.shine {
+	background: linear-gradient(to right, #3ffdca 0, #000 30%, #3ffdca 30%);
+	background-position: 30px;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: shine 5s infinite linear forwards;
+}
+.shine:hover {
+	-webkit-text-fill-color: var(--text-accent-teal);
+}
+@keyframes shine {
+	0% {
+		background-position: 0px;
+	}
+	50% {
+		background-position: 30px;
+	}
+	100% {
+		background-position: 50px;
+	}
+}
+
+.menu{
+  position: absolute;
+  right: 0;
+  padding: 10px 50px;
+  justify-content: center;
+  align-items: center;
+	background-color: var(--bg-dominant-light-white);
+  width: max-content;
+  margin: 0px 0px 0px 30px;
+}
+.menu>hr{
+  margin: 40px 0px 30px 0px;
+}
+
+.links{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  text-align: center;
+  gap: 10px;
+  margin-bottom: 30px;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.links>.link{
+  margin: 0;
 }
