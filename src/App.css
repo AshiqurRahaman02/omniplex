@@ -183,7 +183,7 @@ main{
 
 /***************************************** About Page ***************************************/
 
-/** Hero Section*/
+/** Hero Section */
 #about-hero{
 	padding:  50px;
 	padding-bottom: 100px;
@@ -206,7 +206,7 @@ main{
 	text-align:justify;
 }
 
-
+/** Sections */
 .left, .right{
 	padding:  50px;
 	padding-bottom: 100px;
@@ -247,6 +247,223 @@ main{
 	text-align:justify;
 }
 
+/** Reviews Sections */
 #reviews{
 	text-align: center;
+}
+
+
+/***************************************** Sign Page ***************************************/
+#option{
+	text-align: center;
+    background-color: aquamarine;
+	width: 350px;
+	padding: 10px 30px;
+	margin: auto ;
+	margin-bottom: 100px;
+}
+#option>p{
+    font-weight: 600;
+    color: var(--text-primary-navy-blue);
+}
+#option button{
+	border: 1px solid var(--text-primary-navy-blue);
+	padding: 5px;
+    border-radius: 3px;
+	background: var(--text-primary-navy-blue);
+	font-size: 17px;
+	color: var(--text-accent-teal);
+	transition: 0.5s;
+    cursor: pointer;
+}
+
+#pageLoader{
+    text-align: center;
+	margin: 0;
+	font-size: 25px;
+	top: 95px;
+	left: 45%;
+	position: absolute;
+	
+	background: linear-gradient(to right,#3FFDCA 0, #000000 10%, #3FFDCA 30%);
+    background-position: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine2 5s infinite linear forwards;
+}
+@keyframes shine2{
+    0%{
+        background-position: 0px;
+    }
+    50%{
+        background-position: 80px;
+    }
+    100%{
+        background-position: 190px;
+    }
+}
+
+
+/***************************************** SignIn and SignUp Section ***************************************/
+
+#signinForm {
+	background-color: rgba(127, 255, 212, 0.753);
+	width: 350px;
+	height: 60vh;
+	padding: 30px;
+	margin: 15vh auto 0px;
+}
+#signinForm>h2{
+	font-size: 30px;
+	color: var(--text-primary-navy-blue);
+	font-family: var(--hero-font);
+	letter-spacing: 2px;
+}
+#signinForm>p{
+	font-size: 20px;
+	margin: 20px 0px;
+	color: rgb(115, 116, 117);
+}
+#signinForm > div {
+	position: relative;
+}
+#emailInput,
+#passwordInput {
+	height: 30px;
+	font-size: 17px;
+	border-radius: 3px;
+	background-color: transparent;
+	padding-left: 5px;
+	outline: none;
+	border: var(--text-primary-navy-blue) 3px solid;
+}
+#emailInput {
+	margin-bottom: 30px;
+}
+#emailInput,
+#passwordInput {
+	width: 90%;
+}
+#emailInput::placeholder,
+#passwordInput::placeholder {
+	color: transparent;
+}
+#emailInput:placeholder-shown ~ #form-label,
+#passwordInput:placeholder-shown ~ #form-label {
+	cursor: text;
+	top: 5px;
+	font-size: 17px;
+	background-color: transparent;
+}
+#form-label {
+	position: absolute;
+	display: block;
+	font-size: 14px;
+	top: -13px;
+	left: 5px;
+	transition: 0.5s;
+	padding: 0px 2px;
+	background-color: aquamarine;
+}
+
+#eye {
+	position: relative;
+	top: -10px;
+	left: -1px;
+	font-size: 15px;
+	font-weight: 600;
+}
+input[type="checkbox"]{
+	cursor: pointer;
+}
+
+#submitButton{
+	margin-top: 30px;
+	width: 110px;
+	height: 40px;
+	border: 0px;
+	background: var(--text-primary-navy-blue);
+	font-size: 17px;
+	color: var(--text-accent-teal);
+	border-radius: 5px;
+	transition: 0.5s;
+    cursor: pointer;
+}
+
+/***************************************** Popup Section ***************************************/
+#popupdiv{
+	width: 370px;
+	margin: auto;
+}
+.popup {
+	position: absolute;
+	background-color: rgba(36, 35, 35, 0.685);
+	backdrop-filter: blur(25px);
+	height: 80vh;
+	/* width: 370px; */
+	border-radius: 30px;
+	text-align: center;
+	margin: auto;
+	border: #e2e2e2 1px solid;
+	padding: 5px;
+
+	top: 130px;
+}
+.openpopup {
+	visibility: visible;
+}
+.popup > h1 {
+	padding-top: 50px;
+	font-family: serif;
+	font-size: 50px;
+	color: white;
+	margin-top: 0px;
+	margin-bottom: 50px;
+}
+.popup h3 {
+	font-family: serif;
+	font-size: 30px;
+	color: white;
+	margin-bottom: 50px;
+}
+#otp {
+	font-size: 30px;
+}
+#otpInput input {
+	width: 50px;
+	height: 50px;
+	font-size: 50px;
+	text-align: center;
+	margin-right: 3px;
+	border: 0px;
+	outline: none;
+}
+input[type="number"]{
+	margin-right: 5px;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+#otpButton {
+	width: 150px;
+	height: 50px;
+	cursor: pointer;
+	display: block;
+	/* background: linear-gradient(to right, var(--first-color), var(--secondary-color)); */
+	background: var(--text-primary-navy-blue);
+	border: 0;
+	outline: none;
+	border-radius: 15px;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+	text-align: center;
+	margin: auto;
+	margin-top: 20px;
+}
+
+.popup-open {
+	backdrop-filter: blur(55px);
 }
