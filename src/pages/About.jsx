@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // components
@@ -85,6 +85,16 @@ const reviews = [
 ];
 
 function About() {
+	const [activeReview, setActiveRiview] = useState(0)
+
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+		  setActiveRiview((prevActiveReview) => (prevActiveReview + 1) % reviews.length);
+		}, 5000); // Change review every 5 seconds
+	  
+		return () => clearInterval(intervalId); // Clean up interval on unmount
+	  }, []);
+
 	const navigate = useNavigate();
 	return (
 		<div>
@@ -157,6 +167,15 @@ function About() {
 							symphony, where every click adds to the harmony, every
 							voice amplifies the potential.
 						</p>
+					</aside>
+				</section>
+				<h2 id="reviews">Reviews</h2>
+				<section className="right">
+					<aside>
+						<p>{reviews[activeReview].review}</p>
+					</aside>
+					<aside>
+						<img src="/assets/images/potential.png" alt="" />
 					</aside>
 				</section>
 			</main>
