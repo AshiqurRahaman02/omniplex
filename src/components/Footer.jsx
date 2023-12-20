@@ -18,9 +18,9 @@ const footercontent = {
 		{ id: 2, text: "Youtube", to: "/youtube" },
 		{ id: 3, text: "Instagram", to: "/instagram" },
 		{ id: 4, text: "Spotify", to: "/spotify" },
-		{ id: 5, text: "Apple", to: "/apple" }
+		{ id: 5, text: "Apple", to: "/apple" },
 	],
-  products2: [
+	products2: [
 		{ id: 6, text: "Amazon", to: "/amazon" },
 		{ id: 7, text: "Chat Gpt", to: "/chatgpt" },
 		{ id: 8, text: "Unsplash", to: "/unsplash" },
@@ -84,7 +84,7 @@ function Footer() {
 								<Link
 									key={product.id}
 									to={product.to}
-                  className="link"
+									className="link"
 									target="_blank"
 								>
 									<span className="span">{product.text}</span>
@@ -93,15 +93,15 @@ function Footer() {
 						))}
 					</ul>
 				</div>
-        <div>
-          <h3 style={{opacity:0}}>Products</h3>
-        <ul>
+				<div>
+					<h3 style={{ visibility:"hidden" }}>Products</h3>
+					<ul>
 						{footercontent.products2.map((product) => (
 							<li>
 								<Link
 									key={product.id}
 									to={product.to}
-                  className="link"
+									className="link"
 									target="_blank"
 								>
 									<span className="span">{product.text}</span>
@@ -118,7 +118,7 @@ function Footer() {
 								<Link
 									key={page.id}
 									to={page.to}
-                  className="link"
+									className="link"
 									target="_blank"
 								>
 									<span className="span">{page.text}</span>
@@ -135,7 +135,7 @@ function Footer() {
 								<Link
 									key={contact.id}
 									to={contact.to}
-                  className="link"
+									className="link"
 									target="_blank"
 								>
 									{contact.icon}{" "}
@@ -151,13 +151,15 @@ function Footer() {
 						alt="Ashiqur Signature"
 						width={"150px"}
 					/>
-					<p style={{maxWidth:"300px"}}>
+					<p style={{ maxWidth: "300px" }}>
 						A skilled Full-Stack Web Developer with expertise in ReactJS
 						for Frontend Development and Node.js for Backend Development,
 						seeking to further enhance their skills and contribute to the
 						industry.
 					</p>
-          <button className="info shine"  style={{marginTop:"10px"}}><Link to={"tel:+918697835401"} >Hire me</Link></button>
+					<button className="info shine" style={{ marginTop: "10px" }}>
+						<Link to={"tel:+918697835401"}>Hire me</Link>
+					</button>
 				</div>
 			</section>
 		</div>
