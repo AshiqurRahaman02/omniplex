@@ -80,13 +80,8 @@ function Footer() {
 					<h3>Products</h3>
 					<ul>
 						{footercontent.products1.map((product) => (
-							<li>
-								<Link
-									key={product.id}
-									to={product.to}
-									className="link"
-									target="_blank"
-								>
+							<li key={product.id}>
+								<Link to={product.to} className="link" target="_blank">
 									<span className="span">{product.text}</span>
 								</Link>
 							</li>
@@ -94,16 +89,11 @@ function Footer() {
 					</ul>
 				</div>
 				<div>
-					<h3 style={{ visibility:"hidden" }}>Products</h3>
+					<h3 style={{ visibility: "hidden" }}>Products</h3>
 					<ul>
 						{footercontent.products2.map((product) => (
-							<li>
-								<Link
-									key={product.id}
-									to={product.to}
-									className="link"
-									target="_blank"
-								>
+							<li key={product.id}>
+								<Link to={product.to} className="link" target="_blank">
 									<span className="span">{product.text}</span>
 								</Link>
 							</li>
@@ -114,13 +104,8 @@ function Footer() {
 					<h3>Pages</h3>
 					<ul>
 						{footercontent.pages.map((page) => (
-							<li>
-								<Link
-									key={page.id}
-									to={page.to}
-									className="link"
-									target="_blank"
-								>
+							<li key={page.id}>
+								<Link to={page.to} className="link" target="_blank">
 									<span className="span">{page.text}</span>
 								</Link>
 							</li>
@@ -131,13 +116,8 @@ function Footer() {
 					<h3>Contact</h3>
 					<ul>
 						{footercontent.contacts.map((contact) => (
-							<li>
-								<Link
-									key={contact.id}
-									to={contact.to}
-									className="link"
-									target="_blank"
-								>
+							<li key={contact.id}>
+								<Link to={contact.to} className="link" target="_blank">
 									{contact.icon}{" "}
 									<span className="span">{contact.text}</span>
 								</Link>
