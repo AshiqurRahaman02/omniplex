@@ -1,4 +1,3 @@
-
 /** Navbar Section*/
 .navbar {
 	display: flex;
@@ -12,8 +11,8 @@
 	align-items: center;
 }
 
-.navbar > div:nth-child(1){
-  cursor: pointer;
+.navbar > div:nth-child(1) {
+	cursor: pointer;
 }
 .navbar > div:nth-child(1) > h1 {
 	color: var(--text-accent-teal);
@@ -26,7 +25,7 @@
 	gap: 50px;
 	font-size: 13px;
 	font-family: var(--small-content-font);
-  font-weight: 600;
+	font-weight: 600;
 	letter-spacing: 1px;
 }
 .link {
@@ -67,28 +66,28 @@
 	}
 }
 
-.menu{
-  position: absolute;
-  right: 0;
-  padding: 10px 50px;
-  justify-content: center;
-  align-items: center;
+.menu {
+	position: absolute;
+	right: 0;
+	padding: 10px 50px;
+	justify-content: center;
+	align-items: center;
 	background-color: var(--bg-dominant-light-white);
-  width: max-content;
-  margin: 0px 0px 0px 30px;
+	width: max-content;
+	margin: 0px 0px 0px 30px;
 }
-.menu>hr{
-  margin: 40px 0px 30px 0px;
+.menu > hr {
+	margin: 40px 0px 30px 0px;
 }
-.links{
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  gap: 10px;
-  margin-bottom: 30px;
+.links {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	gap: 10px;
+	margin-bottom: 30px;
 }
-.links>.link{
-  margin: 0;
+.links > .link {
+	margin: 0;
 }
 
 /** Footer Section*/
@@ -102,207 +101,297 @@
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
-.footer>div{
-	padding: 10px ;
+.footer > div {
+	padding: 10px;
 }
-.footer h3{
+.footer h3 {
 	letter-spacing: 1.8px;
 }
-.footer  ul {
+.footer ul {
 	columns: 1;
-	margin: 10px 10px 0px 0px ;
+	margin: 10px 10px 0px 0px;
 	list-style: none;
 }
-.footer li{
+.footer li {
 	transition: 0.25s ease;
 	letter-spacing: 1.5px;
 	margin-bottom: 5px;
 }
-.footer li:hover{
+.footer li:hover {
 	transform: translateY(-2px);
 }
 
 /***************************************** Home Page ***************************************/
 
 /** Header Section*/
-main{
+main {
 	width: 97%;
 	margin: auto;
 }
 
-#header{
-	padding:  50px;
+#header {
+	padding: 50px;
 	padding-bottom: 100px;
 	margin-left: 50px;
 }
-#header>div:nth-child(1)>h1{
+#header > div:nth-child(1) > h1 {
 	font-size: 100px;
 	color: var(--text-primary-navy-blue);
 	font-family: var(--hero-font);
 	letter-spacing: 2px;
 }
-#header>div:nth-child(1)>p:nth-child(2){
+#header > div:nth-child(1) > p:nth-child(2) {
 	font-size: 40px;
 	margin-top: 30px;
 	color: var(--text-primary-light);
 	font-family: var(--content-font);
 }
-#header>div:nth-child(1)>p:nth-child(3){
+#header > div:nth-child(1) > p:nth-child(3) {
 	max-width: 650px;
 	font-size: 20px;
 	margin-top: 30px;
 	color: var(--text-primary-lighter);
 	font-family: var(--content-font);
-	text-align:justify;
+	text-align: justify;
 }
-#title{
+#title {
 	color: var(--text-accent-teal);
 }
 
 .explore-btn {
 	margin-top: 30px;
-    border: 1px solid var(--text-accent-teal);
+	border: 1px solid var(--text-accent-teal);
 	font-family: var(--content-font);
 	letter-spacing: 2px;
-    color: var(--text-accent-teal);
-    background: transparent;
-    padding: 15px 40px;
-    border-radius: 4px;
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    font-size: 17px;
+	color: var(--text-accent-teal);
+	background: transparent;
+	padding: 15px 40px;
+	border-radius: 4px;
+	display: flex;
+	width: fit-content;
+	align-items: center;
+	font-size: 17px;
 	font-weight: 600;
 	cursor: pointer;
 }
 .explore-btn:hover {
-    background: var(--text-accent-teal);
-    color: var(--text-primary-lightest);
+	background: var(--text-accent-teal);
+	color: var(--text-primary-lightest);
 }
-
 
 /***************************************** About Page ***************************************/
 
 /** Hero Section */
-#about-hero{
-	padding:  50px;
+#about-hero {
+	padding: 50px;
 	padding-bottom: 100px;
 	margin-left: 50px;
 	/* border: #000 1px solid; */
 	height: 90vh;
 }
-#about-hero>div:nth-child(1)>h1{
+#about-hero > div:nth-child(1) > h1 {
 	font-size: 100px;
 	color: var(--text-primary-navy-blue);
 	font-family: var(--hero-font);
 	letter-spacing: 2px;
 }
-#about-hero>div:nth-child(1)>p:nth-child(2){
+#about-hero > div:nth-child(1) > p:nth-child(2) {
 	max-width: 650px;
 	font-size: 20px;
 	margin-top: 100px;
 	color: var(--text-primary-lighter);
 	font-family: var(--content-font);
-	text-align:justify;
+	text-align: justify;
 }
 
 /** Sections */
-.left, .right{
-	padding:  50px;
+.left,
+.right {
+	padding: 50px;
 	padding-bottom: 100px;
 	margin-left: 50px;
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
-.left{
+.left {
 	flex-wrap: wrap-reverse;
 }
-.left>aside, .right>aside{
+.left > aside,
+.right > aside {
 	margin: auto;
 }
-.left>aside>img, .right>aside>img{
+.left > aside > img,
+.right > aside > img {
 	width: 500px;
 }
-.left>aside:nth-child(2){
+.left > aside:nth-child(2) {
 	text-align: end;
 }
-.left>aside:nth-child(2), .right>aside:nth-child(1){
+.left > aside:nth-child(2),
+.right > aside:nth-child(1) {
 	padding: 10px;
-	
 }
-.left>aside:nth-child(2)>h2, .right>aside:nth-child(1)>h2, #reviews{
+.left > aside:nth-child(2) > h2,
+.right > aside:nth-child(1) > h2,
+#reviews {
 	font-size: 50px;
 	color: var(--text-primary-navy-blue);
 	font-family: var(--hero-font);
 	letter-spacing: 2px;
 }
-.left>aside:nth-child(2)>p, .right>aside:nth-child(1)>p{
+.left > aside:nth-child(2) > p,
+.right > aside:nth-child(1) > p {
 	max-width: 600px;
-	
+
 	font-size: 20px;
 	margin-top: 50px;
 	color: var(--text-primary-lighter);
 	font-family: var(--content-font);
-	text-align:justify;
+	text-align: justify;
 }
 
 /** Reviews Sections */
-#reviews{
+#reviews {
 	text-align: center;
 }
+/* .reviews{
+	display: flex;
+	flex-wrap: wrap;
+}
+.reviews>div:nth-child(1), .reviews>div:nth-child(3){
+	opacity: 0.5;
+} */
+.avator {
+	border-radius: 100px;
+	width: 48px;
+	margin-right: 15px;
+}
 
+.tweet-wrap {
+	max-width: 490px;
+	background: #fff;
+	margin: 0 auto 50px;
+	margin-top: 50px;
+	border-radius: 3px;
+	padding: 30px;
+	border-bottom: 1px solid #e6ecf0;
+	border-top: 1px solid #e6ecf0;
+
+	background: #e0e0e0;
+	box-shadow: 15px 15px 30px #bebebe, -15px -15px 30px #ffffff;
+}
+
+.tweet-header {
+	display: flex;
+	align-items: flex-start;
+	font-size: 14px;
+}
+.tweet-header-info {
+	font-weight: bold;
+}
+.tweet-header-info span {
+	color: #657786;
+	font-weight: normal;
+	margin-left: 5px;
+}
+.tweet-header-info p {
+	font-weight: normal;
+	height: 60px;
+	margin-top: 5px;
+}
+.tweet-img-wrap {
+	padding-left: 60px;
+}
+
+.tweet-info-counts {
+	display: flex;
+	margin-left: 60px;
+	margin-top: 10px;
+}
+.tweet-info-counts div {
+	display: flex;
+	margin-right: 20px;
+}
+.tweet-info-counts div svg {
+	color: #657786;
+	margin-right: 10px;
+}
+@media screen and (max-width: 430px) {
+	body {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.tweet-header {
+		flex-direction: column;
+	}
+	.tweet-header img {
+		margin-bottom: 20px;
+	}
+	.tweet-header-info p {
+		margin-bottom: 30px;
+	}
+	.tweet-img-wrap {
+		padding-left: 0;
+	}
+	.tweet-info-counts {
+		display: flex;
+		margin-left: 0;
+	}
+	.tweet-info-counts div {
+		margin-right: 10px;
+	}
+}
 
 /***************************************** Sign Page ***************************************/
-#option{
+#option {
 	text-align: center;
-    background-color: aquamarine;
+	background-color: aquamarine;
 	width: 350px;
 	padding: 10px 30px;
-	margin: auto ;
+	margin: auto;
 	margin-bottom: 100px;
 }
-#option>p{
-    font-weight: 600;
-    color: var(--text-primary-navy-blue);
+#option > p {
+	font-weight: 600;
+	color: var(--text-primary-navy-blue);
 }
-#option button{
+#option button {
 	border: 1px solid var(--text-primary-navy-blue);
 	padding: 5px;
-    border-radius: 3px;
+	border-radius: 3px;
 	background: var(--text-primary-navy-blue);
 	font-size: 17px;
 	color: var(--text-accent-teal);
 	transition: 0.5s;
-    cursor: pointer;
+	cursor: pointer;
 }
 
-#pageLoader{
-    text-align: center;
+#pageLoader {
+	text-align: center;
 	margin: 0;
 	font-size: 25px;
 	top: 95px;
 	left: 45%;
 	position: absolute;
-	
-	background: linear-gradient(to right,#3FFDCA 0, #000000 10%, #3FFDCA 30%);
-    background-position: 0;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine2 5s infinite linear forwards;
-}
-@keyframes shine2{
-    0%{
-        background-position: 0px;
-    }
-    50%{
-        background-position: 80px;
-    }
-    100%{
-        background-position: 190px;
-    }
-}
 
+	background: linear-gradient(to right, #3ffdca 0, #000000 10%, #3ffdca 30%);
+	background-position: 0;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: shine2 5s infinite linear forwards;
+}
+@keyframes shine2 {
+	0% {
+		background-position: 0px;
+	}
+	50% {
+		background-position: 80px;
+	}
+	100% {
+		background-position: 190px;
+	}
+}
 
 /***************************************** SignIn and SignUp Section ***************************************/
 
@@ -313,13 +402,13 @@ main{
 	padding: 30px;
 	margin: 15vh auto 0px;
 }
-#signinForm>h2{
+#signinForm > h2 {
 	font-size: 30px;
 	color: var(--text-primary-navy-blue);
 	font-family: var(--hero-font);
 	letter-spacing: 2px;
 }
-#signinForm>p{
+#signinForm > p {
 	font-size: 20px;
 	margin: 20px 0px;
 	color: rgb(115, 116, 117);
@@ -373,11 +462,11 @@ main{
 	font-size: 15px;
 	font-weight: 600;
 }
-input[type="checkbox"]{
+input[type="checkbox"] {
 	cursor: pointer;
 }
 
-#submitButton{
+#submitButton {
 	margin-top: 30px;
 	width: 110px;
 	height: 40px;
@@ -387,11 +476,11 @@ input[type="checkbox"]{
 	color: var(--text-accent-teal);
 	border-radius: 5px;
 	transition: 0.5s;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 /***************************************** Popup Section ***************************************/
-#popupdiv{
+#popupdiv {
 	width: 370px;
 	margin: auto;
 }
@@ -438,7 +527,7 @@ input[type="checkbox"]{
 	border: 0px;
 	outline: none;
 }
-input[type="number"]{
+input[type="number"] {
 	margin-right: 5px;
 }
 input[type="number"]::-webkit-inner-spin-button,
