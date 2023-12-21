@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 // components
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-
-// for icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 import Tweet from "../components/Tweet";
 
 const reviews = [
@@ -153,12 +148,11 @@ function About() {
 			setActiveRiview(
 				(prevActiveReview) => (prevActiveReview + 1) % reviews.length
 			);
-		}, 1000); 
+		}, 5000); 
 
 		return () => clearInterval(intervalId); 
 	}, []);
 
-	const navigate = useNavigate();
 	return (
 		<div>
 			<Nav />
@@ -178,7 +172,7 @@ function About() {
 				</section>
 				<section className="left">
 					<aside>
-						<img src="/assets/images/beyond.png" alt="" />
+						<img src="/assets/images/about/beyond.png" alt="" />
 					</aside>
 					<aside>
 						<h2>Your Digital Universe</h2>
@@ -210,12 +204,12 @@ function About() {
 						</p>
 					</aside>
 					<aside>
-						<img src="/assets/images/potential.png" alt="" />
+						<img src="/assets/images/about/potential.png" alt="" />
 					</aside>
 				</section>
 				<section className="left">
 					<aside>
-						<img src="/assets/images/community.png" alt="" />
+						<img src="/assets/images/about/community.png" alt="" />
 					</aside>
 					<aside>
 						<h2>Join the Symphony</h2>
