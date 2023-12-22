@@ -224,6 +224,7 @@ main {
 .left > aside > img,
 .right > aside > img {
 	width: 500px;
+	
 }
 .left > aside:nth-child(2) {
 	text-align: end;
@@ -362,7 +363,7 @@ main {
 	border-radius: 3px;
 	background: var(--text-primary-navy-blue);
 	font-size: 17px;
-	color: var(--text-accent-teal);
+	color: var(--bg-dominant-white);
 	transition: 0.5s;
 	cursor: pointer;
 }
@@ -396,11 +397,12 @@ main {
 /***************************************** SignIn and SignUp Section ***************************************/
 
 #signinForm {
-	background-color: rgba(127, 255, 212, 0.753);
+	background-color: rgb(127, 255, 212);
 	width: 350px;
 	height: 60vh;
 	padding: 30px;
 	margin: 15vh auto 0px;
+	
 }
 #signinForm > h2 {
 	font-size: 30px;
@@ -473,7 +475,7 @@ input[type="checkbox"] {
 	border: 0px;
 	background: var(--text-primary-navy-blue);
 	font-size: 17px;
-	color: var(--text-accent-teal);
+	color: var(--bg-dominant-white);
 	border-radius: 5px;
 	transition: 0.5s;
 	cursor: pointer;
