@@ -45,7 +45,7 @@
 	cursor: pointer;
 }
 .shine {
-	background: linear-gradient(to right, #3ffdca 0, #000 30%, #3ffdca 30%);
+	background: linear-gradient(to right, #000 0, #3ffdca 20%, #000 30%);
 	background-position: 30px;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;

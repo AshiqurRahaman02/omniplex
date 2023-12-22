@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // import "../styles/Signin.css";
-// import { userRoutes } from "../api/userRoutes";
+import { userRoutes, mailRoutes } from "../routes/omniplex.route";
 
 import Popup from "./Popup";
 
@@ -27,6 +27,7 @@ const SignUp = () => {
 		/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=]).+$/;
 
 	const [showPopup, setShowPopup] = useState(false);
+	const [correctOtp, setCorrectOtp] = useState(7852);
 
 	const [isLoading, setLoading] = useState(false);
 
@@ -77,6 +78,10 @@ const SignUp = () => {
 		event.preventDefault();
 
 		if (validSignUpName && validSignUpEmail && validSignUpPassword) {
+			// Send email with OTP here
+			const otp = Math.floor(1000 + Math.random() * 9000);
+			setCorrectOtp(otp);
+			handleSendEmail(otp);
 			setShowPopup(true);
 		} else {
 			if (!validSignUpName) {
@@ -92,6 +97,39 @@ const SignUp = () => {
 		}
 	};
 
+	// Function to handle email send for verification
+	const handleSendEmail = (otp) => {
+		const newMail = {
+			to: signUpEmail,
+			subject: "Otp for Email Verification",
+			html: mail(otp),
+		};
+
+		fetch(mailRoutes.sendMail, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(newMail),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					notify("Otp sent", "success");
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
+	const mail = (otp) => {
+		return `<body style='padding: 40px 0px; background-color: aliceblue;'> <div style='background-color: white; max-width: max-content; margin: auto; padding: 10px;'><div style='display: flex;justify-content: center;'><img src='https://omniplex.vercel.app/assets/images/Omniplex.png' style='width: 70px;'><h2 style='width: max-content; font-size: 50px; font-family:Verdana, Geneva, Tahoma, sans-serif;color: #23aa94;'>Omniplex</h2></div> <p  style='display: flex;justify-content: center; font-size: 40px;font-family: monospace;'>OTP- <span> &nbsp; ${otp}</span></p> <div style='font-family: system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;'> <p>Please do not share this OTP with anyone, as it is used for verification purposes only.</p> <p>Got a question? Find all your answers at our <a href='https://omniplex.vercel.app/'>help center⟶</a></p> <p>We're excited to have you on board.</p> <p>Stay safe and secure online!</p> <div style='display: flex;'><img src='https://omniplex.vercel.app/assets/images/Omniplex.png' style='width: 30px;'><h2 style='width: max-content; font-size: 20px; font-family:Verdana, Geneva, Tahoma, sans-serif;color: #23aa94;'> Team Omniplex</h2></div> </div> </div> </body>`;
+	};
+
 	const handleShowPasswordToggle = () => {
 		setShowPassword((prevShowPassword) => !prevShowPassword);
 	};
@@ -102,28 +140,26 @@ const SignUp = () => {
 			password: signUpPassword,
 			name: signUpName,
 		};
-        console.log(newUser);
-        return ;
 
-		// fetch(`${userRoutes.register}`, {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(newUser),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((res) => {
-		// 		if (res.isError) {
-		// 			notify(res.message, "warning");
-		// 		} else {
-		// 			handleSuccessfulSignup(res);
-		// 		}
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err);
-		// 		notify(err.message, "error");
-		// 	});
+		fetch(`${userRoutes.register}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(newUser),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					handleSuccessfulSignup(res);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
 	}
 
 	const handleSuccessfulSignup = (res) => {
@@ -136,12 +172,11 @@ const SignUp = () => {
 	};
 
 	const handleOtpSubmit = (otp) => {
-		if (otp === 1234) {
+		if (otp === correctOtp) {
 			setLoading(true);
 			signUpFunction();
 			// setShowPopup(false);
 		} else {
-
 			let message = "Incorrect OTP submission";
 			notify(message, "error");
 		}
