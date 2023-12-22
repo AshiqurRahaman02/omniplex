@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import "../styles/Signin.css";
-// import { userRoutes } from "../api/userRoutes";
+import { userRoutes, mailRoutes } from "../routes/omniplex.route";
 
 import Popup from "./Popup";
 
@@ -25,7 +24,7 @@ const SignIn = () => {
 		/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%^&+=]).+$/;
 
 	const [showPopup, setShowPopup] = useState(false);
-    const [correctOtp, setCorrectOtp] = useState(7852)
+	const [correctOtp, setCorrectOtp] = useState(7852);
 
 	const [isLoading, setLoading] = useState(false);
 
@@ -36,9 +35,9 @@ const SignIn = () => {
 
 		if (validSignInEmail && validSignInPassword) {
 			// Send email with OTP here
-            const otp =Math.floor(1000 + Math.random() * 9000)
-            setCorrectOtp(otp)
-            handleSendEmail(otp)
+			const otp = Math.floor(1000 + Math.random() * 9000);
+			setCorrectOtp(otp);
+			handleSendEmail(otp);
 			setShowPopup(true);
 		} else {
 			if (!validSignInEmail) {
@@ -51,10 +50,38 @@ const SignIn = () => {
 		}
 	};
 
-    // Function to handle email send for verification
-    const handleSendEmail= (otp)=>{
-        console.log(otp)
-    }
+	// Function to handle email send for verification
+	const handleSendEmail = (otp) => {
+		const newMail = {
+			to: signInEmail,
+			subject: "Otp for Email Verification",
+			html: mail(otp),
+		};
+
+		fetch(mailRoutes.sendMail, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(newMail),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					notify("Otp sent", "success");
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
+	const mail = (otp) => {
+		return `<body style='padding: 40px 0px; background-color: aliceblue;'> <div style='background-color: white; max-width: max-content; margin: auto; padding: 10px;'><div style='display: flex;justify-content: center;'><img src='https://omniplex.vercel.app/assets/images/Omniplex.png' style='width: 70px;'><h2 style='width: max-content; font-size: 50px; font-family:Verdana, Geneva, Tahoma, sans-serif;color: #23aa94;'>Omniplex</h2></div> <p  style='display: flex;justify-content: center; font-size: 40px;font-family: monospace;'>OTP- <span> &nbsp; ${otp}</span></p> <div style='font-family: system-ui, -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;'> <p>Please do not share this OTP with anyone, as it is used for verification purposes only.</p> <p>Got a question? Find all your answers at our <a href='https://omniplex.vercel.app/'>help center⟶</a></p> <p>We're excited to have you on board.</p> <p>Stay safe and secure online!</p> <div style='display: flex;'><img src='https://omniplex.vercel.app/assets/images/Omniplex.png' style='width: 30px;'><h2 style='width: max-content; font-size: 20px; font-family:Verdana, Geneva, Tahoma, sans-serif;color: #23aa94;'> Team Omniplex</h2></div> </div> </div> </body>`;
+	};
 
 	// Function to handle email validation for sign-in
 	const handleSignInEmail = (event) => {
@@ -90,28 +117,26 @@ const SignIn = () => {
 			email: signInEmail,
 			password: signInPassword,
 		};
-        console.log(user);
-        return;
 
-		// fetch(userRoutes.login, {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(user),
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((res) => {
-		// 		if (res.isError) {
-		// 			notify(res.message, "warning");
-		// 		} else {
-		// 			handleSuccessfulSignin(res);
-		// 		}
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err);
-		// 		notify(err.message, "error");
-		// 	});
+		fetch(userRoutes.login, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(user),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					handleSuccessfulSignin(res);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
 	};
 
 	const handleSuccessfulSignin = (res) => {
@@ -130,10 +155,9 @@ const SignIn = () => {
 	const handleOtpSubmit = (otp) => {
 		if (otp === correctOtp) {
 			setLoading(true);
-			signInFunction()
+			signInFunction();
 			// setShowPopup(false);
 		} else {
-
 			let message = "Incorrect OTP submission";
 			notify(message, "warning");
 		}
@@ -151,8 +175,7 @@ const SignIn = () => {
 				progress: undefined,
 				theme: "light",
 			});
-		}else
-		if (type === "success") {
+		} else if (type === "success") {
 			toast.success(message, {
 				position: "top-right",
 				autoClose: 5000,
@@ -163,8 +186,7 @@ const SignIn = () => {
 				progress: undefined,
 				theme: "light",
 			});
-		}else
-		if (type === "info") {
+		} else if (type === "info") {
 			toast.info(message, {
 				position: "top-right",
 				autoClose: 5000,
@@ -175,8 +197,7 @@ const SignIn = () => {
 				progress: undefined,
 				theme: "light",
 			});
-		}else
-		if (type === "warning") {
+		} else if (type === "warning") {
 			toast.warn(message, {
 				position: "top-right",
 				autoClose: 5000,
