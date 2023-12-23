@@ -1,8 +1,8 @@
 import React from 'react'
 
 // components
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
+import Nav from "../components/omniplex/Nav";
+import Footer from "../components/omniplex/Footer";
 
 function Account() {
   return (

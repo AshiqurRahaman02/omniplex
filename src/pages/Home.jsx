@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 // components
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
+import Nav from "../components/omniplex/Nav";
+import Footer from "../components/omniplex/Footer";
 
 // for icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

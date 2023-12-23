@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 // components
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
-import SignUp from "../components/SignUp";
-import SignIn from "../components/SignIn";
+import Nav from "../components/omniplex/Nav";
+import Footer from "../components/omniplex/Footer";
+import SignUp from "../components/omniplex/SignUp";
+import SignIn from "../components/omniplex/SignIn";
 
 function Sign() {
 	// State for controlling form visibility and switch button position
