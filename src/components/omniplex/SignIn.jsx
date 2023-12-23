@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { userRoutes, mailRoutes } from "../routes/omniplex.route";
+import { userRoutes, mailRoutes } from "../../routes/omniplex.route";
 
 import Popup from "./Popup";
 

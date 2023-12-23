@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 // components
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
-import Tweet from "../components/Tweet";
+import Nav from "../components/omniplex/Nav";
+import Footer from "../components/omniplex/Footer";
+import Tweet from "../components/omniplex/Tweet";
 
 const reviews = [
 	{
