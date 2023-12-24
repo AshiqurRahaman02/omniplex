@@ -122,7 +122,16 @@ function Home() {
 		) {
 			setActiveCategory(hash);
 		}
+
+		// scrolToTop()
 	}, []);
+
+	const scrolToTop = ()=>{
+		window.scrollTo({
+			top: 0,
+			behavior: "smooth"
+		  });
+	}
 
 	const handleLinkClick = (linkId) => {
 		setActiveCategory(linkId);
