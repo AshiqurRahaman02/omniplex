@@ -11,6 +11,11 @@ import { styled } from "@mui/material/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Notes from "../../components/todo-list/Notes";
+import WorkList from "../../components/todo-list/WorkList";
+import ProjectList from "../../components/todo-list/ProjectList";
+import TravelList from "../../components/todo-list/TravelList";
+import PersonalTaskList from "../../components/todo-list/PersonalTaskList";
+import HobbiesList from "../../components/todo-list/HobbiesList";
 
 const TravelSwitch = styled(Switch)(({ theme }) => ({
 	padding: 8,
@@ -196,6 +201,13 @@ function Home() {
 					>
 						Hobbies
 					</Link>
+				</section>
+				<section>
+					{activeCategory === "work" && <WorkList />}
+					{activeCategory === "project" && <ProjectList/>}
+					{activeCategory === "travel" && <TravelList/>}
+					{activeCategory === "personal" && <PersonalTaskList/>}
+					{activeCategory === "hobbies" && <HobbiesList/>}
 				</section>
 			</main>
 			<Footer />

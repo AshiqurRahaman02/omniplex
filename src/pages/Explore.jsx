@@ -112,25 +112,28 @@ const products = [
 	},
 ];
 
-const sectionIds = [
-	"weather",
-	"spotify",
-	"youtube",
-	"netflix",
-	"todolist",
-	"instagram",
-	"apple",
-	"amazon",
-	"chatgpt",
-	"unsplash",
-];
+
 
 function Explore() {
+	
 	const navigate = useNavigate();
 
 	const sectionRefMap = useRef({});
 
 	useEffect(() => {
+		const sectionIds = [
+			"weather",
+			"spotify",
+			"youtube",
+			"netflix",
+			"todolist",
+			"instagram",
+			"apple",
+			"amazon",
+			"chatgpt",
+			"unsplash",
+		];
+		
 		const hash = window.location.hash.slice(1); // remove leading '#'
 		const targetSectionId = sectionIds.find((id) => id === hash);
 
@@ -347,12 +350,11 @@ function Explore() {
 					</svg>
 				</h2>
 				{products.map((product) =>
-					// console.log(product.title.toLowerCase());
 					product.id % 2 === 1 ? (
 						<section
 							key={product.id}
 							className="explore-sections"
-							id={product.title.toLowerCase()}
+							id={product.title.split(" ").join("").toLowerCase()}
 						>
 							<h2>{product.title}</h2>
 							<div className="explore-left">
