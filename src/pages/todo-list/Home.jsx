@@ -123,15 +123,30 @@ function Home() {
 			setActiveCategory(hash);
 		}
 
-		// scrolToTop()
+		scrolToTop();
+
+		fetch("https://type.fit/api/quotes")
+			.then((response) => response.json())
+			.then((data) => {
+				// Get a random index from the array length
+				let randomIndex = Math.floor(Math.random() * data.length);
+				// Get the random quote object
+				let randomQuote = data[randomIndex];
+
+				let text = randomQuote.text;
+				setQuote(text);
+			})
+			.catch((error) => {
+				console.log("Error:", error);
+			});
 	}, []);
 
-	const scrolToTop = ()=>{
+	const scrolToTop = () => {
 		window.scrollTo({
 			top: 0,
-			behavior: "smooth"
-		  });
-	}
+			behavior: "smooth",
+		});
+	};
 
 	const handleLinkClick = (linkId) => {
 		setActiveCategory(linkId);
@@ -141,7 +156,7 @@ function Home() {
 			<Nav />
 			<main id="todo-list">
 				<nav className="todolist-nav">
-					<p>{quote}</p>
+					<p>{quote.toLocaleUpperCase()}</p>
 					<FormControlLabel
 						onClick={() => setIsTraveling((pre) => !pre)}
 						control={
@@ -213,10 +228,10 @@ function Home() {
 				</section>
 				<section>
 					{activeCategory === "work" && <WorkList />}
-					{activeCategory === "project" && <ProjectList/>}
-					{activeCategory === "travel" && <TravelList/>}
-					{activeCategory === "personal" && <PersonalTaskList/>}
-					{activeCategory === "hobbies" && <HobbiesList/>}
+					{activeCategory === "project" && <ProjectList />}
+					{activeCategory === "travel" && <TravelList />}
+					{activeCategory === "personal" && <PersonalTaskList />}
+					{activeCategory === "hobbies" && <HobbiesList />}
 				</section>
 			</main>
 			<Footer />

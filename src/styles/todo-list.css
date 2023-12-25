@@ -291,7 +291,7 @@
 }
 #goal>div{
 	width: 300px;
-	border: #000 solid 1px;
+	/* border: #000 solid 1px; */
 	margin: 10px;
 	padding: 10px;
 }

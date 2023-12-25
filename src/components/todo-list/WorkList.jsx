@@ -594,7 +594,12 @@ function WorkList() {
 							</p>
 						</div>
 
-						<div style={{display:"flex",justifyContent:"space-between"}}>
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "space-between",
+							}}
+						>
 							<div
 								id="goal"
 								style={{
@@ -638,7 +643,10 @@ function WorkList() {
 										return (
 											<div
 												key={index}
-												style={{ width: "300px", height: "max-content" }}
+												style={{
+													width: "300px",
+													height: "max-content",
+												}}
 											>
 												{task.isDone ? (
 													<div>
@@ -653,7 +661,7 @@ function WorkList() {
 															}}
 														/>
 													</div>
-												) : isCurrentGoal? (
+												) : isCurrentGoal ? (
 													<div>
 														<p>Current Goal</p>
 														<FontAwesomeIcon
@@ -663,7 +671,7 @@ function WorkList() {
 															}}
 														/>
 													</div>
-												):(
+												) : (
 													<div>
 														<p>Upcomming</p>
 														<FontAwesomeIcon
@@ -715,9 +723,7 @@ function WorkList() {
 										{timeLeft}
 									</p>
 								</div>
-								<div>
-									{currentGoal.task}
-								</div>
+								<div>{currentGoal.task}</div>
 							</aside>
 						</div>
 					</div>
