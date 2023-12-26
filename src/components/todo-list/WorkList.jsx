@@ -10,6 +10,7 @@ import {
 	faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { faCircle as circleRegular } from "@fortawesome/free-regular-svg-icons";
+import { todoListRoutes } from "../../routes/todo-list.route";
 
 const workListArray = [
 	{
@@ -309,10 +310,72 @@ const gradientColors = [
 const hourGlass = "assets/logo/hourGlass.png";
 const clock = "assets/logo/clock.png";
 
-function WorkList() {
-	const [workList, setWorkList] = useState(workListArray);
+const initialFormData = {
+	name: "",
+	details: "",
+	visibility: "onlyMe",
+	password: "",
+};
+
+function WorkList(todoList, setTodoList, token, notify) {
+	// const [workList, setWorkList] = useState(workListArray);
 	const [isAdmin, setIsAdmin] = useState(true);
 	const [timeLeft, setTimeLeft] = useState();
+	const [displayCreateTeam, setDisplayCreateTeam] = useState(false);
+	const [displayCreateDailyTask, setDisplayCreateDailyTask] = useState(false);
+	const [displayCreateReminder, setDisplayCreateReminder] = useState(false);
+	const [displayCreateTask, setDisplayCreateTask] = useState(false);
+	const [formData, setFormData] = useState(initialFormData);
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (!formData.name) {
+			notify("Please enter a name", "warning");
+			return;
+		}
+
+		const newTeam = {
+			name: formData.name,
+			isPublic: formData.visibility === "public",
+			password: formData.visibility === "public" ? formData.password : "",
+			details: formData.details,
+		};
+		console.log(newTeam);
+
+		fetch(todoListRoutes.addTeamWork, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify(newTeam),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todoList);
+					setFormData(initialFormData);
+					displayCreateTeam(false);
+				}
+			})
+			.catch((err) => {
+				// setProgress(100);
+				// setIsProgress(false);
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
 
 	const [activeTeamId, setActiveTeamId] = useState(0);
 	const [activeGoalId, setActiveGoalId] = useState(0);
@@ -343,16 +406,12 @@ function WorkList() {
 
 		calculateTimeLeft();
 
-		const intervalId = setInterval(calculateTimeLeft, 1000); // Update every second
+		const intervalId = setInterval(calculateTimeLeft, 1000);
 
-		return () => clearInterval(intervalId); // Clear interval on unmount
+		return () => clearInterval(intervalId);
 	}, []);
 
 	function interpolateColor(percentage = 30) {
-		// console.log(typeof left, total);
-		// let percentage =
-		// 	30 || Math.floor(Number(left.split(":").join("")) / total);
-
 		if (percentage <= 0 || percentage >= 100) {
 			return "#FF0000";
 		}
@@ -375,341 +434,72 @@ function WorkList() {
 
 		workListArray[activeTeamId][type][index].time = formattedTime;
 
-		setWorkList([...workListArray]);
+		// setWorkList([...workListArray]);
 	};
 
 	return (
 		<div id="work">
-			<section>
-				<div>
-					<select
-						name=""
-						id="teams"
-						value={activeTeamId}
-						onChange={(e) => {
-							setActiveTeamId(e.target.value);
-							setActiveGoalId(0);
-						}}
-					>
-						{workList.map((team, index) => (
-							<option value={index} key={index}>
-								{team.name}
-							</option>
-						))}
-					</select>
-					{workList[activeTeamId].isPublic ? (
-						<div style={{ display: "flex", alignItems: "center" }}>
-							<div id="faIcon">
-								<FontAwesomeIcon icon={faUsers} size="lg" />
-								<span>Public</span>
-							</div>
-							<p style={{ fontSize: "20px" }}>
-								{workList[activeTeamId].allMembers.length}
-							</p>
-						</div>
-					) : (
-						<div id="faIcon">
-							<FontAwesomeIcon icon={faLock} size="xl" />
-							<span>Only for you</span>
-						</div>
-					)}
-				</div>
-				{isAdmin ? (
-					<div id="faIcon">
-						<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
-						<span>Delete Team</span>
-					</div>
-				) : (
-					<div id="faIcon">
-						<FontAwesomeIcon icon={faArrowRightFromBracket} size="xl" />
-						<span>Left Team</span>
-					</div>
-				)}
-			</section>
-			<section id="tasks">
-				<aside>
+			<div>
+				{todoList.todoList.workList.length > 0 ? (
 					<div>
-						<p>Daily Tasks</p>
-						<p
-							style={{
-								color: `${interpolateColor(50)}`,
-							}}
-						>
-							<img src={hourGlass} alt="" style={{ width: "18px" }} />
-							{timeLeft}
-						</p>
-					</div>
-					<div>
-						{workList[activeTeamId].dailyTasks.map((task, index) => (
-							<div key={index}>
-								{task.isDone ? (
-									<div style={{ position: "relative" }}>
-										<FontAwesomeIcon
-											icon={faCheck}
-											style={{
-												color: "#1aff66",
-												zIndex: 1,
-												position: "absolute",
-												top: "-2px",
-												left: "-2px",
-											}}
-											size="lg"
-										/>
-										<input type="checkbox" readOnly />
+						<section>
+							<div>
+								<select
+									name=""
+									id="teams"
+									value={activeTeamId}
+									onChange={(e) => {
+										setActiveTeamId(e.target.value);
+										setActiveGoalId(0);
+									}}
+								>
+									{todoList.todoList.workList.map((team, index) => (
+										<option value={index} key={index}>
+											{team.name}
+										</option>
+									))}
+								</select>
+								{todoList.todoList.workList[activeTeamId].isPublic ? (
+									<div
+										style={{ display: "flex", alignItems: "center" }}
+									>
+										<div id="faIcon">
+											<FontAwesomeIcon icon={faUsers} size="lg" />
+											<span>Public</span>
+										</div>
+										<p style={{ fontSize: "20px" }}>
+											{
+												todoList.todoList.workList[activeTeamId]
+													.allMembers.length
+											}
+										</p>
 									</div>
 								) : (
-									<input
-										type="checkbox"
-										onChange={() =>
-											handelWorkDone("dailyTasks", index)
-										}
-									/>
-								)}
-								<p>
-									{task.task}{" "}
-									{task.isDone && (
-										<span>
-											<span> by </span>{" "}
-											<span className="special"> {task.doneBy}</span>
-											<span> at </span>{" "}
-											<span className="special"> {task.time}</span>
-										</span>
-									)}
-								</p>
-							</div>
-						))}
-					</div>
-				</aside>
-				<aside>
-					<div>
-						<p>Reminder</p>
-						<p
-							style={{
-								color: `${interpolateColor(80)}`,
-							}}
-						>
-							<img src={hourGlass} alt="" style={{ width: "18px" }} />
-							{workList[activeTeamId].reminders[0].time}
-						</p>
-					</div>
-					<div>
-						{workList[activeTeamId].reminders.map((task, index) => (
-							<div key={index}>
-								{task.isDone ? (
-									<div style={{ position: "relative" }}>
-										<FontAwesomeIcon
-											icon={faCheck}
-											style={{
-												color: "#1aff66",
-												zIndex: 1,
-												position: "absolute",
-												top: "-2px",
-												left: "-2px",
-											}}
-											size="lg"
-										/>
-										<input type="checkbox" readOnly />
+									<div id="faIcon">
+										<FontAwesomeIcon icon={faLock} size="xl" />
+										<span>Only for you</span>
 									</div>
-								) : (
-									<img src={clock} alt="" style={{ width: "15px" }} />
 								)}
-								<p>
-									{task.name}{" "}
-									{task.time && (
-										<span>
-											<span> at </span>{" "}
-											<span className="special"> {task.time}</span>
-										</span>
-									)}
-								</p>
 							</div>
-						))}
-					</div>
-				</aside>
-				<aside>
-					<div>
-						<p>Assigned Tasks to you</p>
-					</div>
-					<div>
-						{workList[activeTeamId].tasks.map((task, index) => (
-							<div key={index}>
-								{task.isDone ? (
-									<div style={{ position: "relative" }}>
-										<FontAwesomeIcon
-											icon={faCheck}
-											style={{
-												color: "#1aff66",
-												zIndex: 1,
-												position: "absolute",
-												top: "-2px",
-												left: "-2px",
-											}}
-											size="lg"
-										/>
-										<input type="checkbox" readOnly />
-									</div>
-								) : (
-									<input
-										type="checkbox"
-										onChange={() => handelWorkDone("tasks", index)}
-									/>
-								)}
-								<p>
-									{task.task}{" "}
-									{task.isDone && (
-										<span>
-											<span> by </span>{" "}
-											<span className="special"> {task.doneBy}</span>
-										</span>
-									)}
-								</p>
-							</div>
-						))}
-					</div>
-				</aside>
-			</section>
-			<section id="goals-section">
-				{workList[activeTeamId].goals.length !== 0 && (
-					<div>
-						<div>
-							<select
-								name=""
-								id="goals"
-								value={activeGoalId}
-								onChange={(e) => setActiveGoalId(e.target.value)}
-							>
-								{workList[activeTeamId].goals.map((goal, index) => (
-									<option value={index} key={index}>
-										{goal.name}
-									</option>
-								))}
-							</select>
-							<p
-								style={{
-									color: `${interpolateColor(50)}`,
-								}}
-							>
-								<img src={hourGlass} alt="" style={{ width: "18px" }} />
-								{timeLeft}
-							</p>
-						</div>
-
-						<div
-							style={{
-								display: "flex",
-								justifyContent: "space-between",
-							}}
-						>
-							<div
-								id="goal"
-								style={{
-									display: "grid",
-									gridTemplateColumns: `repeat(${
-										workList[activeTeamId].goals[activeGoalId].roadmap
-											.length + 2
-									},1fr)`,
-								}}
-							>
-								<div>
-									<div>
-										<p>Started</p>
-										<FontAwesomeIcon
-											icon={faCircle}
-											style={{
-												color: "#1aff66",
-											}}
-										/>
-									</div>
-									<hr
-										style={{
-											backgroundColor: "#1aff66",
-										}}
-									/>
-									<p>By Ashik</p>
+							{isAdmin ? (
+								<div id="faIcon">
+									<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
+									<span>Delete Team</span>
 								</div>
-								{workList[activeTeamId].goals[activeGoalId].roadmap.map(
-									(task, index) => {
-										let isCurrentGoal = false;
-
-										if (
-											(index === 0 && !task.isDone) ||
-											(index > 0 &&
-												!task.isDone &&
-												workList[activeTeamId].goals[activeGoalId]
-													.roadmap[index - 1].isDone)
-										) {
-											isCurrentGoal = true;
-										}
-										return (
-											<div
-												key={index}
-												style={{
-													width: "300px",
-													height: "max-content",
-												}}
-											>
-												{task.isDone ? (
-													<div>
-														<p>
-															Done by <span>{task.doneBy}</span>{" "}
-															at <span>{task.time}</span>
-														</p>
-														<FontAwesomeIcon
-															icon={faCircle}
-															style={{
-																color: "#1aff66",
-															}}
-														/>
-													</div>
-												) : isCurrentGoal ? (
-													<div>
-														<p>Current Goal</p>
-														<FontAwesomeIcon
-															icon={faCircle}
-															style={{
-																color: "#1aff66",
-															}}
-														/>
-													</div>
-												) : (
-													<div>
-														<p>Upcomming</p>
-														<FontAwesomeIcon
-															icon={circleRegular}
-														/>
-													</div>
-												)}
-
-												{task.isDone ? (
-													<hr
-														style={{
-															backgroundColor: "#1aff66",
-														}}
-													/>
-												) : (
-													<hr />
-												)}
-												<p>{task.task}</p>
-											</div>
-										);
-									}
-								)}
-								<div>
-									<div>
-										<p>Achieved</p>
-										<FontAwesomeIcon
-											icon={faCircle}
-											style={{
-												color: "#1aff66",
-											}}
-										/>
-									</div>
-									<p></p>
+							) : (
+								<div id="faIcon">
+									<FontAwesomeIcon
+										icon={faArrowRightFromBracket}
+										size="xl"
+									/>
+									<span>Left Team</span>
 								</div>
-							</div>
-							<aside id="current-goal">
+							)}
+						</section>
+						<section id="tasks">
+							<aside>
 								<div>
-									<p>Current Goal</p>
+									<p>Daily Tasks</p>
 									<p
 										style={{
 											color: `${interpolateColor(50)}`,
@@ -723,12 +513,572 @@ function WorkList() {
 										{timeLeft}
 									</p>
 								</div>
-								<div>{currentGoal.task}</div>
+								{todoList.todoList.workList[activeTeamId].dailyTasks
+									.length > 0 ? (
+									<div>
+										{todoList.todoList.workList[
+											activeTeamId
+										].dailyTasks.map((task, index) => (
+											<div key={index}>
+												{task.isDone ? (
+													<div style={{ position: "relative" }}>
+														<FontAwesomeIcon
+															icon={faCheck}
+															style={{
+																color: "#1aff66",
+																zIndex: 1,
+																position: "absolute",
+																top: "-2px",
+																left: "-2px",
+															}}
+															size="lg"
+														/>
+														<input type="checkbox" readOnly />
+													</div>
+												) : (
+													<input
+														type="checkbox"
+														// onChange={() =>
+														// 	handelWorkDone("dailyTasks", index)
+														// }
+													/>
+												)}
+												<p>
+													{task.task}{" "}
+													{task.isDone && (
+														<span>
+															<span> by </span>{" "}
+															<span className="special">
+																{" "}
+																{task.doneBy}
+															</span>
+															<span> at </span>{" "}
+															<span className="special">
+																{" "}
+																{task.time}
+															</span>
+														</span>
+													)}
+												</p>
+											</div>
+										))}
+									</div>
+								) : (
+									<div id="inspire">
+										<p>Consistency is the key</p>
+										<button
+											onClick={() => setDisplayCreateDailyTask(true)}
+										>
+											Add Task
+										</button>
+									</div>
+								)}
 							</aside>
+							<aside>
+								<div>
+									<p>Reminder</p>
+									{todoList.todoList.workList[activeTeamId].reminders
+										.length > 0 && (
+										<p
+											style={{
+												color: `${interpolateColor(80)}`,
+											}}
+										>
+											<img
+												src={hourGlass}
+												alt=""
+												style={{ width: "18px" }}
+											/>
+											{
+												todoList.todoList.workList[activeTeamId]
+													.reminders[0].time
+											}
+										</p>
+									)}
+								</div>
+
+								{todoList.todoList.workList[activeTeamId].reminders
+									.length > 0 ? (
+									<div>
+										{todoList.todoList.workList[
+											activeTeamId
+										].reminders.map((task, index) => (
+											<div key={index}>
+												{task.isDone ? (
+													<div style={{ position: "relative" }}>
+														<FontAwesomeIcon
+															icon={faCheck}
+															style={{
+																color: "#1aff66",
+																zIndex: 1,
+																position: "absolute",
+																top: "-2px",
+																left: "-2px",
+															}}
+															size="lg"
+														/>
+														<input type="checkbox" readOnly />
+													</div>
+												) : (
+													<img
+														src={clock}
+														alt=""
+														style={{ width: "15px" }}
+													/>
+												)}
+												<p>
+													{task.name}{" "}
+													{task.time && (
+														<span>
+															<span> at </span>{" "}
+															<span className="special">
+																{" "}
+																{task.time}
+															</span>
+														</span>
+													)}
+												</p>
+											</div>
+										))}
+									</div>
+								) : (
+									<div id="inspire">
+										<p>
+											Punctuality is the politeness of <br /> kings
+											and queens.
+										</p>
+										<button
+											onClick={() => setDisplayCreateReminder(true)}
+										>
+											Add Reminder
+										</button>
+									</div>
+								)}
+							</aside>
+							<aside>
+								<div>
+									<p>Assigned Tasks to you</p>
+								</div>
+
+								{todoList.todoList.workList[activeTeamId].tasks.length >
+								0 ? (
+									<div>
+										{todoList.todoList.workList[
+											activeTeamId
+										].tasks.map((task, index) => (
+											<div key={index}>
+												{task.isDone ? (
+													<div style={{ position: "relative" }}>
+														<FontAwesomeIcon
+															icon={faCheck}
+															style={{
+																color: "#1aff66",
+																zIndex: 1,
+																position: "absolute",
+																top: "-2px",
+																left: "-2px",
+															}}
+															size="lg"
+														/>
+														<input type="checkbox" readOnly />
+													</div>
+												) : (
+													<input
+														type="checkbox"
+														// onChange={() => handelWorkDone("tasks", index)}
+													/>
+												)}
+												<p>
+													{task.task}{" "}
+													{task.isDone && (
+														<span>
+															<span> by </span>{" "}
+															<span className="special">
+																{" "}
+																{task.doneBy}
+															</span>
+														</span>
+													)}
+												</p>
+											</div>
+										))}
+									</div>
+								) : (
+									<div id="inspire">
+										<p>
+											Without a deadline, your work is never over.
+										</p>
+										<button
+											onClick={() => setDisplayCreateTask(true)}
+										>
+											Add Task
+										</button>
+									</div>
+								)}
+							</aside>
+						</section>
+						<section id="goals-section">
+							{todoList.todoList.workList[activeTeamId].goals.length !==
+								0 && (
+								<div>
+									<div>
+										<select
+											name=""
+											id="goals"
+											value={activeGoalId}
+											onChange={(e) =>
+												setActiveGoalId(e.target.value)
+											}
+										>
+											{todoList.workList[activeTeamId].goals.map(
+												(goal, index) => (
+													<option value={index} key={index}>
+														{goal.name}
+													</option>
+												)
+											)}
+										</select>
+										<p
+											style={{
+												color: `${interpolateColor(50)}`,
+											}}
+										>
+											<img
+												src={hourGlass}
+												alt=""
+												style={{ width: "18px" }}
+											/>
+											{timeLeft}
+										</p>
+									</div>
+
+									<div
+										style={{
+											display: "flex",
+											justifyContent: "space-between",
+										}}
+									>
+										<div
+											id="goal"
+											style={{
+												display: "grid",
+												gridTemplateColumns: `repeat(${
+													todoList.workList[activeTeamId].goals[
+														activeGoalId
+													].roadmap.length + 2
+												},1fr)`,
+											}}
+										>
+											<div>
+												<div>
+													<p>Started</p>
+													<FontAwesomeIcon
+														icon={faCircle}
+														style={{
+															color: "#1aff66",
+														}}
+													/>
+												</div>
+												<hr
+													style={{
+														backgroundColor: "#1aff66",
+													}}
+												/>
+												<p>By Ashik</p>
+											</div>
+											{todoList.workList[activeTeamId].goals[
+												activeGoalId
+											].roadmap.map((task, index) => {
+												let isCurrentGoal = false;
+
+												if (
+													(index === 0 && !task.isDone) ||
+													(index > 0 &&
+														!task.isDone &&
+														todoList.todoList.workList[
+															activeTeamId
+														].goals[activeGoalId].roadmap[
+															index - 1
+														].isDone)
+												) {
+													isCurrentGoal = true;
+												}
+												return (
+													<div
+														key={index}
+														style={{
+															width: "300px",
+															height: "max-content",
+														}}
+													>
+														{task.isDone ? (
+															<div>
+																<p>
+																	Done by{" "}
+																	<span>{task.doneBy}</span> at{" "}
+																	<span>{task.time}</span>
+																</p>
+																<FontAwesomeIcon
+																	icon={faCircle}
+																	style={{
+																		color: "#1aff66",
+																	}}
+																/>
+															</div>
+														) : isCurrentGoal ? (
+															<div>
+																<p>Current Goal</p>
+																<FontAwesomeIcon
+																	icon={faCircle}
+																	style={{
+																		color: "#1aff66",
+																	}}
+																/>
+															</div>
+														) : (
+															<div>
+																<p>Upcomming</p>
+																<FontAwesomeIcon
+																	icon={circleRegular}
+																/>
+															</div>
+														)}
+
+														{task.isDone ? (
+															<hr
+																style={{
+																	backgroundColor: "#1aff66",
+																}}
+															/>
+														) : (
+															<hr />
+														)}
+														<p>{task.task}</p>
+													</div>
+												);
+											})}
+											<div>
+												<div>
+													<p>Achieved</p>
+													<FontAwesomeIcon
+														icon={faCircle}
+														style={{
+															color: "#1aff66",
+														}}
+													/>
+												</div>
+												<p></p>
+											</div>
+										</div>
+										<aside id="current-goal">
+											<div>
+												<p>Current Goal</p>
+												<p
+													style={{
+														color: `${interpolateColor(50)}`,
+													}}
+												>
+													<img
+														src={hourGlass}
+														alt=""
+														style={{ width: "18px" }}
+													/>
+													{timeLeft}
+												</p>
+											</div>
+											<div>{currentGoal.task}</div>
+										</aside>
+									</div>
+								</div>
+							)}
+						</section>
+					</div>
+				) : (
+					<div>
+						<div id="inspire">
+							<h2>
+								Go big, go together. From solo hustle to shared triumph,
+								create your power squad
+							</h2>
+							<p>
+								Don't let the fear of starting small dim your ambitious
+								fire. Every epic saga begins with a single chapter, and
+								every legendary team starts with a first member. Be the
+								pioneer, the trailblazer, the one who dares to envision
+								and build. Gather your allies, your co-conspirators,
+								your dream weavers, and watch your solo seed blossom
+								into a vibrant field of collective achievement.
+							</p>
+							<button onClick={() => setDisplayCreateTeam(true)}>
+								Create team
+							</button>
 						</div>
 					</div>
 				)}
-			</section>
+			</div>
+
+			<div>
+				{displayCreateTeam && (
+					<div>
+						<div id="createForm">
+							<form onSubmit={handleSubmit}>
+								<input
+									type="text"
+									name="name"
+									autoComplete="off"
+									value={formData.name}
+									onChange={handleChange}
+									placeholder="Team Name (*)"
+								/>
+								<textarea
+									name="details"
+									value={formData.details}
+									onChange={handleChange}
+									placeholder="Team Details (optional)"
+									cols="30"
+									rows="5"
+								/>
+								<div>
+									<label>
+										<input
+											type="radio"
+											name="visibility"
+											value="onlyMe"
+											checked={formData.visibility === "onlyMe"}
+											onChange={handleChange}
+										/>
+										Only for me
+									</label>
+									<label>
+										<input
+											type="radio"
+											name="visibility"
+											value="public"
+											checked={formData.visibility === "public"}
+											onChange={handleChange}
+										/>
+										Public
+									</label>
+								</div>
+								{formData.visibility === "public" && (
+									<input
+										type="password"
+										name="password"
+										value={formData.password}
+										onChange={handleChange}
+										placeholder="Password (optional)"
+									/>
+								)}
+								<button type="submit">Create team</button>
+								<button onClick={() => {setDisplayCreateTeam(false)
+								setFormData(initialFormData)}}>
+									Cancel
+								</button>
+							</form>
+						</div>
+					</div>
+				)}
+
+				{displayCreateDailyTask && (
+					<div>
+						<div id="createForm">
+							<form onSubmit={handleSubmit}>
+								<input
+									type="text"
+									name="name"
+									autoComplete="off"
+									value={formData.name}
+									onChange={handleChange}
+									placeholder="Team Name (*)"
+								/>
+								<textarea
+									name="details"
+									value={formData.details}
+									onChange={handleChange}
+									placeholder="Team Details (optional)"
+									cols="30"
+									rows="5"
+								/>
+								<button type="submit">Add Daily Task</button>
+								<button
+									onClick={() => {setDisplayCreateDailyTask(false)
+										setFormData(initialFormData)}}
+								>
+									Cancel
+								</button>
+							</form>
+						</div>
+					</div>
+				)}
+
+				{displayCreateReminder && (
+					<div>
+						<div id="createForm">
+							<form onSubmit={handleSubmit}>
+								<input
+									type="text"
+									name="name"
+									autoComplete="off"
+									value={formData.name}
+									onChange={handleChange}
+									placeholder="Team Name (*)"
+								/>
+								<textarea
+									name="details"
+									value={formData.details}
+									onChange={handleChange}
+									placeholder="Team Details (optional)"
+									cols="30"
+									rows="5"
+								/>
+								<label htmlFor="deadline">Choose date & time</label>
+								<input type="datetime-local" name="deadline"
+									value={formData.deadline}
+									onChange={handleChange}/>
+								<button type="submit">Add Daily Task</button>
+								<button onClick={() => {setDisplayCreateReminder(false)
+								setFormData(initialFormData)}}>
+									Cancel
+								</button>
+							</form>
+						</div>
+					</div>
+				)}
+
+				{displayCreateTask && (
+					<div>
+						<div id="createForm">
+							<form onSubmit={handleSubmit}>
+								<input
+									type="text"
+									name="name"
+									autoComplete="off"
+									value={formData.name}
+									onChange={handleChange}
+									placeholder="Team Name (*)"
+								/>
+								<textarea
+									name="details"
+									value={formData.details}
+									onChange={handleChange}
+									placeholder="Team Details (optional)"
+									cols="30"
+									rows="5"
+								/>
+								<label htmlFor="deadline">Choose deadline (if any)</label>
+								<input type="datetime-local" name="deadline"
+									value={formData.deadline}
+									onChange={handleChange}/>
+								<button type="submit">Add Daily Task</button>
+								<button onClick={() => {setDisplayCreateTask(false)
+								setFormData(initialFormData)}}>
+									Cancel
+								</button>
+							</form>
+						</div>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }

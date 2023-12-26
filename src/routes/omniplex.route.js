@@ -1,4 +1,4 @@
-const REACT_APP_BACKEND_APP_BASE_URL="http://localhost:5151"
+const REACT_APP_BACKEND_APP_BASE_URL=process.env.REACT_APP_BACKEND_APP_BASE_URL
 
 export const userRoutes = {
     getUser: `${REACT_APP_BACKEND_APP_BASE_URL}/user/get/`,

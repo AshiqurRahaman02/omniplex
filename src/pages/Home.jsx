@@ -11,6 +11,7 @@ import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
 	const navigate = useNavigate();
+	console.log(process.env.REACT_APP_BACKEND_APP_BASE_URL)
 	return (
 		<div>
 			<Nav />
