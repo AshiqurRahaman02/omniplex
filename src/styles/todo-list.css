@@ -190,7 +190,7 @@
 	font-size: 50px;
 }
 
-#work > section:nth-child(1) {
+#work >div>div> section:nth-child(1) {
 	display: flex;
 	justify-content: space-between;
 	margin-top: 10px;
@@ -198,7 +198,7 @@
 	padding: 10px;
 	box-shadow: -2px 3px 29px 1px rgba(204, 204, 204, 0.329);
 }
-#work > section:nth-child(1) > div:nth-child(1) {
+#work >div>div> section:nth-child(1) > div:nth-child(1) {
 	display: flex;
 	gap: 20px;
 }
@@ -291,7 +291,7 @@
 }
 #goal>div{
 	width: 300px;
-	border: #000 solid 1px;
+	/* border: #000 solid 1px; */
 	margin: 10px;
 	padding: 10px;
 }
@@ -311,4 +311,88 @@
 	gap: 50px;
 	justify-content: space-between;
 	font-size: 25px;
+}
+
+#inspire{
+	max-width: 1100px;
+	margin:  20px auto;
+	text-align: center;
+}
+#inspire>h2{
+	font-size: 50px;
+	color: var(--text-accent-teal);
+	font-family: var(--hero-font);
+	letter-spacing: 2px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+#inspire>p{
+	font-size: 20px;
+	/* color: var(--greyLight-3); */
+	/* font-family: var(--content-font); */
+	letter-spacing: 2px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+#createForm>form> button,
+#inspire>button{
+	margin-top: 30px;
+	border: 1px solid var(--text-accent-teal);
+	font-family: var(--content-font);
+	letter-spacing: 2px;
+	color: var(--text-accent-teal);
+	background: transparent;
+	padding: 15px 40px;
+	border-radius: 4px;
+	width: fit-content;
+	align-items: center;
+	font-size: 17px;
+	font-weight: 600;
+	cursor: pointer;
+}
+#inspire>button:hover {
+	background: var(--text-accent-teal);
+	color: var(--text-primary-lightest);
+}
+
+#createForm{
+	width: 500px;
+	margin: auto;
+	border: 1px solid rgb(0, 0, 0);
+	text-align: center;
+
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	width: 300px;
+	min-height: 400px;
+	box-shadow: rgba(100, 100, 111, 0.123) 0px 7px 29px 0px;
+	border: 1px solid rgba(0, 0, 0, 0.712);
+	background-color: rgb(255, 255, 255);
+	backdrop-filter: blur(10px);
+}
+
+
+#createForm>form> input:nth-child(1),#createForm>form> input:nth-child(4){
+	font-size: 18px;
+	height: 40px;
+	width:94%;
+	margin: 3% ;
+	padding: 2%;
+}
+#createForm>form> textarea:nth-child(2){
+	font-size: 16px;
+	width:94%;
+	resize: none;
+	margin: 3% ;
+	padding: 2%;
+}
+
+#createForm>form> div:nth-child(3){
+	display: flex;
+	justify-content: space-evenly;
 }

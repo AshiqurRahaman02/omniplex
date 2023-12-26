@@ -1,21 +1,83 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import "../../styles/todo-list.css";
 
 // components
 import Nav from "../../components/omniplex/Nav";
 import Footer from "../../components/omniplex/Footer";
-
-import { styled } from "@mui/material/styles";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import Notes from "../../components/todo-list/Notes";
 import WorkList from "../../components/todo-list/WorkList";
 import ProjectList from "../../components/todo-list/ProjectList";
 import TravelList from "../../components/todo-list/TravelList";
 import PersonalTaskList from "../../components/todo-list/PersonalTaskList";
 import HobbiesList from "../../components/todo-list/HobbiesList";
+
+import { styled } from "@mui/material/styles";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import { signal } from "@preact/signals-react";
+
+import { ToastContainer, toast } from "react-toastify";
+import { todoListRoutes } from "../../routes/todo-list.route";
+const notify = (message = "done", type = "success") => {
+	if (type === "error") {
+		toast.error(message, {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		});
+	} else if (type === "success") {
+		toast.success(message, {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		});
+	} else if (type === "info") {
+		toast.info(message, {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		});
+	} else if (type === "warning") {
+		toast.warn(message, {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		});
+	} else {
+		toast("🦄 Wow so easy!", {
+			position: "top-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		});
+	}
+};
 
 const TravelSwitch = styled(Switch)(({ theme }) => ({
 	padding: 8,
@@ -104,11 +166,25 @@ const notesArray = [
 ];
 
 function Home() {
+	const navigate = useNavigate();
+
 	const [isTraveling, setIsTraveling] = useState(false);
 	const [quote, setQuote] = useState("YOU'LL SEE IT WHEN YOU BELIEVE IT.");
 	const [notes, setNotes] = useState(notesArray);
 
+	const [userDetails, setUserDetails] = useState();
+	const [token, setToken] = useState();
+
 	const [activeCategory, setActiveCategory] = useState("work");
+	const [todoList, setTodoList] = useState({
+		hobbiesList: [],
+		projectList: [],
+		travelList: [],
+		userId: "6585c86ac9d55896e68b8a78",
+		workList: [],
+		__v: 0,
+		_id: "658acc3de166cb7d43041b71",
+	});
 
 	useEffect(() => {
 		const hash = window.location.hash.slice(1);
@@ -123,15 +199,72 @@ function Home() {
 			setActiveCategory(hash);
 		}
 
-		// scrolToTop()
+		scrolToTop();
+		getQuote();
+
+		const userDetails = localStorage.getItem("userInfo");
+		const token = localStorage.getItem("token");
+		if (token && userDetails) {
+			const parsedUserDetails = JSON.parse(userDetails);
+			setUserDetails(parsedUserDetails);
+
+			setToken(token);
+
+			getTodoList(token);
+		} else {
+			let message = "Please Login first.";
+			notify(message, "error");
+			setTimeout(() => {
+				navigate("/sign");
+			}, 3000);
+		}
 	}, []);
 
-	const scrolToTop = ()=>{
+	const scrolToTop = () => {
 		window.scrollTo({
 			top: 0,
-			behavior: "smooth"
-		  });
-	}
+			behavior: "smooth",
+		});
+	};
+	const getQuote = () => {
+		fetch("https://type.fit/api/quotes")
+			.then((response) => response.json())
+			.then((data) => {
+				// Get a random index from the array length
+				let randomIndex = Math.floor(Math.random() * data.length);
+				// Get the random quote object
+				let randomQuote = data[randomIndex];
+
+				let text = randomQuote.text;
+				setQuote(text);
+			})
+			.catch((error) => {
+				console.log("Error:", error);
+			});
+	};
+
+	const getTodoList = (token) => {
+		fetch(`${todoListRoutes.getTodoList}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				console.log(res.todolist);
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todolist);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
 
 	const handleLinkClick = (linkId) => {
 		setActiveCategory(linkId);
@@ -141,7 +274,7 @@ function Home() {
 			<Nav />
 			<main id="todo-list">
 				<nav className="todolist-nav">
-					<p>{quote}</p>
+					<p>{quote.toLocaleUpperCase()}</p>
 					<FormControlLabel
 						onClick={() => setIsTraveling((pre) => !pre)}
 						control={
@@ -212,13 +345,23 @@ function Home() {
 					</Link>
 				</section>
 				<section>
-					{activeCategory === "work" && <WorkList />}
-					{activeCategory === "project" && <ProjectList/>}
-					{activeCategory === "travel" && <TravelList/>}
-					{activeCategory === "personal" && <PersonalTaskList/>}
-					{activeCategory === "hobbies" && <HobbiesList/>}
+					{activeCategory === "project" ? (
+						<ProjectList todoList={todoList} setTodoList={setTodoList} />
+					) : activeCategory === "travel" ? (
+						<TravelList todoList={todoList} setTodoList={setTodoList} />
+					) : activeCategory === "personal" ? (
+						<PersonalTaskList
+							todoList={todoList}
+							setTodoList={setTodoList}
+						/>
+					) : activeCategory === "hobbies" ? (
+						<HobbiesList todoList={todoList} setTodoList={setTodoList} />
+					) : (
+						<WorkList todoList={todoList} setTodoList={setTodoList} token={token} notify={notify}/>
+					)}
 				</section>
 			</main>
+			<ToastContainer />
 			<Footer />
 		</div>
 	);
