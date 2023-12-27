@@ -165,6 +165,207 @@ const notesArray = [
 	},
 ];
 
+const sampleTodoList= {
+	"_id": "658ba64a3a5f0d50859cf9ba",
+	"userId": "6585c86ac9d55896e68b8a78",
+	"workList": [
+	  {
+		"createdBy": {
+		  "creatorId": "6585c86ac9d55896e68b8a78",
+		  "creatorName": "Ashik"
+		},
+		"habits": {
+		  "habitsId": [],
+		  "tracks": []
+		},
+		"financialsPlans": {
+		  "spends": []
+		},
+		"_id": "658ba6643a5f0d50859cf9bd",
+		"isPublic": true,
+		"name": "Company Team Developers",
+		"password": "",
+		"details": "",
+		"allMembers": [],
+		"dailyTasks": [
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"done": {
+			  "isDone": false
+			},
+			"_id": "658ba71b3a5f0d50859cf9c8",
+			"name": "Code review",
+			"details": "",
+			"taskType": "dailytask",
+			"assignedTo": [],
+			"createdAt": "2023-12-27T04:24:59.825Z",
+			"updatedAt": "2023-12-27T04:24:59.825Z",
+			"__v": 0
+		  },
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"done": {
+			  "isDone": false
+			},
+			"_id": "658bb0e903fe896a29c100f2",
+			"name": "Bug fixing",
+			"details": "",
+			"taskType": "dailytask",
+			"assignedTo": [],
+			"createdAt": "2023-12-27T05:06:49.927Z",
+			"updatedAt": "2023-12-27T05:06:49.927Z",
+			"__v": 0
+		  }
+		],
+		"reminders": [
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"done": {
+			  "isDone": false
+			},
+			"_id": "658bb30f03fe896a29c10102",
+			"name": "Meeting",
+			"details": "",
+			"taskType": "reminder",
+			"assignedTo": [],
+			"deadline": "2023-12-27T13:00",
+			"createdAt": "2023-12-27T05:15:59.204Z",
+			"updatedAt": "2023-12-27T05:15:59.204Z",
+			"__v": 0
+		  },
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"done": {
+			  "isDone": false
+			},
+			"_id": "658bb88b03fe896a29c1010b",
+			"name": "Review pull requests",
+			"details": "",
+			"taskType": "reminder",
+			"assignedTo": [],
+			"deadline": "2023-12-27T21:30",
+			"createdAt": "2023-12-27T05:39:23.863Z",
+			"updatedAt": "2023-12-27T05:39:23.863Z",
+			"__v": 0
+		  },
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"done": {
+			  "isDone": false
+			},
+			"_id": "658bbc8c8af0585ad259a76f",
+			"name": "Project Alpha",
+			"details": "",
+			"taskType": "reminder",
+			"assignedTo": [],
+			"deadline": "2024-01-27T00:00",
+			"createdAt": "2023-12-27T05:56:28.958Z",
+			"updatedAt": "2023-12-27T05:56:28.958Z",
+			"__v": 0
+		  }
+		],
+		"tasks": [
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"done": {
+			  "isDone": false
+			},
+			"_id": "658bb8d803fe896a29c10114",
+			"name": "Review pull requests",
+			"details": "",
+			"taskType": "task",
+			"assignedTo": [],
+			"deadline": "2023-12-30T21:30",
+			"createdAt": "2023-12-27T05:40:40.180Z",
+			"updatedAt": "2023-12-27T05:40:40.180Z",
+			"__v": 0
+		  }
+		],
+		"goals": [
+		  {
+			"createdBy": {
+			  "creatorId": "6585c86ac9d55896e68b8a78",
+			  "creatorName": "Ashik"
+			},
+			"_id": "658bbd39479b05fc1869586c",
+			"name": "Project Alpha",
+			"details": "Chaos to calm in a click. Tasks, reminders, your command center. Take control, own your day, and see what you can achieve.",
+			"steps": [
+			  {
+				"createdBy": {
+				  "creatorId": "6585c86ac9d55896e68b8a78",
+				  "creatorName": "Ashik"
+				},
+				"done": {
+				  "isDone": false
+				},
+				"_id": "658bc71b762e32be5ff017f2",
+				"name": "Feature A planning",
+				"details": "Ditch the overwhelm, and embrace the \"do-it-later\" bliss. Tame your day with tasks, and reminders, and conquer your goals one step at a time.",
+				"taskType": "step",
+				"assignedTo": [],
+				"deadline": "2023-12-27T15:00",
+				"createdAt": "2023-12-27T06:41:31.170Z",
+				"updatedAt": "2023-12-27T06:41:31.170Z",
+				"__v": 0
+			  },
+			  {
+				"createdBy": {
+				  "creatorId": "6585c86ac9d55896e68b8a78",
+				  "creatorName": "Ashik"
+				},
+				"done": {
+				  "isDone": false
+				},
+				"_id": "658bca509ae13d421b635d07",
+				"name": "Feature A development",
+				"details": "No more mental juggling! Unleash your brainpower with organized tasks, reminders that never forget, and watch your productivity soar.",
+				"taskType": "step",
+				"assignedTo": [],
+				"deadline": "2023-12-27T17:00",
+				"createdAt": "2023-12-27T06:55:12.825Z",
+				"updatedAt": "2023-12-27T06:55:12.825Z",
+				"__v": 0
+			  }
+			],
+			"finalGoal": "Complete Project Alpha",
+			"deadline": "2024-02-27T00:00",
+			"createdAt": "2023-12-27T05:59:21.626Z",
+			"updatedAt": "2023-12-27T06:55:13.088Z",
+			"__v": 2
+		  }
+		],
+		"createdAt": "2023-12-27T04:21:56.030Z",
+		"updatedAt": "2023-12-27T05:59:22.978Z",
+		"__v": 7
+	  }
+	],
+	"projectList": [],
+	"hobbiesList": [],
+	"travelList": [],
+	"__v": 1
+  }
+
+  const sampleUserDetails = {"_id":"6585c86ac9d55896e68b8a78","name":"Ashik","email":"ashiqur999999@gmail.com","password":"$2b$05$yBDzxKA2QS5jCrOZFLTc/.Ultf/TCb9sPwTheGxdfHQNkfUNPrkaG","userType":"user","tag":"@ashik9991","bookmarks":[],"__v":0}
+
 function Home() {
 	const navigate = useNavigate();
 
@@ -172,19 +373,11 @@ function Home() {
 	const [quote, setQuote] = useState("YOU'LL SEE IT WHEN YOU BELIEVE IT.");
 	const [notes, setNotes] = useState(notesArray);
 
-	const [userDetails, setUserDetails] = useState();
+	const [userDetails, setUserDetails] = useState(sampleUserDetails);
 	const [token, setToken] = useState();
 
 	const [activeCategory, setActiveCategory] = useState("work");
-	const [todoList, setTodoList] = useState({
-		hobbiesList: [],
-		projectList: [],
-		travelList: [],
-		userId: "6585c86ac9d55896e68b8a78",
-		workList: [],
-		__v: 0,
-		_id: "658acc3de166cb7d43041b71",
-	});
+	const [todoList, setTodoList] = useState();
 
 	useEffect(() => {
 		const hash = window.location.hash.slice(1);
@@ -344,7 +537,7 @@ function Home() {
 						Hobbies
 					</Link>
 				</section>
-				<section>
+				{todoList && <section>
 					{activeCategory === "project" ? (
 						<ProjectList todoList={todoList} setTodoList={setTodoList} />
 					) : activeCategory === "travel" ? (
@@ -357,9 +550,9 @@ function Home() {
 					) : activeCategory === "hobbies" ? (
 						<HobbiesList todoList={todoList} setTodoList={setTodoList} />
 					) : (
-						<WorkList todoList={todoList} setTodoList={setTodoList} token={token} notify={notify}/>
+						<WorkList todoList={todoList} setTodoList={setTodoList} token={token} notify={notify} userId={userDetails._id}/>
 					)}
-				</section>
+				</section>}
 			</main>
 			<ToastContainer />
 			<Footer />
