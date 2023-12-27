@@ -227,14 +227,18 @@
 	justify-content: space-between;
 	font-size: 25px;
 }
+#tasks > aside > div:nth-child(1)>p{
+	width: max-content;
+}
 #tasks > aside > div:nth-child(2) {
 	/* display: flex;  */
 
 	padding: 10px;
 	gap: 50px;
 	justify-content: space-between;
+	/* height: 350px; */
 	font-size: 18px;
-	overflow: scroll;
+	/* border: 1px solid #ccc; */
 }
 #tasks > aside > div:nth-child(2)::-webkit-scrollbar {
 	height: 5px;
@@ -243,13 +247,46 @@
 #tasks > aside > div:nth-child(2)::-webkit-scrollbar-thumb {
 	background-color: rgba(49, 209, 209, 0.295);
 }
-#tasks > aside > div:nth-child(2) > div {
+#tasks > aside > div:nth-child(2) > div{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#tasks > aside > div:nth-child(2) > div>div {
 	display: flex;
 	align-items: center;
 	padding: 5px;
 	height: 50px;
-	min-width: max-content;
+	
 	gap: 10px;
+}
+.edit-delete{
+	display: flex;
+	flex-direction: column;
+	height: max-content;
+	width: max-content;
+	position: relative;
+}
+.edit-delete:hover>p{
+	cursor: pointer;
+}
+.edit-delete:hover>div{
+	display: block;
+}
+.edit-delete>div{
+	display: none;
+	position: absolute;
+	width: max-content;
+	background-color: white;
+	text-align: center;
+	top: 1px;
+	left: 10px;
+	cursor: pointer;
+}
+.edit-delete>div>p{
+	padding: 2px 5px;
+	border: #000 1px solid;
+	margin-bottom: 2px;
 }
 .special{
 	color: #0dac81;
@@ -377,7 +414,7 @@
 }
 
 
-#createForm>form> input:nth-child(1),#createForm>form> input:nth-child(4){
+#createForm>form> input{
 	font-size: 18px;
 	height: 40px;
 	width:94%;
@@ -396,3 +433,17 @@
 	display: flex;
 	justify-content: space-evenly;
 }
+
+
+@keyframes rotate {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(360deg);
+	}
+  }
+  
+  #rotate {
+	animation: rotate 2s ease-in-out infinite; 
+  }
