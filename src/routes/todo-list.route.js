@@ -17,6 +17,8 @@ export const todoListRoutes = {
     updateTeam: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/team/update/`,
     updateTask: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/task/update/`,
     updateTaskDone: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/task/updateTaskDone/`,
+    addMembers: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/team/addMembers/`,
+    joinTeam: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/team/joinTeam/`,
     updateGoal: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/goal/update/`,
     deleteTeam: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/team/delete/`,
     deleteGoal: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/goal/delete/`,
