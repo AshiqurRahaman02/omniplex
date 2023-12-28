@@ -78,6 +78,7 @@ code {
 }
 #faIcon:hover>span{
 	opacity: .6;
+	z-index: 1;
 }
 #faIcon>span{
 	text-align: center;
