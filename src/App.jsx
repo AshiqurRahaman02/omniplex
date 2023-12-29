@@ -14,6 +14,7 @@ import Account from './pages/Account';
 
 // todo-list pages
 import TodoListHome from './pages/todo-list/Home';
+import Join from './pages/todo-list/join';
 
 
 function App() {
@@ -24,10 +25,11 @@ function App() {
         <Route path="/sign" element={<Sign />} />
         <Route path="/about" element={<About/>} />
         <Route path="/account" element={<Account />} />
-        <Route path="explore" element={<Explore/>} />
+        <Route path="/explore" element={<Explore/>} />
 
         {/* todo-list */}
-        <Route path="todolist" element={<TodoListHome/>}/>
+        <Route path="/todolist" element={<TodoListHome/>}/>
+        <Route path="/todolist/team/join/:teamId" element={<Join/>} />
       </Routes>
     </Router>
   );

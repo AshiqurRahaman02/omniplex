@@ -11,7 +11,7 @@ import {
 	faCheck,
 	faEllipsisVertical,
 	faCircle,
-	faUserXmark,
+	faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import {
 	faCircle as circleRegular,
@@ -20,6 +20,7 @@ import {
 	faSquare,
 	faClock,
 	faXmarkCircle,
+	faComments,
 } from "@fortawesome/free-regular-svg-icons";
 import { todoListRoutes } from "../../routes/todo-list.route";
 
@@ -41,6 +42,7 @@ const initialFormData = {
 	id: "",
 	name: "",
 	details: "",
+	message: "",
 	visibility: "onlyMe",
 	password: "",
 	type: "create",
@@ -48,32 +50,212 @@ const initialFormData = {
 	assignedTo: [],
 };
 
-const usersData = [
-	{ userId: 1, userName: "JohnDoe" },
-	{ userId: 2, userName: "JaneSmith" },
-	{ userId: 3, userName: "AliceJohnson" },
-	{ userId: 4, userName: "BobWilliams" },
-	{ userId: 5, userName: "EvaBrown" },
-	{ userId: 6, userName: "SamuelLee" },
-	{ userId: 7, userName: "OliviaMiller" },
-	{ userId: 8, userName: "MichaelClark" },
-	{ userId: 9, userName: "SophieTaylor" },
-	{ userId: 10, userName: "DanielWhite" },
+const sampleUpdates = [
+	{
+		userId: "123",
+		userName: "JohnDoe",
+		message: "Added a new feature to the application.",
+		updateType: "update",
+		time: "2023-12-28T15:39:44.844Z",
+	},
+	{
+		userId: "456",
+		userName: "JaneSmith",
+		message: "Received a new message from the client.",
+		updateType: "message",
+		time: "2023-12-28T16:45:20.123Z",
+	},
+	{
+		userId: "789",
+		userName: "AliceJohnson",
+		message: "Deployed the latest version of the mobile app.",
+		updateType: "update",
+		time: "2023-12-29T09:30:00.000Z",
+	},
+	{
+		userId: "987",
+		userName: "BobWilliams",
+		message: "Important message from the server administrator.",
+		updateType: "message",
+		time: "2023-12-29T14:20:30.555Z",
+	},
+	{
+		userId: "654",
+		userName: "EvaBrown",
+		message: "Updated the UI components with a new design.",
+		updateType: "update",
+		time: "2023-12-30T08:00:00.000Z",
+	},
+	{
+		userId: "321",
+		userName: "SamuelLee",
+		message: "You have a new message from the support team.",
+		updateType: "message",
+		time: "2023-12-30T12:15:10.678Z",
+	},
+	{
+		userId: "789",
+		userName: "SophieTaylor",
+		message: "Resolved compatibility issues with the latest browsers.",
+		updateType: "update",
+		time: "2023-12-31T09:00:00.000Z",
+	},
+	{
+		userId: "123",
+		userName: "JohnDoe",
+		message: "Added a new feature to the application.",
+		updateType: "update",
+		time: "2023-12-28T15:39:44.844Z",
+	},
+	{
+		userId: "456",
+		userName: "JaneSmith",
+		message: "Received a new message from the client.",
+		updateType: "message",
+		time: "2023-12-28T16:45:20.123Z",
+	},
+	{
+		userId: "789",
+		userName: "AliceJohnson",
+		message: "Deployed the latest version of the mobile app.",
+		updateType: "update",
+		time: "2023-12-29T09:30:00.000Z",
+	},
+	{
+		userId: "987",
+		userName: "BobWilliams",
+		message: "Important message from the server administrator.",
+		updateType: "message",
+		time: "2023-12-29T14:20:30.555Z",
+	},
+	{
+		userId: "654",
+		userName: "EvaBrown",
+		message: "Updated the UI components with a new design.",
+		updateType: "update",
+		time: "2023-12-30T08:00:00.000Z",
+	},
+	{
+		userId: "321",
+		userName: "SamuelLee",
+		message: "You have a new message from the support team.",
+		updateType: "message",
+		time: "2023-12-30T12:15:10.678Z",
+	},
+	{
+		userId: "789",
+		userName: "SophieTaylor",
+		message: "Resolved compatibility issues with the latest browsers.",
+		updateType: "update",
+		time: "2023-12-31T09:00:00.000Z",
+	},
+	{
+		userId: "123",
+		userName: "JohnDoe",
+		message: "Added a new feature to the application.",
+		updateType: "update",
+		time: "2023-12-28T15:39:44.844Z",
+	},
+	{
+		userId: "456",
+		userName: "JaneSmith",
+		message: "Received a new message from the client.",
+		updateType: "message",
+		time: "2023-12-28T16:45:20.123Z",
+	},
+	{
+		userId: "789",
+		userName: "AliceJohnson",
+		message: "Deployed the latest version of the mobile app.",
+		updateType: "update",
+		time: "2023-12-29T09:30:00.000Z",
+	},
+	{
+		userId: "987",
+		userName: "BobWilliams",
+		message: "Important message from the server administrator.",
+		updateType: "message",
+		time: "2023-12-29T14:20:30.555Z",
+	},
+	{
+		userId: "654",
+		userName: "EvaBrown",
+		message: "Updated the UI components with a new design.",
+		updateType: "update",
+		time: "2023-12-30T08:00:00.000Z",
+	},
+	{
+		userId: "321",
+		userName: "SamuelLee",
+		message: "You have a new message from the support team.",
+		updateType: "message",
+		time: "2023-12-30T12:15:10.678Z",
+	},
+	{
+		userId: "789",
+		userName: "SophieTaylor",
+		message: "Resolved compatibility issues with the latest browsers.",
+		updateType: "update",
+		time: "2023-12-31T09:00:00.000Z",
+	},
+	{
+		userId: "123",
+		userName: "JohnDoe",
+		message: "Added a new feature to the application.",
+		updateType: "update",
+		time: "2023-12-28T15:39:44.844Z",
+	},
+	{
+		userId: "456",
+		userName: "JaneSmith",
+		message: "Received a new message from the client.",
+		updateType: "message",
+		time: "2023-12-28T16:45:20.123Z",
+	},
+	{
+		userId: "789",
+		userName: "AliceJohnson",
+		message: "Deployed the latest version of the mobile app.",
+		updateType: "update",
+		time: "2023-12-29T09:30:00.000Z",
+	},
+	{
+		userId: "987",
+		userName: "BobWilliams",
+		message: "Important message from the server administrator.",
+		updateType: "message",
+		time: "2023-12-29T14:20:30.555Z",
+	},
+	{
+		userId: "654",
+		userName: "EvaBrown",
+		message: "Updated the UI components with a new design.",
+		updateType: "update",
+		time: "2023-12-30T08:00:00.000Z",
+	},
+	{
+		userId: "321",
+		userName: "SamuelLee",
+		message: "You have a new message from the support team.",
+		updateType: "message",
+		time: "2023-12-30T12:15:10.678Z",
+	},
+	{
+		userId: "789",
+		userName: "SophieTaylor",
+		message: "Resolved compatibility issues with the latest browsers.",
+		updateType: "update",
+		time: "2023-12-31T09:00:00.000Z",
+	},
 ];
 
+console.log(sampleUpdates);
+
 function WorkList({ todoList, setTodoList, token, userId, notify }) {
-	// const [workList, setWorkList] = useState(workListArray);
-	// const [isAdmin, setIsAdmin] = useState(true);
 	const [timeLeft, setTimeLeft] = useState();
 
 	const [activeTeamId, setActiveTeamId] = useState(0);
 	const [activeGoalId, setActiveGoalId] = useState(0);
-	const [currentGoal, setCurrentGoal] = useState({
-		task: "Project Beta planning",
-		isDone: false,
-		doneBy: "Jane Smith",
-		time: "9:00 AM",
-	});
 
 	const [displayCreateTeam, setDisplayCreateTeam] = useState(false);
 	const [displayCreateDailyTask, setDisplayCreateDailyTask] = useState(false);
@@ -126,8 +308,6 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 				}
 			})
 			.catch((err) => {
-				// setProgress(100);
-				// setIsProgress(false);
 				console.log(err);
 				notify(err.message, "error");
 			});
@@ -462,7 +642,6 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 				},
 				{
 					label: "Cancel",
-					// onClick: () => alert("Click No"),
 				},
 			],
 		});
@@ -509,7 +688,7 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 		const calculateTimeLeft = () => {
 			const now = new Date();
 			const midnight = new Date();
-			midnight.setHours(23, 59, 59, 999); // Set to the end of the current day
+			midnight.setHours(23, 59, 59, 999);
 			const timeDifference = midnight.getTime() - now.getTime();
 
 			const seconds = Math.floor((timeDifference / 1000) % 60);
@@ -557,7 +736,6 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 			const hours = Math.floor(timeDifferenceInSeconds / 3600);
 			return rtf.format(-hours, "hour");
 		} else {
-			// If the date is not today, return the formatted date
 			const options = {
 				year: "numeric",
 				month: "long",
@@ -649,7 +827,7 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 				{
 					label: "Confirm",
 					onClick: () => {
-						let teamId = todoList.workList[activeTeamId]._id
+						let teamId = todoList.workList[activeTeamId]._id;
 
 						fetch(`${todoListRoutes.addMembers}${teamId}`, {
 							method: "POST",
@@ -657,7 +835,7 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 								"Content-Type": "application/json",
 								Authorization: token,
 							},
-							body: JSON.stringify({membersEmails:emails}),
+							body: JSON.stringify({ membersEmails: emails }),
 						})
 							.then((res) => res.json())
 							.then((res) => {
@@ -676,10 +854,40 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 				},
 				{
 					label: "Cancel",
-					
 				},
 			],
 		});
+	};
+
+	const sendMessage = () => {
+		if (!formData.message) {
+			notify("message required*", "warning");
+			return;
+		}
+
+		let teamId = todoList.workList[activeTeamId]._id;
+
+		fetch(`${todoListRoutes.addMessage}${teamId}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify({ message: formData.message }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todoList);
+					setFormData(initialFormData);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
 	};
 
 	return (
@@ -729,9 +937,18 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 							{activeTeamId !== "create" &&
 							todoList.workList[activeTeamId].createdBy.creatorId ===
 								userId ? (
-								<div id="faIcon">
-									<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
-									<span>Delete Team</span>
+								<div style={{
+									display: "flex",
+									justifyContent: "space-between",
+								}}>
+									<div id="faIcon">
+										<FontAwesomeIcon icon={faPenToSquare} size="xl" />{" "}
+										<span>Edit Team</span>
+									</div>
+									<div id="faIcon">
+										<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
+										<span>Delete Team</span>
+									</div>
 								</div>
 							) : (
 								activeTeamId !== "create" && (
@@ -772,19 +989,39 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 											</svg>
 										</button>
 										<div className="users" ref={usersContainerRef}>
-											{usersData.map((user) => (
+											<div
+												key={userId}
+												style={{
+													margin: "10px",
+													padding: "10px",
+													border: "1px solid #ccc",
+													borderRadius: "5px",
+													position: "relative",
+												}}
+											>
+												<p>You</p>
+											</div>
+											{todoList.workList[activeTeamId].createdBy
+												.creatorId !== userId && (
 												<div
-													key={user.userId}
+													key={
+														todoList.workList[activeTeamId]
+															.createdBy.creatorId
+													}
 													style={{
 														margin: "10px",
-														// height: "max-content",
 														padding: "10px",
 														border: "1px solid #ccc",
 														borderRadius: "5px",
 														position: "relative",
 													}}
 												>
-													<p>{user.userName}</p>
+													<p>
+														{
+															todoList.workList[activeTeamId]
+																.createdBy.creatorName
+														}
+													</p>
 
 													{todoList.workList[activeTeamId]
 														.createdBy.creatorId === userId && (
@@ -803,7 +1040,44 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 														</div>
 													)}
 												</div>
-											))}
+											)}
+
+											{todoList.workList[activeTeamId].allMembers
+												.filter(
+													(member) => member.userId !== userId
+												)
+												.map((user) => (
+													<div
+														key={user.userId}
+														style={{
+															margin: "10px",
+															padding: "10px",
+															border: "1px solid #ccc",
+															borderRadius: "5px",
+															position: "relative",
+														}}
+													>
+														<p>{user.userName}</p>
+
+														{todoList.workList[activeTeamId]
+															.createdBy.creatorId ===
+															userId && (
+															<div
+																id="faIcon"
+																style={{
+																	position: "absolute",
+																	top: "-28px",
+																	right: "-39px",
+																}}
+															>
+																<span>remove user</span>
+																<FontAwesomeIcon
+																	icon={faXmarkCircle}
+																/>
+															</div>
+														)}
+													</div>
+												))}
 										</div>
 
 										<button
@@ -829,11 +1103,9 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 									</div>
 									{todoList.workList[activeTeamId].createdBy
 										.creatorId === userId && (
-										<div
-											className="addMember"
-										>
+										<div className="addMember">
 											<div>
-												<div >
+												<div>
 													{emails.map((email, index) => (
 														<div
 															key={index}
@@ -942,12 +1214,6 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 																	/>
 																</div>
 															) : (
-																// <input
-																// 	type="checkbox"
-																// 	onChange={() =>
-																// 		handelWorkDone("dailyTasks", index)
-																// 	}
-																// />
 																<FontAwesomeIcon
 																	icon={faSquare}
 																	size="sm"
@@ -1102,12 +1368,6 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 																	/>
 																</div>
 															) : (
-																// <input
-																// 	type="checkbox"
-																// 	onChange={() =>
-																// 		handelWorkDone("dailyTasks", index)
-																// 	}
-																// />
 																<FontAwesomeIcon
 																	icon={faClock}
 																	size="sm"
@@ -1200,6 +1460,76 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 											</div>
 										)}
 									</aside>
+									<aside id="updates">
+										<div>
+											<p>Team updates</p>
+											<p>
+												<FontAwesomeIcon icon={faComments} />
+											</p>
+										</div>
+										<main>
+											<p>
+												Team created by{" "}
+												{
+													todoList.workList[activeTeamId].createdBy
+														.creatorName
+												}
+												<br />
+												{timeConverter(
+													todoList.workList[activeTeamId].createdAt
+												)}{" "}
+											</p>
+											{todoList.workList[activeTeamId].updates
+												.length > 0 &&
+												todoList.workList[activeTeamId].updates.map(
+													(update) => {
+														return update.updateType ===
+															"update" ? (
+															update.message === "joined" ? (
+																<p>
+																	{update.userName}{" "}
+																	{update.message}
+																</p>
+															) : (
+																<p>{update.message}</p>
+															)
+														) : update.userId === userId ? (
+															<div id="own-update">
+																<p>{update.message}</p>
+																<span>
+																	{timeConverter(update.time)}
+																</span>
+															</div>
+														) : (
+															<div>
+																<span>{update.userName}</span>
+																<p>{update.message}</p>
+																<span>
+																	{timeConverter(update.time)}
+																</span>
+															</div>
+														);
+													}
+												)}
+										</main>
+										<div>
+											<input
+												type="text"
+												name="message"
+												value={formData.message}
+												onChange={handleChange}
+											/>
+											<div id="faIcon" onClick={sendMessage}>
+												<FontAwesomeIcon
+													icon={faPaperPlane}
+													size="xl"
+												/>
+												<span>send</span>
+											</div>
+										</div>
+									</aside>
+								</section>
+								<section id="task-goal">
 									<aside>
 										<div>
 											{todoList.workList[activeTeamId].createdBy
@@ -1237,137 +1567,156 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 										{todoList.workList[activeTeamId].tasks.length >
 										0 ? (
 											<div>
-												{todoList.workList[activeTeamId].tasks.map(
-													(task, index) => (
-														<div key={index}>
-															<div>
-																{task.done.isDone ? (
-																	<div
-																		style={{
-																			position: "relative",
-																		}}
-																		onClick={() => {
-																			if (
-																				todoList.workList[
-																					activeTeamId
-																				] &&
-																				todoList.workList[
-																					activeTeamId
-																				].createdBy
-																					.creatorId ===
-																					userId
-																			) {
-																				updateTaskDone(
-																					task._id
-																				);
-																			} else {
-																				notify(
-																					`Task already done by ${task.done.doneBy.userName}`,
-																					"warning"
-																				);
-																			}
-																		}}
-																	>
-																		<FontAwesomeIcon
-																			icon={faCheck}
+												{todoList.workList[
+													activeTeamId
+												].tasks.filter(
+													(task) =>
+														task.createdBy.creatorId === userId ||
+														task.assignedTo.includes(userId)
+												).length > 0 ? (
+													todoList.workList[activeTeamId].tasks
+														.filter(
+															(task) =>
+																task.createdBy.creatorId ===
+																	userId ||
+																task.assignedTo.includes(userId)
+														)
+														.map((task, index) => (
+															<div key={index}>
+																<div>
+																	{task.done.isDone ? (
+																		<div
 																			style={{
-																				color: "#1aff66",
-																				zIndex: 1,
 																				position:
-																					"absolute",
-																				top: "-5px",
-																				left: "-2px",
+																					"relative",
 																			}}
-																			size="xl"
-																		/>
+																			onClick={() => {
+																				if (
+																					todoList
+																						.workList[
+																						activeTeamId
+																					] &&
+																					todoList
+																						.workList[
+																						activeTeamId
+																					].createdBy
+																						.creatorId ===
+																						userId
+																				) {
+																					updateTaskDone(
+																						task._id
+																					);
+																				} else {
+																					notify(
+																						`Task already done by ${task.done.doneBy.userName}`,
+																						"warning"
+																					);
+																				}
+																			}}
+																		>
+																			<FontAwesomeIcon
+																				icon={faCheck}
+																				style={{
+																					color: "#1aff66",
+																					zIndex: 1,
+																					position:
+																						"absolute",
+																					top: "-5px",
+																					left: "-2px",
+																				}}
+																				size="xl"
+																			/>
+																			<FontAwesomeIcon
+																				icon={faSquare}
+																				size="sm"
+																			/>
+																		</div>
+																	) : (
 																		<FontAwesomeIcon
 																			icon={faSquare}
 																			size="sm"
-																		/>
-																	</div>
-																) : (
-																	// <input
-																	// 	type="checkbox"
-																	// 	onChange={() =>
-																	// 		handelWorkDone("dailyTasks", index)
-																	// 	}
-																	// />
-																	<FontAwesomeIcon
-																		icon={faSquare}
-																		size="sm"
-																		onClick={() =>
-																			updateTaskDone(
-																				task._id
-																			)
-																		}
-																	/>
-																)}
-																<p>
-																	{task.name}{" "}
-																	{task.done.isDone && (
-																		<span>
-																			<span> by </span>{" "}
-																			<span className="special">
-																				{" "}
-																				{
-																					task.done.doneBy
-																						.userName
-																				}
-																			</span>
-																			<br />
-																			<span> at </span>{" "}
-																			<span className="special">
-																				{" "}
-																				{timeConverter(
-																					task.done.time
-																				)}
-																			</span>
-																		</span>
-																	)}
-																</p>
-															</div>
-															{todoList.workList[activeTeamId]
-																.createdBy.creatorId ===
-																userId && (
-																<div className="edit-delete">
-																	<p>
-																		<FontAwesomeIcon
-																			icon={
-																				faEllipsisVertical
-																			}
-																		/>
-																	</p>
-																	<div>
-																		<p
 																			onClick={() =>
-																				handelDisplayUpdateTask(
-																					task
-																				)
-																			}
-																		>
-																			<FontAwesomeIcon
-																				icon={faPenToSquare}
-																			/>{" "}
-																			edit
-																		</p>
-																		<p
-																			onClick={() =>
-																				handelDeleteTask(
+																				updateTaskDone(
 																					task._id
 																				)
 																			}
-																		>
-																			<FontAwesomeIcon
-																				icon={faTrashCan}
-																			/>{" "}
-																			delete
-																		</p>
-																	</div>
+																		/>
+																	)}
+																	<p>
+																		{task.name}{" "}
+																		{task.done.isDone && (
+																			<span>
+																				<span> by </span>{" "}
+																				<span className="special">
+																					{" "}
+																					{
+																						task.done
+																							.doneBy
+																							.userName
+																					}
+																				</span>
+																				<br />
+																				<span>
+																					{" "}
+																					at{" "}
+																				</span>{" "}
+																				<span className="special">
+																					{" "}
+																					{timeConverter(
+																						task.done.time
+																					)}
+																				</span>
+																			</span>
+																		)}
+																	</p>
 																</div>
-															)}
-														</div>
-													)
+																{todoList.workList[activeTeamId]
+																	.createdBy.creatorId ===
+																	userId && (
+																	<div className="edit-delete">
+																		<p>
+																			<FontAwesomeIcon
+																				icon={
+																					faEllipsisVertical
+																				}
+																			/>
+																		</p>
+																		<div>
+																			<p
+																				onClick={() =>
+																					handelDisplayUpdateTask(
+																						task
+																					)
+																				}
+																			>
+																				<FontAwesomeIcon
+																					icon={
+																						faPenToSquare
+																					}
+																				/>{" "}
+																				edit
+																			</p>
+																			<p
+																				onClick={() =>
+																					handelDeleteTask(
+																						task._id
+																					)
+																				}
+																			>
+																				<FontAwesomeIcon
+																					icon={faTrashCan}
+																				/>{" "}
+																				delete
+																			</p>
+																		</div>
+																	</div>
+																)}
+															</div>
+														))
+												) : (
+													<p>No task</p>
 												)}
+
 												{todoList.workList[activeTeamId].createdBy
 													.creatorId === userId && (
 													<button
@@ -1396,337 +1745,318 @@ function WorkList({ todoList, setTodoList, token, userId, notify }) {
 											</div>
 										)}
 									</aside>
-								</section>
-								<section id="goals-section">
-									{todoList.workList[activeTeamId].goals.length > 0 ? (
-										<div>
+									<aside id="goals-section">
+										{todoList.workList[activeTeamId].goals.length >
+										0 ? (
 											<div>
-												<select
-													name=""
-													id="goals"
-													value={activeGoalId}
-													onChange={(e) =>
-														setActiveGoalId(e.target.value)
-													}
-												>
-													{todoList.workList[
-														activeTeamId
-													].goals.map((goal, index) => (
-														<option value={index} key={index}>
-															{goal.name}
-														</option>
-													))}
-													<option value="create">
-														Add more Goal
-													</option>
-												</select>
-
-												{activeGoalId !== "create" && (
-													<p
-														style={{
-															color: `${interpolateColor(50)}`,
-														}}
-													>
-														<img
-															src={hourGlass}
-															id="rotate"
-															alt=""
-															style={{
-																width: "18px",
-																marginRight: "5px",
-															}}
-														/>
-														{deadlineConverter(
-															todoList.workList[activeTeamId]
-																.goals[activeGoalId].deadline
-														)}
-													</p>
-												)}
-											</div>
-											{activeGoalId !== "create" ? (
-												<div
-													style={{
-														display: "flex",
-														justifyContent: "space-between",
-													}}
-												>
-													<div
-														id="goal"
-														style={{
-															display: "grid",
-															gridTemplateColumns: `repeat(${
-																todoList.workList[activeTeamId]
-																	.goals[activeGoalId].steps
-																	.length + 2
-															},1fr)`,
-														}}
-													>
-														<div>
-															<div>
-																<p>Started</p>
-																<FontAwesomeIcon
-																	icon={faCircle}
-																	style={{
-																		color: "#1aff66",
-																	}}
-																/>
-															</div>
-															<hr
-																style={{
-																	backgroundColor: "#1aff66",
-																}}
-															/>
-															<p>
-																By{" "}
-																<span>
-																	{
-																		todoList.workList[
-																			activeTeamId
-																		].goals[activeGoalId]
-																			.createdBy.creatorName
-																	}
-																</span>
-															</p>
-														</div>
-														{todoList.workList[
-															activeTeamId
-														].goals[activeGoalId].steps.map(
-															(task, index) => {
-																let isCurrentGoal = false;
-
-																if (
-																	(index === 0 &&
-																		!task.done.isDone) ||
-																	(index > 0 &&
-																		!task.done.isDone &&
-																		todoList.workList[
-																			activeTeamId
-																		].goals[activeGoalId]
-																			.steps[index - 1].done
-																			.isDone)
-																) {
-																	isCurrentGoal = true;
-																}
-																return (
-																	<div
-																		key={index}
-																		style={{
-																			width: "300px",
-																			height: "max-content",
-																		}}
-																	>
-																		{task.done.isDone ? (
-																			<div>
-																				<p>
-																					Done by{" "}
-																					<span>
-																						{
-																							task.done
-																								.doneBy
-																								.userName
-																						}
-																					</span>{" "}
-																					<br />
-																					at{" "}
-																					<span>
-																						{timeConverter(
-																							task.done
-																								.time
-																						)}
-																					</span>
-																				</p>
-																				<FontAwesomeIcon
-																					icon={faCircle}
-																					style={{
-																						color: "#1aff66",
-																					}}
-																				/>
-																			</div>
-																		) : isCurrentGoal ? (
-																			<div>
-																				<p>Current Goal</p>
-																				<FontAwesomeIcon
-																					icon={faCircle}
-																					style={{
-																						color: "#1aff66",
-																					}}
-																				/>
-																			</div>
-																		) : (
-																			<div>
-																				<p>Upcomming</p>
-																				<FontAwesomeIcon
-																					icon={
-																						circleRegular
-																					}
-																				/>
-																			</div>
-																		)}
-
-																		{task.done.isDone ? (
-																			<hr
-																				style={{
-																					backgroundColor:
-																						"#1aff66",
-																				}}
-																			/>
-																		) : (
-																			<hr />
-																		)}
-																		<p
-																			style={{
-																				fontSize: "20px",
-																			}}
-																		>
-																			{task.name}
-																		</p>
-
-																		{task.deadline && (
-																			<p>
-																				{task.deadline
-																					.split("T")
-																					.join(":")}
-																			</p>
-																		)}
-																		<p>{task.details}</p>
-																		{isCurrentGoal && (
-																			<button
-																				onClick={() =>
-																					updateTaskDone(
-																						task._id
-																					)
-																				}
-																				className="done-btn"
-																			>
-																				<svg
-																					xmlns="http://www.w3.org/2000/svg"
-																					fill="none"
-																					viewBox="0 0 24 24"
-																					stroke-width="1.5"
-																					stroke="currentColor"
-																					class="w-6 h-6"
-																				>
-																					<path
-																						stroke-linecap="round"
-																						stroke-linejoin="round"
-																						d="m4.5 12.75 6 6 9-13.5"
-																					/>
-																				</svg>
-
-																				<div className="text">
-																					Step complete
-																				</div>
-																			</button>
-																		)}
-																	</div>
-																);
-															}
-														)}
-														<div>
-															<div>
-																<p>
-																	{
-																		todoList.workList[
-																			activeTeamId
-																		].goals[activeGoalId]
-																			.finalGoal
-																	}
-																</p>
-																<FontAwesomeIcon
-																	icon={faCircle}
-																	style={{
-																		color: "#1aff66",
-																	}}
-																/>
-															</div>
-															<p></p>
-														</div>
-													</div>
-													<aside id="current-goal">
-														<div>
-															<p>Goal updates</p>
-															<p
-																style={{
-																	color: `${interpolateColor(
-																		50
-																	)}`,
-																}}
-															>
-																<img
-																	src={hourGlass}
-																	id="rotate"
-																	alt=""
-																	style={{
-																		width: "18px",
-																		marginRight: "5px",
-																	}}
-																/>
-																{timeLeft}
-															</p>
-														</div>
-														<div>
-															{currentGoal.task}
-															{todoList.workList[activeTeamId]
-																.createdBy.creatorId ===
-																userId && (
-																<button
-																	className="explore-btn"
-																	onClick={() =>
-																		setDisplayAddStep(true)
-																	}
-																>
-																	Add step
-																</button>
-															)}
-														</div>
-													</aside>
-												</div>
-											) : (
-												<div id="inspire">
-													<h2>
-														No compass? Find your North Star.
-														Ignite a spark, even a tiny one, and
-														let it guide your next adventure.
-													</h2>
-													<p>
-														Life's canvas awaits your masterpiece.
-														Don't wait for grand schemes. Dip your
-														brush in curiosity, explore the hues
-														of possibility, and watch a vibrant
-														purpose emerge, one unexpected stroke
-														at a time.
-													</p>
-													<button
-														onClick={() =>
-															setDisplayCreateGoal(true)
+												<div>
+													<select
+														name=""
+														id="goals"
+														value={activeGoalId}
+														onChange={(e) =>
+															setActiveGoalId(e.target.value)
 														}
 													>
-														Add Goal
-													</button>
+														{todoList.workList[
+															activeTeamId
+														].goals.map((goal, index) => (
+															<option value={index} key={index}>
+																{goal.name}
+															</option>
+														))}
+														<option value="create">
+															Add more Goal
+														</option>
+													</select>
+
+													{activeGoalId !== "create" && (
+														<p
+															style={{
+																color: `${interpolateColor(
+																	50
+																)}`,
+															}}
+														>
+															<img
+																src={hourGlass}
+																id="rotate"
+																alt=""
+																style={{
+																	width: "18px",
+																	marginRight: "5px",
+																}}
+															/>
+															{deadlineConverter(
+																todoList.workList[activeTeamId]
+																	.goals[activeGoalId].deadline
+															)}
+														</p>
+													)}
 												</div>
-											)}
-										</div>
-									) : (
-										<div id="inspire">
-											<h2>
-												No compass? Find your North Star. Ignite a
-												spark, even a tiny one, and let it guide
-												your next adventure.
-											</h2>
-											<p>
-												Life's canvas awaits your masterpiece. Don't
-												wait for grand schemes. Dip your brush in
-												curiosity, explore the hues of possibility,
-												and watch a vibrant purpose emerge, one
-												unexpected stroke at a time.
-											</p>
-											<button
-												onClick={() => setDisplayCreateGoal(true)}
-											>
-												Add Goal
-											</button>
-										</div>
-									)}
+												{activeGoalId !== "create" ? (
+													<div
+														style={{
+															display: "flex",
+															justifyContent: "space-between",
+														}}
+													>
+														<div
+															id="goal"
+															style={{
+																display: "grid",
+																gridTemplateColumns: `repeat(${
+																	todoList.workList[
+																		activeTeamId
+																	].goals[activeGoalId].steps
+																		.length + 2
+																},1fr)`,
+															}}
+														>
+															<div>
+																<div>
+																	<p>Started</p>
+																	<FontAwesomeIcon
+																		icon={faCircle}
+																		style={{
+																			color: "#1aff66",
+																		}}
+																	/>
+																</div>
+																<hr
+																	style={{
+																		backgroundColor:
+																			"#1aff66",
+																	}}
+																/>
+																<p>
+																	By{" "}
+																	<span>
+																		{
+																			todoList.workList[
+																				activeTeamId
+																			].goals[activeGoalId]
+																				.createdBy
+																				.creatorName
+																		}
+																	</span>
+																</p>
+															</div>
+															{todoList.workList[
+																activeTeamId
+															].goals[activeGoalId].steps.map(
+																(task, index) => {
+																	let isCurrentGoal = false;
+
+																	if (
+																		(index === 0 &&
+																			!task.done.isDone) ||
+																		(index > 0 &&
+																			!task.done.isDone &&
+																			todoList.workList[
+																				activeTeamId
+																			].goals[activeGoalId]
+																				.steps[index - 1]
+																				.done.isDone)
+																	) {
+																		isCurrentGoal = true;
+																	}
+																	return (
+																		<div
+																			key={index}
+																			style={{
+																				width: "300px",
+																				height:
+																					"max-content",
+																			}}
+																		>
+																			{task.done.isDone ? (
+																				<div>
+																					<p>
+																						Done by{" "}
+																						<span>
+																							{
+																								task
+																									.done
+																									.doneBy
+																									.userName
+																							}
+																						</span>{" "}
+																						<br />
+																						at{" "}
+																						<span>
+																							{timeConverter(
+																								task
+																									.done
+																									.time
+																							)}
+																						</span>
+																					</p>
+																					<FontAwesomeIcon
+																						icon={
+																							faCircle
+																						}
+																						style={{
+																							color: "#1aff66",
+																						}}
+																					/>
+																				</div>
+																			) : isCurrentGoal ? (
+																				<div>
+																					<p>
+																						Current Goal
+																					</p>
+																					<FontAwesomeIcon
+																						icon={
+																							faCircle
+																						}
+																						style={{
+																							color: "#1aff66",
+																						}}
+																					/>
+																				</div>
+																			) : (
+																				<div>
+																					<p>Upcomming</p>
+																					<FontAwesomeIcon
+																						icon={
+																							circleRegular
+																						}
+																					/>
+																				</div>
+																			)}
+
+																			{task.done.isDone ? (
+																				<hr
+																					style={{
+																						backgroundColor:
+																							"#1aff66",
+																					}}
+																				/>
+																			) : (
+																				<hr />
+																			)}
+																			<p
+																				style={{
+																					fontSize: "20px",
+																				}}
+																			>
+																				{task.name}
+																			</p>
+
+																			{task.deadline && (
+																				<p>
+																					{task.deadline
+																						.split("T")
+																						.join(":")}
+																				</p>
+																			)}
+																			<p>{task.details}</p>
+																			{isCurrentGoal && (
+																				<button
+																					onClick={() =>
+																						updateTaskDone(
+																							task._id
+																						)
+																					}
+																					className="done-btn"
+																				>
+																					<svg
+																						xmlns="http://www.w3.org/2000/svg"
+																						fill="none"
+																						viewBox="0 0 24 24"
+																						stroke-width="1.5"
+																						stroke="currentColor"
+																						class="w-6 h-6"
+																					>
+																						<path
+																							stroke-linecap="round"
+																							stroke-linejoin="round"
+																							d="m4.5 12.75 6 6 9-13.5"
+																						/>
+																					</svg>
+
+																					<div className="text">
+																						Step complete
+																					</div>
+																				</button>
+																			)}
+																		</div>
+																	);
+																}
+															)}
+															<div>
+																<div>
+																	<p>
+																		{
+																			todoList.workList[
+																				activeTeamId
+																			].goals[activeGoalId]
+																				.finalGoal
+																		}
+																	</p>
+																	<FontAwesomeIcon
+																		icon={faCircle}
+																		style={{
+																			color: "#1aff66",
+																		}}
+																	/>
+																</div>
+																<p></p>
+															</div>
+														</div>
+													</div>
+												) : (
+													<div id="inspire">
+														<h2>
+															No compass? Find your North Star.
+															Ignite a spark, even a tiny one,
+															and let it guide your next
+															adventure.
+														</h2>
+														<p>
+															Life's canvas awaits your
+															masterpiece. Don't wait for grand
+															schemes. Dip your brush in
+															curiosity, explore the hues of
+															possibility, and watch a vibrant
+															purpose emerge, one unexpected
+															stroke at a time.
+														</p>
+														<button
+															onClick={() =>
+																setDisplayCreateGoal(true)
+															}
+														>
+															Add Goal
+														</button>
+													</div>
+												)}
+											</div>
+										) : (
+											<div id="inspire">
+												<h2>
+													No compass? Find your North Star. Ignite
+													a spark, even a tiny one, and let it
+													guide your next adventure.
+												</h2>
+												<p>
+													Life's canvas awaits your masterpiece.
+													Don't wait for grand schemes. Dip your
+													brush in curiosity, explore the hues of
+													possibility, and watch a vibrant purpose
+													emerge, one unexpected stroke at a time.
+												</p>
+												<button
+													onClick={() =>
+														setDisplayCreateGoal(true)
+													}
+												>
+													Add Goal
+												</button>
+											</div>
+										)}
+									</aside>
 								</section>
 							</div>
 						) : (

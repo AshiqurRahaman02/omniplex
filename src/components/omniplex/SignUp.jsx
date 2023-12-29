@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import "../styles/Signin.css";
 import { userRoutes, mailRoutes } from "../../routes/omniplex.route";
 
 import Popup from "./Popup";
@@ -78,7 +77,6 @@ const SignUp = () => {
 		event.preventDefault();
 
 		if (validSignUpName && validSignUpEmail && validSignUpPassword) {
-			// Send email with OTP here
 			const otp = Math.floor(1000 + Math.random() * 9000);
 			setCorrectOtp(otp);
 			handleSendEmail(otp);
