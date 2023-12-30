@@ -3,8 +3,7 @@ import "../../styles/todo-list.css";
 import { todoListRoutes } from "../../routes/todo-list.route";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faEllipsisVertical,
-	faPaperPlane,
+	faThumbTack
 } from "@fortawesome/free-solid-svg-icons";
 import {
 	faPenToSquare,
@@ -12,58 +11,7 @@ import {
 	faComments,
 } from "@fortawesome/free-regular-svg-icons";
 
-const notesArray = [
-	{
-		id: 1,
-		title: "Machine Learning",
-		note: "Machine learning is a subset of artificial intelligence that focuses on building systems that can learn from data.",
-	},
-	{
-		id: 2,
-		title: "Healthy Eating",
-		note: "A balanced diet with a variety of nutrients is essential for maintaining good health and well-being.",
-	},
-	{
-		id: 3,
-		title: "History of Jazz",
-		note: "Jazz originated in the late 19th to early 20th century in the United States and has since evolved into various subgenres.",
-	},
-	{
-		id: 4,
-		title: "Climate Change",
-		note: "Climate change is a long-term change in the average weather patterns that have come to define Earth's local, regional, and global climates.",
-	},
-	{
-		id: 5,
-		title: "Digital Art",
-		note: "Digital art involves creating visual works of art using digital technology, such as a computer or tablet.",
-	},
-	{
-		id: 6,
-		title: "The Human Brain",
-		note: "The human brain is a complex organ responsible for various cognitive functions, including thinking, memory, and emotion.",
-	},
-	{
-		id: 7,
-		title: "Space Exploration",
-		note: "Space exploration has led to numerous discoveries about the universe, planets, and other celestial bodies.",
-	},
-	{
-		id: 8,
-		title: "The Renaissance",
-		note: "The Renaissance was a period in European history known for its cultural and artistic achievements, spanning roughly the 14th to the 17th century.",
-	},
-	{
-		id: 9,
-		title: "The Solar System",
-		note: "Our solar system consists of the Sun and eight planets, including Earth.",
-	},
-	{
-		id: 10,
-		title: "Environmental Conservation",
-		note: "Environmental conservation is the responsible use and management of natural resources to ensure their sustainability for future generations.",
-	},
-];
+const notesColors = ["#f1f58f", "#ffb930", "#ff32b2", "#a9edf1", "#74ed4b"];
 
 function Notes({ todoList, setTodoList, token, userId, notify }) {
 	const [newTitle, setNewTitle] = useState("");
@@ -113,16 +61,14 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 	};
 
 	const handleUpdateNote = () => {
-
 		if (!activeNote.title) {
 			notify("Please enter a title", "warning");
 			return;
 		}
 
-		let notes = todoList.notes
+		let notes = todoList.notes;
 		notes[activeNote.index].title = activeNote.title;
 		notes[activeNote.index].note = activeNote.note;
-
 
 		fetch(todoListRoutes.updateNote, {
 			method: "PUT",
@@ -130,7 +76,7 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 				"Content-Type": "application/json",
 				Authorization: token,
 			},
-			body: JSON.stringify({notes}),
+			body: JSON.stringify({ notes }),
 		})
 			.then((res) => res.json())
 			.then((res) => {
@@ -138,26 +84,25 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 					notify(res.message, "warning");
 				} else {
 					setTodoList(res.todoList);
-					setUpdateNote(false)
+					setUpdateNote(false);
 					setDisplayNote(false);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
 				notify(err.message, "error");
-				setUpdateNote(false)
-					setDisplayNote(false);
+				setUpdateNote(false);
+				setDisplayNote(false);
 			});
 	};
 
 	const handelDeleteNote = (index) => {
-
 		fetch(`${todoListRoutes.deleteNote}${index}`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: token,
-			}
+			},
 		})
 			.then((res) => res.json())
 			.then((res) => {
@@ -166,15 +111,15 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 				} else {
 					notify(res.message, "success");
 					setTodoList(res.todoList);
-					setUpdateNote(false)
+					setUpdateNote(false);
 					setDisplayNote(false);
 				}
 			})
 			.catch((err) => {
 				console.log(err);
 				notify(err.message, "error");
-				setUpdateNote(false)
-					setDisplayNote(false);
+				setUpdateNote(false);
+				setDisplayNote(false);
 			});
 	};
 
@@ -224,6 +169,8 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 									cursor: "pointer",
 									overflow: "hidden",
 									position: "relative",
+									// backgroundColor: `${notesColors[Math.floor(Math.random() *notesColors.length)]}`
+									backgroundColor: `${notesColors[index%5]}`
 								}}
 								onClick={() => {
 									note.index = index;
@@ -231,8 +178,9 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 									setDisplayNote(true);
 								}}
 							>
+								{index ===0 ? <FontAwesomeIcon icon={faThumbTack} size="lg" style={{position:"relative", top:"-5px"}}/>:<FontAwesomeIcon icon={faThumbTack} size="lg" style={{position:"relative", top:"-5px",opacity:0}}/>}
 								<h3>{note.title}</h3>
-								<p>{note.note}</p>
+								<p>{note.title.length+note.note.length > 125 ? note.note.slice(0, 125-note.title.length) + '...' : note.note}</p>
 							</div>
 						))}
 					<button onClick={handleDisplayModel} className="add-note shine">
@@ -259,30 +207,32 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 			{displayAddNote && (
 				<div className="add-note-form">
 					<div>
-						<h3>Add Note</h3>
-						<label htmlFor="title">Title:</label>
-						<input
-							id="titles"
-							placeholder="Enter Title..."
-							type="text"
-							value={newTitle}
-							required
-							onChange={(e) => setNewTitle(e.target.value)}
-						/>
-						<br />
-						<label htmlFor="note">Note:</label>
-						<textarea
-							id="note"
-							placeholder="Enter Note..."
-							value={newNote}
-							name="note"
-							cols="30"
-							rows="8"
-							required
-							onChange={(e) => setNewNote(e.target.value)}
-						></textarea>
+						<div>
+							<h3>Add Note</h3>
+							<label htmlFor="title">Title:</label>
+							<input
+								id="titles"
+								placeholder="Enter Title..."
+								type="text"
+								value={newTitle}
+								required
+								onChange={(e) => setNewTitle(e.target.value)}
+							/>
+							<br />
+							<label htmlFor="note">Note:</label>
+							<textarea
+								id="note"
+								placeholder="Enter Note..."
+								value={newNote}
+								name="note"
+								cols="30"
+								rows="8"
+								required
+								onChange={(e) => setNewNote(e.target.value)}
+							></textarea>
+						</div>
 					</div>
-					<div>
+					<div id="buttons">
 						<button onClick={handleAddNote} className="add-note shine">
 							Add Note
 						</button>
@@ -302,62 +252,64 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 
 			{displayNote && (
 				<div className="add-note-form">
-					{updateNote ? (
-						<div>
-							<label htmlFor="title">Title:</label>
-							<input
-								id="titles"
-								placeholder="Enter Title..."
-								type="text"
-								value={activeNote.title}
-								onChange={(e) => {
-									setActiveNote({
-										...activeNote,
-										title: e.target.value,
-									});
-								}}
-							/>
-							<br />
-							<label htmlFor="note">Note:</label>
-							<textarea
-								id="note"
-								placeholder="Enter Note..."
-								value={activeNote.note}
-								onChange={(e) =>
-									setActiveNote({
-										...activeNote,
-										note: e.target.value,
-									})
-								}
-								name="note"
-								cols="30"
-								rows="8"
-							></textarea>
-						</div>
-					) : (
-						<div>
-							<label htmlFor="title">Title:</label>
-							<input
-								id="titles"
-								placeholder="Enter Title..."
-								type="text"
-								value={activeNote.title}
-								readOnly
-							/>
-							<br />
-							<label htmlFor="note">Note:</label>
-							<textarea
-								id="note"
-								placeholder="Enter Note..."
-								value={activeNote.note}
-								name="note"
-								cols="30"
-								rows="8"
-								readOnly
-							></textarea>
-						</div>
-					)}
 					<div>
+						{updateNote ? (
+							<div>
+								<label htmlFor="title">Title:</label>
+								<input
+									id="titles"
+									placeholder="Enter Title..."
+									type="text"
+									value={activeNote.title}
+									onChange={(e) => {
+										setActiveNote({
+											...activeNote,
+											title: e.target.value,
+										});
+									}}
+								/>
+								<br />
+								<label htmlFor="note">Note:</label>
+								<textarea
+									id="note"
+									placeholder="Enter Note..."
+									value={activeNote.note}
+									onChange={(e) =>
+										setActiveNote({
+											...activeNote,
+											note: e.target.value,
+										})
+									}
+									name="note"
+									cols="30"
+									rows="8"
+								></textarea>
+							</div>
+						) : (
+							<div>
+								<label htmlFor="title">Title:</label>
+								<input
+									id="titles"
+									placeholder="Enter Title..."
+									type="text"
+									value={activeNote.title}
+									readOnly
+								/>
+								<br />
+								<label htmlFor="note">Note:</label>
+								<textarea
+									id="note"
+									placeholder="Enter Note..."
+									value={activeNote.note}
+									name="note"
+									cols="30"
+									rows="8"
+									readOnly
+								></textarea>
+							</div>
+						)}
+					</div>
+					<div id="buttons">
 						{updateNote ? (
 							<button
 								className="add-note shine"
@@ -383,11 +335,11 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 							Cancel
 						</button>
 					</div>
-					<div>
-					<button
+					<div id="buttons">
+						<button
 							className="add-note shine"
 							onClick={() => {
-								notify("Feature not live yet", "info")
+								notify("Feature not live yet", "info");
 							}}
 						>
 							Pin Note
@@ -395,7 +347,7 @@ function Notes({ todoList, setTodoList, token, userId, notify }) {
 						<button
 							className="add-note shine"
 							onClick={() => {
-								handelDeleteNote(activeNote.index)
+								handelDeleteNote(activeNote.index);
 							}}
 						>
 							Delete Note

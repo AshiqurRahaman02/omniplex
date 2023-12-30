@@ -12,7 +12,7 @@ function Tweet({
 	
 	return (
 		<div>
-			<div classNameName="tweet-wrap">
+			<div className="tweet-wrap">
 				<div className="tweet-header">
 					<img
 						src="https://pbs.twimg.com/profile_images/1012717264108318722/9lP-d2yM_400x400.jpg"

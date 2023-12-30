@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -7,19 +7,18 @@ import {
 	faTrash,
 	faArrowRightFromBracket,
 	faUsers,
-	faLock,
-	faCheck,
-	faEllipsisVertical,
-	faCircle,
+	faLock
 } from "@fortawesome/free-solid-svg-icons";
 import {
-	faCircle as circleRegular,
 	faPenToSquare,
-	faTrashCan,
-	faSquare,
-	faClock,
+	faXmarkCircle,
 } from "@fortawesome/free-regular-svg-icons";
 import { todoListRoutes } from "../../routes/todo-list.route";
+import DailyTasks from "./DailyTasks";
+import Reminder from "./Reminder";
+import TeamUpdates from "./TeamUpdates";
+import Tasks from "./Tasks";
+import Goal from "./Goal";
 
 const gradientColors = [
 	"#ff0000",
@@ -32,38 +31,28 @@ const gradientColors = [
 	"#55e100",
 	"#1cf500",
 ];
-const hourGlass = "assets/logo/hourGlass.png";
-const clock = "assets/logo/clock.png";
 
 const initialFormData = {
 	id: "",
 	name: "",
 	details: "",
+	message: "",
 	visibility: "onlyMe",
 	password: "",
 	type: "create",
+	deadline: "",
+	assignedTo: [],
 };
 
-function ProjectList({ todoList, setTodoList, token, userId, notify }) {
-	// const [projectList, setprojectList] = useState(projectListArray);
-	// const [isAdmin, setIsAdmin] = useState(true);
-	const [timeLeft, setTimeLeft] = useState();
 
+function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 	const [activeTeamId, setActiveTeamId] = useState(0);
-	const [activeGoalId, setActiveGoalId] = useState(0);
-	const [currentGoal, setCurrentGoal] = useState({
-		task: "Project Beta planning",
-		isDone: false,
-		doneBy: "Jane Smith",
-		time: "9:00 AM",
-	});
+	
 
 	const [displayCreateTeam, setDisplayCreateTeam] = useState(false);
 	const [displayCreateDailyTask, setDisplayCreateDailyTask] = useState(false);
 	const [displayCreateReminder, setDisplayCreateReminder] = useState(false);
 	const [displayCreateTask, setDisplayCreateTask] = useState(false);
-	const [displayCreateGoal, setDisplayCreateGoal] = useState(false);
-	const [displayAddStep, setDisplayAddStep] = useState(false);
 	const [formData, setFormData] = useState(initialFormData);
 
 	const handleChange = (e) => {
@@ -73,6 +62,8 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 			[name]: value,
 		}));
 	};
+
+	
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -90,7 +81,7 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 		};
 		console.log(newTeam);
 
-		fetch(todoListRoutes.addTeamWork, {
+		fetch(todoListRoutes.addTeamProject, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -109,8 +100,6 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 				}
 			})
 			.catch((err) => {
-				// setProgress(100);
-				// setIsProgress(false);
 				console.log(err);
 				notify(err.message, "error");
 			});
@@ -243,105 +232,24 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 			});
 	};
 
-	const handelCreateGoal = (e) => {
-		e.preventDefault();
-
-		if (!formData.name) {
-			notify("Please enter a name", "warning");
-			return;
-		}
-
-		if (!formData.finalGoal) {
-			notify("Please enter final goal", "warning");
-			return;
-		}
-
-		const newGoal = {
-			name: formData.name,
-			details: formData.details,
-			deadline: formData.deadline,
-			finalGoal: formData.finalGoal,
-		};
-
-		let teamId = todoList.projectList[activeTeamId]._id;
-
-		fetch(`${todoListRoutes.createGoal}${teamId}`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: token,
-			},
-			body: JSON.stringify(newGoal),
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.isError) {
-					notify(res.message, "warning");
-				} else {
-					setTodoList(res.todoList);
-					setFormData(initialFormData);
-					setDisplayCreateGoal(false);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-				notify(err.message, "error");
-			});
-	};
-
-	const handelAddStep = (e) => {
-		e.preventDefault();
-
-		if (!formData.name) {
-			notify("Please enter a name", "warning");
-			return;
-		}
-
-		let body = {
-			steps: [
-				{
-					name: formData.name,
-					details: formData.details,
-					deadline: formData.deadline,
-				},
-			],
-		};
-		console.log(body);
-
-		let goalId = todoList.projectList[activeTeamId].goals[activeGoalId]._id;
-		console.log(body, goalId);
-
-		fetch(`${todoListRoutes.addStepsToGoal}${goalId}`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: token,
-			},
-			body: JSON.stringify(body),
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.isError) {
-					notify(res.message, "warning");
-				} else {
-					setTodoList(res.todoList);
-					setFormData(initialFormData);
-					setDisplayAddStep(false);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-				notify(err.message, "error");
-			});
-	};
 
 	const handelDisplayUpdateTask = (task) => {
 		formData.id = task._id;
 		formData.name = task.name;
 		formData.details = task.details;
+		formData.deadline = task.deadline;
+		formData.assignedTo = task.assignedTo;
 		formData.type = "update";
 
-		setDisplayCreateDailyTask(true);
+		console.log(task.taskType);
+
+		if (task.taskType === "reminder") {
+			setDisplayCreateReminder(true);
+		} else if (task.taskType === "task") {
+			setDisplayCreateTask(true);
+		} else {
+			setDisplayCreateDailyTask(true);
+		}
 	};
 	const handelUpdateTask = (e) => {
 		e.preventDefault();
@@ -361,6 +269,8 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 						const newTask = {
 							name: formData.name,
 							details: formData.details,
+							deadline: formData.deadline,
+							assignedTo: formData.assignedTo,
 						};
 						console.log(newTask);
 
@@ -383,6 +293,8 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 									setTodoList(res.todoList);
 									setFormData(initialFormData);
 									setDisplayCreateDailyTask(false);
+									setDisplayCreateReminder(false);
+									setDisplayCreateTask(false);
 								}
 							})
 							.catch((err) => {
@@ -431,7 +343,6 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 				},
 				{
 					label: "Cancel",
-					// onClick: () => alert("Click No"),
 				},
 			],
 		});
@@ -474,31 +385,6 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 		});
 	};
 
-	useEffect(() => {
-		const calculateTimeLeft = () => {
-			const now = new Date();
-			const midnight = new Date();
-			midnight.setHours(23, 59, 59, 999); // Set to the end of the current day
-			const timeDifference = midnight.getTime() - now.getTime();
-
-			const seconds = Math.floor((timeDifference / 1000) % 60);
-			const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
-			const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
-
-			setTimeLeft(
-				`${hours.toString().padStart(2, "0")}:${minutes
-					.toString()
-					.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-			);
-		};
-
-		calculateTimeLeft();
-
-		const intervalId = setInterval(calculateTimeLeft, 1000);
-
-		return () => clearInterval(intervalId);
-	}, []);
-
 	function interpolateColor(percentage = 30) {
 		if (percentage <= 0 || percentage >= 100) {
 			return "#FF0000";
@@ -526,7 +412,6 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 			const hours = Math.floor(timeDifferenceInSeconds / 3600);
 			return rtf.format(-hours, "hour");
 		} else {
-			// If the date is not today, return the formatted date
 			const options = {
 				year: "numeric",
 				month: "long",
@@ -577,8 +462,108 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 		}
 	}
 
+	const usersContainerRef = useRef(null);
+	const handlePrev = () => {
+		usersContainerRef.current.scrollLeft -=
+			usersContainerRef.current.offsetWidth;
+	};
+
+	const handleNext = () => {
+		usersContainerRef.current.scrollLeft +=
+			usersContainerRef.current.offsetWidth;
+	};
+
+	const [emails, setEmails] = useState([]);
+
+	const handleInput = (event) => {
+		const text = event.target.innerText;
+		const extractedEmails = getEmails(text);
+		setEmails(extractedEmails);
+	};
+
+	const getEmails = (text) => {
+		const emailPattern = /\S+@\S+\.\S+/g;
+		return text.match(emailPattern) || [];
+	};
+
+	const handleDelete = (email) => {
+		const filteredEmails = emails.filter((e) => e !== email);
+		setEmails(filteredEmails);
+	};
+
+	const addMembers = () => {
+		confirmAlert({
+			title: "Confirm to add",
+			message: "Are you sure to do this.",
+			buttons: [
+				{
+					label: "Confirm",
+					onClick: () => {
+						let teamId = todoList.projectList[activeTeamId]._id;
+
+						fetch(`${todoListRoutes.addMembers}${teamId}`, {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								Authorization: token,
+							},
+							body: JSON.stringify({ membersEmails: emails }),
+						})
+							.then((res) => res.json())
+							.then((res) => {
+								if (res.isError) {
+									notify(res.message, "warning");
+								} else {
+									notify(res.message, "success");
+									setTodoList(res.todoList);
+								}
+							})
+							.catch((err) => {
+								console.log(err);
+								notify(err.message, "error");
+							});
+					},
+				},
+				{
+					label: "Cancel",
+				},
+			],
+		});
+	};
+
+	const sendMessage = () => {
+		if (!formData.message) {
+			notify("message required*", "warning");
+			return;
+		}
+
+		let teamId = todoList.projectList[activeTeamId]._id;
+
+		fetch(`${todoListRoutes.addMessage}${teamId}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify({ message: formData.message }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todoList);
+					setFormData(initialFormData);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
 	return (
-		<div id="work">
+		<div id="category">
 			<div>
 				{todoList.projectList.length > 0 ? (
 					<div>
@@ -589,8 +574,7 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 									id="teams"
 									value={activeTeamId}
 									onChange={(e) => {
-										setActiveTeamId(e.target.value);
-										setActiveGoalId(0);
+										setActiveTeamId(e.target.value)
 									}}
 								>
 									{todoList.projectList.map((team, index) => (
@@ -624,9 +608,20 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 							{activeTeamId !== "create" &&
 							todoList.projectList[activeTeamId].createdBy.creatorId ===
 								userId ? (
-								<div id="faIcon">
-									<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
-									<span>Delete Team</span>
+								<div
+									style={{
+										display: "flex",
+										justifyContent: "space-between",
+									}}
+								>
+									<div id="faIcon">
+										<FontAwesomeIcon icon={faPenToSquare} size="xl" />{" "}
+										<span>Edit Team</span>
+									</div>
+									<div id="faIcon">
+										<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
+										<span>Delete Team</span>
+									</div>
 								</div>
 							) : (
 								activeTeamId !== "create" && (
@@ -642,879 +637,273 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 						</section>
 						{activeTeamId !== "create" ? (
 							<div>
-								<section>
-									{todoList.projectList[activeTeamId].allMembers.map(
-										(member) => (
-											<div key={member.userId}>
-												{member.userName}
-											</div>
-										)
-									)}
-									{todoList.projectList[activeTeamId].createdBy
-										.creatorId === userId && (
-										<button className="explore-btn">
-											Add Team member
+								<section id="teamDetails">
+									<div
+										style={{ display: "flex", alignItems: "center" }}
+									>
+										<button
+											onClick={handlePrev}
+											id="pre"
+											className="shine"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												strokeWidth={1.5}
+												stroke="currentColor"
+												className="w-6 h-6"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+												/>
+											</svg>
 										</button>
-									)}
-								</section>
-								<section id="tasks">
-									<aside>
-										<div>
-											<p>Daily Tasks</p>
-											<p
+										<div className="users" ref={usersContainerRef}>
+											<div
+												key={userId}
 												style={{
-													color: `${interpolateColor(50)}`,
+													margin: "10px",
+													padding: "10px",
+													border: "1px solid #ccc",
+													borderRadius: "5px",
+													position: "relative",
 												}}
 											>
-												<img
-													src={hourGlass}
-													id="rotate"
-													alt=""
-													style={{
-														width: "18px",
-														marginRight: "5px",
-													}}
-												/>
-												{timeLeft}
-											</p>
-										</div>
-										{todoList.projectList[activeTeamId].dailyTasks
-											.length > 0 ? (
-											<div>
-												{todoList.projectList[
-													activeTeamId
-												].dailyTasks.map((task, index) => (
-													<div key={index}>
-														<div>
-															{task.done.isDone ? (
-																<div
-																	style={{
-																		position: "relative",
-																	}}
-																	onClick={() => {
-																		if (
-																			todoList.projectList[
-																				activeTeamId
-																			] &&
-																			todoList.projectList[
-																				activeTeamId
-																			].createdBy
-																				.creatorId ===
-																				userId
-																		) {
-																			updateTaskDone(
-																				task._id
-																			);
-																		} else {
-																			notify(
-																				`Task already done by ${task.done.doneBy.userName}`,
-																				"warning"
-																			);
-																		}
-																	}}
-																>
-																	<FontAwesomeIcon
-																		icon={faCheck}
-																		style={{
-																			color: "#1aff66",
-																			zIndex: 1,
-																			position: "absolute",
-																			top: "-5px",
-																			left: "-2px",
-																		}}
-																		size="xl"
-																	/>
-																	<FontAwesomeIcon
-																		icon={faSquare}
-																		size="sm"
-																	/>
-																</div>
-															) : (
-																// <input
-																// 	type="checkbox"
-																// 	onChange={() =>
-																// 		handelWorkDone("dailyTasks", index)
-																// 	}
-																// />
-																<FontAwesomeIcon
-																	icon={faSquare}
-																	size="sm"
-																	onClick={() =>
-																		updateTaskDone(task._id)
-																	}
-																/>
-															)}
-															<p>
-																{task.name}{" "}
-																{task.done.isDone && (
-																	<span>
-																		<span> by </span>{" "}
-																		<span className="special">
-																			{" "}
-																			{
-																				task.done.doneBy
-																					.userName
-																			}
-																		</span>
-																		<br />
-																		<span> at </span>{" "}
-																		<span className="special">
-																			{" "}
-																			{timeConverter(
-																				task.done.time
-																			)}
-																		</span>
-																	</span>
-																)}
-															</p>
-														</div>
-														{todoList.projectList[activeTeamId]
-															.createdBy.creatorId ===
-															userId && (
-															<div className="edit-delete">
-																<p>
-																	<FontAwesomeIcon
-																		icon={faEllipsisVertical}
-																	/>
-																</p>
-																<div>
-																	<p
-																		onClick={() =>
-																			handelDisplayUpdateTask(
-																				task
-																			)
-																		}
-																	>
-																		<FontAwesomeIcon
-																			icon={faPenToSquare}
-																		/>{" "}
-																		edit
-																	</p>
-																	<p
-																		onClick={() =>
-																			handelDeleteTask(
-																				task._id
-																			)
-																		}
-																	>
-																		<FontAwesomeIcon
-																			icon={faTrashCan}
-																		/>{" "}
-																		delete
-																	</p>
-																</div>
-															</div>
-														)}
-													</div>
-												))}
-												{todoList.projectList[activeTeamId].createdBy
-													.creatorId === userId && (
-													<button
-														className="explore-btn"
-														onClick={() =>
-															setDisplayCreateDailyTask(true)
-														}
-													>
-														Add more task
-													</button>
-												)}
+												<p>You</p>
 											</div>
-										) : (
-											<div id="inspire">
-												<p>Consistency is the key</p>
-												<button
-													onClick={() =>
-														setDisplayCreateDailyTask(true)
-													}
-												>
-													Add Task
-												</button>
-											</div>
-										)}
-									</aside>
-									<aside>
-										<div>
-											<p>Reminder</p>
-											{todoList.projectList[activeTeamId].reminders
-												.length > 0 && (
-												<p
-													style={{
-														color: `${interpolateColor(80)}`,
-													}}
-												>
-													<img
-														src={hourGlass}
-														id="rotate"
-														alt=""
-														style={{
-															width: "18px",
-															marginRight: "5px",
-														}}
-													/>
-													{deadlineConverter(
-														todoList.projectList[activeTeamId]
-															.reminders[0].deadline
-													)}
-												</p>
-											)}
-										</div>
-
-										{todoList.projectList[activeTeamId].reminders
-											.length > 0 ? (
-											<div>
-												{todoList.projectList[
-													activeTeamId
-												].reminders.map((task, index) => (
-													<div key={index}>
-														<div>
-															{task.done.isDone ? (
-																<div
-																	style={{
-																		position: "relative",
-																	}}
-																>
-																	<FontAwesomeIcon
-																		icon={faCheck}
-																		style={{
-																			color: "#1aff66",
-																			zIndex: 1,
-																			position: "absolute",
-																			top: "-5px",
-																			left: "-2px",
-																		}}
-																		size="xl"
-																	/>
-																	<FontAwesomeIcon
-																		icon={faSquare}
-																		size="sm"
-																	/>
-																</div>
-															) : (
-																// <input
-																// 	type="checkbox"
-																// 	onChange={() =>
-																// 		handelWorkDone("dailyTasks", index)
-																// 	}
-																// />
-																<FontAwesomeIcon
-																	icon={faClock}
-																	size="sm"
-																	id="rotate"
-																/>
-															)}
-															<p>
-																{task.name}{" "}
-																{/* {task.done.isDone && (
-																		<span>
-																			<span> by </span>{" "}
-																			<span className="special">
-																				{" "}
-																				{task.done.doneBy.userName}
-																			</span>
-																			<br />
-																			<span> at </span>{" "}
-																			<span className="special">
-																				{" "}
-																				{timeConverter(task.done.time)}
-																			</span>
-																		</span>
-																	)} */}
-															</p>
-														</div>
-														{todoList.projectList[activeTeamId]
-															.createdBy.creatorId ===
-															userId && (
-															<div className="edit-delete">
-																<p>
-																	<FontAwesomeIcon
-																		icon={faEllipsisVertical}
-																	/>
-																</p>
-																<div>
-																	<p
-																		onClick={() =>
-																			handelDisplayUpdateTask(
-																				task
-																			)
-																		}
-																	>
-																		<FontAwesomeIcon
-																			icon={faPenToSquare}
-																		/>{" "}
-																		edit
-																	</p>
-																	<p
-																		onClick={() =>
-																			handelDeleteTask(
-																				task._id
-																			)
-																		}
-																	>
-																		<FontAwesomeIcon
-																			icon={faTrashCan}
-																		/>{" "}
-																		delete
-																	</p>
-																</div>
-															</div>
-														)}
-													</div>
-												))}
-												{todoList.projectList[activeTeamId].createdBy
-													.creatorId === userId && (
-													<button
-														className="explore-btn"
-														onClick={() =>
-															setDisplayCreateReminder(true)
-														}
-													>
-														Add reminder
-													</button>
-												)}
-											</div>
-										) : (
-											<div id="inspire">
-												<p>
-													Punctuality is the politeness of <br />{" "}
-													kings and queens.
-												</p>
-												<button
-													onClick={() =>
-														setDisplayCreateReminder(true)
-													}
-												>
-													Add Reminder
-												</button>
-											</div>
-										)}
-									</aside>
-									<aside>
-										<div>
 											{todoList.projectList[activeTeamId].createdBy
-												.creatorId === userId ? (
-												<p>Your tasks</p>
-											) : (
-												<p>Assigned Tasks to you</p>
-											)}
-											{todoList.projectList[activeTeamId].tasks.length >
-												0 &&
-												todoList.projectList[activeTeamId].tasks[0]
-													.deadline && (
-													<p
-														style={{
-															color: `${interpolateColor(80)}`,
-														}}
-													>
-														<img
-															src={hourGlass}
-															id="rotate"
-															alt=""
-															style={{
-																width: "18px",
-																marginRight: "5px",
-															}}
-														/>
-														{deadlineConverter(
-															todoList.projectList[activeTeamId]
-																.tasks[0].deadline
-														)}
-													</p>
-												)}
-										</div>
-
-										{todoList.projectList[activeTeamId].tasks.length >
-										0 ? (
-											<div>
-												{todoList.projectList[activeTeamId].tasks.map(
-													(task, index) => (
-														<div key={index}>
-															<div>
-																{task.done.isDone ? (
-																	<div
-																		style={{
-																			position: "relative",
-																		}}
-																		onClick={() => {
-																			if (
-																				todoList.projectList[
-																					activeTeamId
-																				] &&
-																				todoList.projectList[
-																					activeTeamId
-																				].createdBy
-																					.creatorId ===
-																					userId
-																			) {
-																				updateTaskDone(
-																					task._id
-																				);
-																			} else {
-																				notify(
-																					`Task already done by ${task.done.doneBy.userName}`,
-																					"warning"
-																				);
-																			}
-																		}}
-																	>
-																		<FontAwesomeIcon
-																			icon={faCheck}
-																			style={{
-																				color: "#1aff66",
-																				zIndex: 1,
-																				position:
-																					"absolute",
-																				top: "-5px",
-																				left: "-2px",
-																			}}
-																			size="xl"
-																		/>
-																		<FontAwesomeIcon
-																			icon={faSquare}
-																			size="sm"
-																		/>
-																	</div>
-																) : (
-																	// <input
-																	// 	type="checkbox"
-																	// 	onChange={() =>
-																	// 		handelWorkDone("dailyTasks", index)
-																	// 	}
-																	// />
-																	<FontAwesomeIcon
-																		icon={faSquare}
-																		size="sm"
-																		onClick={() =>
-																			updateTaskDone(
-																				task._id
-																			)
-																		}
-																	/>
-																)}
-																<p>
-																	{task.name}{" "}
-																	{task.done.isDone && (
-																		<span>
-																			<span> by </span>{" "}
-																			<span className="special">
-																				{" "}
-																				{
-																					task.done.doneBy
-																						.userName
-																				}
-																			</span>
-																			<br />
-																			<span> at </span>{" "}
-																			<span className="special">
-																				{" "}
-																				{timeConverter(
-																					task.done.time
-																				)}
-																			</span>
-																		</span>
-																	)}
-																</p>
-															</div>
-															{todoList.projectList[activeTeamId]
-																.createdBy.creatorId ===
-																userId && (
-																<div className="edit-delete">
-																	<p>
-																		<FontAwesomeIcon
-																			icon={
-																				faEllipsisVertical
-																			}
-																		/>
-																	</p>
-																	<div>
-																		<p
-																			onClick={() =>
-																				handelDisplayUpdateTask(
-																					task
-																				)
-																			}
-																		>
-																			<FontAwesomeIcon
-																				icon={faPenToSquare}
-																			/>{" "}
-																			edit
-																		</p>
-																		<p
-																			onClick={() =>
-																				handelDeleteTask(
-																					task._id
-																				)
-																			}
-																		>
-																			<FontAwesomeIcon
-																				icon={faTrashCan}
-																			/>{" "}
-																			delete
-																		</p>
-																	</div>
-																</div>
-															)}
-														</div>
-													)
-												)}
-												{todoList.projectList[activeTeamId].createdBy
-													.creatorId === userId && (
-													<button
-														className="explore-btn"
-														onClick={() =>
-															setDisplayCreateTask(true)
-														}
-													>
-														Add Task
-													</button>
-												)}
-											</div>
-										) : (
-											<div id="inspire">
-												<p>
-													Without a deadline, your work is never
-													over.
-												</p>
-												<button
-													onClick={() =>
-														setDisplayCreateTask(true)
-													}
-												>
-													Add Task
-												</button>
-											</div>
-										)}
-									</aside>
-								</section>
-								<section id="goals-section">
-									{todoList.projectList[activeTeamId].goals.length > 0 ? (
-										<div>
-											<div>
-												<select
-													name=""
-													id="goals"
-													value={activeGoalId}
-													onChange={(e) =>
-														setActiveGoalId(e.target.value)
-													}
-												>
-													{todoList.projectList[
-														activeTeamId
-													].goals.map((goal, index) => (
-														<option value={index} key={index}>
-															{goal.name}
-														</option>
-													))}
-													<option value="create">
-														Add more Goal
-													</option>
-												</select>
-
-												{activeGoalId !== "create" && (
-													<p
-														style={{
-															color: `${interpolateColor(50)}`,
-														}}
-													>
-														<img
-															src={hourGlass}
-															id="rotate"
-															alt=""
-															style={{
-																width: "18px",
-																marginRight: "5px",
-															}}
-														/>
-														{deadlineConverter(
-															todoList.projectList[activeTeamId]
-																.goals[activeGoalId].deadline
-														)}
-													</p>
-												)}
-											</div>
-											{activeGoalId !== "create" ? (
+												.creatorId !== userId && (
 												<div
+													key={
+														todoList.projectList[activeTeamId]
+															.createdBy.creatorId
+													}
 													style={{
-														display: "flex",
-														justifyContent: "space-between",
+														margin: "10px",
+														padding: "10px",
+														border: "1px solid #ccc",
+														borderRadius: "5px",
+														position: "relative",
 													}}
 												>
+													<p>
+														{
+															todoList.projectList[activeTeamId]
+																.createdBy.creatorName
+														}
+													</p>
+
+													{todoList.projectList[activeTeamId]
+														.createdBy.creatorId === userId && (
+														<div
+															id="faIcon"
+															style={{
+																position: "absolute",
+																top: "-28px",
+																right: "-39px",
+															}}
+														>
+															<span>remove user</span>
+															<FontAwesomeIcon
+																icon={faXmarkCircle}
+															/>
+														</div>
+													)}
+												</div>
+											)}
+
+											{todoList.projectList[activeTeamId].allMembers
+												.filter(
+													(member) => member.userId !== userId
+												)
+												.map((user) => (
 													<div
-														id="goal"
+														key={user.userId}
 														style={{
-															display: "grid",
-															gridTemplateColumns: `repeat(${
-																todoList.projectList[activeTeamId]
-																	.goals[activeGoalId].steps
-																	.length + 2
-															},1fr)`,
+															margin: "10px",
+															padding: "10px",
+															border: "1px solid #ccc",
+															borderRadius: "5px",
+															position: "relative",
 														}}
 													>
-														<div>
-															<div>
-																<p>Started</p>
-																<FontAwesomeIcon
-																	icon={faCircle}
-																	style={{
-																		color: "#1aff66",
-																	}}
-																/>
-															</div>
-															<hr
+														<p>{user.userName}</p>
+
+														{todoList.projectList[activeTeamId]
+															.createdBy.creatorId ===
+															userId && (
+															<div
+																id="faIcon"
 																style={{
-																	backgroundColor: "#1aff66",
-																}}
-															/>
-															<p>
-																By{" "}
-																<span>
-																	{
-																		todoList.projectList[
-																			activeTeamId
-																		].goals[activeGoalId]
-																			.createdBy.creatorName
-																	}
-																</span>
-															</p>
-														</div>
-														{todoList.projectList[
-															activeTeamId
-														].goals[activeGoalId].steps.map(
-															(task, index) => {
-																let isCurrentGoal = false;
-
-																if (
-																	(index === 0 &&
-																		!task.done.isDone) ||
-																	(index > 0 &&
-																		!task.done.isDone &&
-																		todoList.projectList[
-																			activeTeamId
-																		].goals[activeGoalId]
-																			.steps[index - 1].done
-																			.isDone)
-																) {
-																	isCurrentGoal = true;
-																}
-																return (
-																	<div
-																		key={index}
-																		style={{
-																			width: "300px",
-																			height: "max-content",
-																		}}
-																	>
-																		{task.done.isDone ? (
-																			<div>
-																				<p>
-																					Done by{" "}
-																					<span>
-																						{
-																							task.done
-																								.doneBy
-																								.userName
-																						}
-																					</span>{" "}
-																					<br />
-																					at{" "}
-																					<span>
-																						{timeConverter(
-																							task.done
-																								.time
-																						)}
-																					</span>
-																				</p>
-																				<FontAwesomeIcon
-																					icon={faCircle}
-																					style={{
-																						color: "#1aff66",
-																					}}
-																				/>
-																			</div>
-																		) : isCurrentGoal ? (
-																			<div>
-																				<p>Current Goal</p>
-																				<FontAwesomeIcon
-																					icon={faCircle}
-																					style={{
-																						color: "#1aff66",
-																					}}
-																				/>
-																			</div>
-																		) : (
-																			<div>
-																				<p>Upcomming</p>
-																				<FontAwesomeIcon
-																					icon={
-																						circleRegular
-																					}
-																				/>
-																			</div>
-																		)}
-
-																		{task.done.isDone ? (
-																			<hr
-																				style={{
-																					backgroundColor:
-																						"#1aff66",
-																				}}
-																			/>
-																		) : (
-																			<hr />
-																		)}
-																		<p
-																			style={{
-																				fontSize: "20px",
-																			}}
-																		>
-																			{task.name}
-																		</p>
-
-																		{task.deadline && (
-																			<p>
-																				{task.deadline
-																					.split("T")
-																					.join(":")}
-																			</p>
-																		)}
-																		<p>{task.details}</p>
-																		{isCurrentGoal && (
-																			<button
-																				onClick={() =>
-																					updateTaskDone(
-																						task._id
-																					)
-																				}
-																				className="done-btn"
-																			>
-																				<svg
-																					xmlns="http://www.w3.org/2000/svg"
-																					fill="none"
-																					viewBox="0 0 24 24"
-																					stroke-width="1.5"
-																					stroke="currentColor"
-																					class="w-6 h-6"
-																				>
-																					<path
-																						stroke-linecap="round"
-																						stroke-linejoin="round"
-																						d="m4.5 12.75 6 6 9-13.5"
-																					/>
-																				</svg>
-
-																				<div className="text">
-																					Step complete
-																				</div>
-																			</button>
-																		)}
-																	</div>
-																);
-															}
-														)}
-														<div>
-															<div>
-																<p>
-																	{
-																		todoList.projectList[
-																			activeTeamId
-																		].goals[activeGoalId]
-																			.finalGoal
-																	}
-																</p>
-																<FontAwesomeIcon
-																	icon={faCircle}
-																	style={{
-																		color: "#1aff66",
-																	}}
-																/>
-															</div>
-															<p></p>
-														</div>
-													</div>
-													<aside id="current-goal">
-														<div>
-															<p>Goal updates</p>
-															<p
-																style={{
-																	color: `${interpolateColor(
-																		50
-																	)}`,
+																	position: "absolute",
+																	top: "-28px",
+																	right: "-39px",
 																}}
 															>
-																<img
-																	src={hourGlass}
-																	id="rotate"
-																	alt=""
-																	style={{
-																		width: "18px",
-																		marginRight: "5px",
-																	}}
+																<span>remove user</span>
+																<FontAwesomeIcon
+																	icon={faXmarkCircle}
 																/>
-																{timeLeft}
-															</p>
-														</div>
-														<div>
-															{currentGoal.task}
-															{todoList.projectList[activeTeamId]
-																.createdBy.creatorId ===
-																userId && (
-																<button
-																	className="explore-btn"
-																	onClick={() =>
-																		setDisplayAddStep(true)
-																	}
-																>
-																	Add step
-																</button>
-															)}
-														</div>
-													</aside>
-												</div>
-											) : (
-												<div id="inspire">
-													<h2>
-														No compass? Find your North Star.
-														Ignite a spark, even a tiny one, and
-														let it guide your next adventure.
-													</h2>
-													<p>
-														Life's canvas awaits your masterpiece.
-														Don't wait for grand schemes. Dip your
-														brush in curiosity, explore the hues
-														of possibility, and watch a vibrant
-														purpose emerge, one unexpected stroke
-														at a time.
-													</p>
-													<button
-														onClick={() =>
-															setDisplayCreateGoal(true)
-														}
-													>
-														Add Goal
-													</button>
-												</div>
-											)}
+															</div>
+														)}
+													</div>
+												))}
 										</div>
-									) : (
-										<div id="inspire">
-											<h2>
-												No compass? Find your North Star. Ignite a
-												spark, even a tiny one, and let it guide
-												your next adventure.
-											</h2>
-											<p>
-												Life's canvas awaits your masterpiece. Don't
-												wait for grand schemes. Dip your brush in
-												curiosity, explore the hues of possibility,
-												and watch a vibrant purpose emerge, one
-												unexpected stroke at a time.
-											</p>
-											<button
-												onClick={() => setDisplayCreateGoal(true)}
+
+										<button
+											onClick={handleNext}
+											id="next"
+											className="shine"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												strokeWidth={1.5}
+												stroke="currentColor"
+												className="w-6 h-6"
 											>
-												Add Goal
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+												/>
+											</svg>
+										</button>
+									</div>
+									{todoList.projectList[activeTeamId].createdBy
+										.creatorId === userId && (
+										<div className="addMember">
+											<div>
+												<div>
+													{emails.map((email, index) => (
+														<div
+															key={index}
+															className="email-box"
+														>
+															{email}
+															<span
+																className="delete-icon"
+																onClick={() =>
+																	handleDelete(email)
+																}
+															>
+																&#10006;
+															</span>
+														</div>
+													))}
+												</div>
+												<div
+													contentEditable
+													className="email-input"
+													onInput={handleInput}
+													suppressContentEditableWarning={true}
+												/>
+											</div>
+											<button
+												className="explore-btn"
+												style={{ height: "50px", marginTop: "0px" }}
+												onClick={addMembers}
+											>
+												Add Team member
 											</button>
 										</div>
 									)}
+								</section>
+
+								<section id="tasks">
+									<DailyTasks
+										interpolateColor={interpolateColor}
+										dailyTasks={
+											todoList.projectList[activeTeamId].dailyTasks
+										}
+										creatorId={
+											todoList.projectList[activeTeamId].createdBy
+												.creatorId
+										}
+										userId={userId}
+										notify={notify}
+										updateTaskDone={updateTaskDone}
+										handelDisplayUpdateTask={handelDisplayUpdateTask}
+										handelDeleteTask={handelDeleteTask}
+										setDisplayCreateDailyTask={
+											setDisplayCreateDailyTask
+										}
+										timeConverter={timeConverter}
+									/>
+									<Reminder
+										interpolateColor={interpolateColor}
+										reminders={
+											todoList.projectList[activeTeamId].reminders
+										}
+										creatorId={
+											todoList.projectList[activeTeamId].createdBy
+												.creatorId
+										}
+										userId={userId}
+										deadlineConverter={deadlineConverter}
+										handelDisplayUpdateTask={handelDisplayUpdateTask}
+										handelDeleteTask={handelDeleteTask}
+										setDisplayCreateReminder={
+											setDisplayCreateReminder
+										}
+									/>
+
+									<TeamUpdates
+										updates={todoList.projectList[activeTeamId].updates}
+										creatorName={
+											todoList.projectList[activeTeamId].createdBy
+												.creatorName
+										}
+										createdAt={
+											todoList.projectList[activeTeamId].createdAt
+										}
+										userId={userId}
+										formData={formData}
+										handleChange={handleChange}
+										sendMessage={sendMessage}
+										timeConverter={timeConverter}
+									/>
+								</section>
+								<section id="task-goal">
+									<Tasks
+										interpolateColor={interpolateColor}
+										tasks={todoList.projectList[activeTeamId].tasks}
+										creatorId={
+											todoList.projectList[activeTeamId].createdBy
+												.creatorId
+										}
+										userId={userId}
+										notify={notify}
+										updateTaskDone={updateTaskDone}
+										handelDisplayUpdateTask={handelDisplayUpdateTask}
+										handelDeleteTask={handelDeleteTask}
+										setDisplayCreateTask={setDisplayCreateTask}
+										timeConverter={timeConverter}
+										deadlineConverter={deadlineConverter}
+									/>
+									<Goal
+										interpolateColor={interpolateColor}
+										goals={todoList.projectList[activeTeamId].goals}
+										creatorId={
+											todoList.projectList[activeTeamId].createdBy
+												.creatorId
+										}
+										teamId={todoList.projectList[activeTeamId]._id}
+										userId={userId}
+										token={token}
+										notify={notify}
+										setTodoList={setTodoList}
+										updateTaskDone={updateTaskDone}
+										timeConverter={timeConverter}
+										deadlineConverter={deadlineConverter}
+										formData={formData}
+										setFormData={setFormData}
+										handleChange={handleChange}
+									/>
 								</section>
 							</div>
 						) : (
@@ -1696,40 +1085,77 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 				{displayCreateReminder && (
 					<div>
 						<div id="createForm">
-							<form onSubmit={handelCreateReminder}>
-								<input
-									type="text"
-									name="name"
-									autoComplete="off"
-									value={formData.name}
-									onChange={handleChange}
-									placeholder="Team Name (*)"
-								/>
-								<textarea
-									name="details"
-									value={formData.details}
-									onChange={handleChange}
-									placeholder="Team Details (optional)"
-									cols="30"
-									rows="5"
-								/>
-								<label htmlFor="deadline">Choose date & time</label>
-								<input
-									type="datetime-local"
-									name="deadline"
-									value={formData.deadline}
-									onChange={handleChange}
-								/>
-								<button type="submit">Add Reminder</button>
-								<button
-									onClick={() => {
-										setFormData(initialFormData);
-										setDisplayCreateReminder(false);
-									}}
-								>
-									Cancel
-								</button>
-							</form>
+							{formData.type === "create" ? (
+								<form onSubmit={handelCreateReminder}>
+									<input
+										type="text"
+										name="name"
+										autoComplete="off"
+										value={formData.name}
+										onChange={handleChange}
+										placeholder="Team Name (*)"
+									/>
+									<textarea
+										name="details"
+										value={formData.details}
+										onChange={handleChange}
+										placeholder="Team Details (optional)"
+										cols="30"
+										rows="5"
+									/>
+									<label htmlFor="deadline">Choose date & time</label>
+									<input
+										type="datetime-local"
+										name="deadline"
+										value={formData.deadline}
+										onChange={handleChange}
+									/>
+									<button type="submit">Add Reminder</button>
+									<button
+										onClick={() => {
+											setFormData(initialFormData);
+											setDisplayCreateReminder(false);
+										}}
+									>
+										Cancel
+									</button>
+								</form>
+							) : (
+								<form onSubmit={handelUpdateTask}>
+									<input
+										type="text"
+										name="name"
+										autoComplete="off"
+										value={formData.name}
+										onChange={handleChange}
+										placeholder="Team Name (*)"
+									/>
+									<textarea
+										name="details"
+										value={formData.details}
+										onChange={handleChange}
+										placeholder="Team Details (optional)"
+										cols="30"
+										rows="5"
+									/>
+									<label htmlFor="deadline">Choose date & time</label>
+									<input
+										type="datetime-local"
+										name="deadline"
+										value={formData.deadline}
+										onChange={handleChange}
+									/>
+									<button type="submit">Update Reminder</button>
+									<button
+										onClick={() => {
+											setFormData(initialFormData);
+											setDisplayCreateReminder(false);
+										}}
+									>
+										Cancel
+									</button>
+								</form>
+							)}
 						</div>
 					</div>
 				)}
@@ -1737,141 +1163,87 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 				{displayCreateTask && (
 					<div>
 						<div id="createForm">
-							<form onSubmit={handelCreateTask}>
-								<input
-									type="text"
-									name="name"
-									autoComplete="off"
-									value={formData.name}
-									onChange={handleChange}
-									placeholder="Team Name (*)"
-								/>
-								<textarea
-									name="details"
-									value={formData.details}
-									onChange={handleChange}
-									placeholder="Team Details (optional)"
-									cols="30"
-									rows="5"
-								/>
-								<label htmlFor="deadline">
-									Choose deadline (if any)
-								</label>
-								<input
-									type="datetime-local"
-									name="deadline"
-									value={formData.deadline}
-									onChange={handleChange}
-								/>
-								<button type="submit">Add Task</button>
-								<button
-									onClick={() => {
-										setDisplayCreateTask(false);
-										setFormData(initialFormData);
-									}}
-								>
-									Cancel
-								</button>
-							</form>
+							{formData.type === "create" ? (
+								<form onSubmit={handelCreateTask}>
+									<input
+										type="text"
+										name="name"
+										autoComplete="off"
+										value={formData.name}
+										onChange={handleChange}
+										placeholder="Team Name (*)"
+									/>
+									<textarea
+										name="details"
+										value={formData.details}
+										onChange={handleChange}
+										placeholder="Team Details (optional)"
+										cols="30"
+										rows="5"
+									/>
+									<label htmlFor="deadline">
+										Choose deadline (if any)
+									</label>
+									<input
+										type="datetime-local"
+										name="deadline"
+										value={formData.deadline}
+										onChange={handleChange}
+									/>
+									<button type="submit">Add Task</button>
+									<button
+										onClick={() => {
+											setDisplayCreateTask(false);
+											setFormData(initialFormData);
+										}}
+									>
+										Cancel
+									</button>
+								</form>
+							) : (
+								<form onSubmit={handelUpdateTask}>
+									<input
+										type="text"
+										name="name"
+										autoComplete="off"
+										value={formData.name}
+										onChange={handleChange}
+										placeholder="Team Name (*)"
+									/>
+									<textarea
+										name="details"
+										value={formData.details}
+										onChange={handleChange}
+										placeholder="Team Details (optional)"
+										cols="30"
+										rows="5"
+									/>
+
+									<label htmlFor="deadline">
+										Choose deadline (if any)
+									</label>
+									<input
+										type="datetime-local"
+										name="deadline"
+										value={formData.deadline}
+										onChange={handleChange}
+									/>
+									<button type="submit">Update Task</button>
+									<button
+										onClick={() => {
+											setDisplayCreateTask(false);
+											setFormData(initialFormData);
+										}}
+									>
+										Cancel
+									</button>
+								</form>
+							)}
 						</div>
 					</div>
 				)}
 
-				{displayCreateGoal && (
-					<div>
-						<div id="createForm">
-							<form onSubmit={handelCreateGoal}>
-								<input
-									type="text"
-									name="name"
-									autoComplete="off"
-									value={formData.name}
-									onChange={handleChange}
-									placeholder="Team Name (*)"
-								/>
-								<textarea
-									name="details"
-									value={formData.details}
-									onChange={handleChange}
-									placeholder="Team Details (optional)"
-									cols="30"
-									rows="5"
-								/>
-								<input
-									type="text"
-									name="finalGoal"
-									autoComplete="off"
-									value={formData.finalGoal}
-									onChange={handleChange}
-									placeholder="Final Goal (*)"
-								/>
-								<label htmlFor="deadline">
-									Choose deadline (if any)
-								</label>
-								<input
-									type="datetime-local"
-									name="deadline"
-									value={formData.deadline}
-									onChange={handleChange}
-								/>
-
-								<button type="submit">Add Goal</button>
-								<button
-									onClick={() => {
-										setDisplayCreateGoal(false);
-										setFormData(initialFormData);
-									}}
-								>
-									Cancel
-								</button>
-							</form>
-						</div>
-					</div>
-				)}
-
-				{displayAddStep && (
-					<div>
-						<div id="createForm">
-							<form onSubmit={handelAddStep}>
-								<input
-									type="text"
-									name="name"
-									autoComplete="off"
-									value={formData.name}
-									onChange={handleChange}
-									placeholder="Team Name (*)"
-								/>
-								<textarea
-									name="details"
-									value={formData.details}
-									onChange={handleChange}
-									placeholder="Team Details (optional)"
-									cols="30"
-									rows="5"
-								/>
-								<label htmlFor="deadline">
-									Choose deadline (if any)
-								</label>
-								<input
-									type="datetime-local"
-									name="deadline"
-									value={formData.deadline}
-									onChange={handleChange}
-								/>
-
-								<button type="submit">Add Goal</button>
-								<button
-									onClick={() => {
-										setDisplayAddStep(false);
-										setFormData(initialFormData);
-									}}
-								>
-									Cancel
-								</button>
-							</form>
-						</div>
-					</div>
-				)}
+				
 			</div>
 		</div>
 	);
