@@ -160,7 +160,7 @@ function Home() {
 			hash === "travel" ||
 			hash === "work" ||
 			hash === "project" ||
-			hash === "presonal" ||
+			hash === "personal" ||
 			hash === "hobbies"
 		) {
 			setActiveCategory(hash);

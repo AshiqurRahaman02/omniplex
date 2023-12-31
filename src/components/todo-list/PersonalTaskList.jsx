@@ -1,4 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, PureComponent } from "react";
+import {
+	BarChart,
+	Bar,
+	XAxis,
+	YAxis,
+	CartesianGrid,
+	Tooltip,
+	Legend,
+	ResponsiveContainer,
+} from "recharts";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -8,17 +18,19 @@ import {
 	faArrowRightFromBracket,
 	faUsers,
 	faLock,
+	faCirclePlus,
+	faPiggyBank,
+	faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-	faPenToSquare,
-	faXmarkCircle,
-} from "@fortawesome/free-regular-svg-icons";
+import { faComments } from "@fortawesome/free-regular-svg-icons";
 import { todoListRoutes } from "../../routes/todo-list.route";
 import DailyTasks from "./DailyTasks";
 import Reminder from "./Reminder";
 import TeamUpdates from "./TeamUpdates";
 import Tasks from "./Tasks";
 import Goal from "./Goal";
+
+const IncomeExpenseLogo = "/assets/logo/Income-Expense.svg";
 
 const gradientColors = [
 	"#ff0000",
@@ -37,6 +49,8 @@ const initialFormData = {
 	name: "",
 	details: "",
 	message: "",
+	info: "",
+	amountType: "income",
 	visibility: "onlyMe",
 	password: "",
 	type: "create",
@@ -44,11 +58,244 @@ const initialFormData = {
 	assignedTo: [],
 };
 
+const data = [
+	{
+		date: "2000-01",
+		uv: 4000,
+		pv: 2400,
+		amt: 2400,
+	},
+	{
+		date: "2000-02",
+		uv: 3000,
+		pv: 1398,
+		amt: 2210,
+	},
+	{
+		date: "2000-03",
+		uv: 2000,
+		pv: 9800,
+		amt: 2290,
+	},
+	{
+		date: "2000-04",
+		uv: 2780,
+		pv: 3908,
+		amt: 2000,
+	},
+	{
+		date: "2000-05",
+		uv: 1890,
+		pv: 4800,
+		amt: 2181,
+	},
+	{
+		date: "2000-06",
+		uv: 2390,
+		pv: 3800,
+		amt: 2500,
+	},
+	{
+		date: "2000-07",
+		uv: 3490,
+		pv: 4300,
+		amt: 2100,
+	},
+	{
+		date: "2000-08",
+		uv: 4000,
+		pv: 2400,
+		amt: 2400,
+	},
+	{
+		date: "2000-09",
+		uv: 3000,
+		pv: 1398,
+		amt: 2210,
+	},
+	{
+		date: "2000-10",
+		uv: 2000,
+		pv: 9800,
+		amt: 2290,
+	},
+	{
+		date: "2000-11",
+		uv: 2780,
+		pv: 3908,
+		amt: 2000,
+	},
+	{
+		date: "2000-12",
+		uv: 1890,
+		pv: 4800,
+		amt: 2181,
+	},
+	{
+		date: "2000-01",
+		uv: 4000,
+		pv: 2400,
+		amt: 2400,
+	},
+	{
+		date: "2000-02",
+		uv: 3000,
+		pv: 1398,
+		amt: 2210,
+	},
+	{
+		date: "2000-03",
+		uv: 2000,
+		pv: 9800,
+		amt: 2290,
+	},
+	{
+		date: "2000-04",
+		uv: 2780,
+		pv: 3908,
+		amt: 2000,
+	},
+	{
+		date: "2000-05",
+		uv: 1890,
+		pv: 4800,
+		amt: 2181,
+	},
+	{
+		date: "2000-06",
+		uv: 2390,
+		pv: 3800,
+		amt: 2500,
+	},
+	{
+		date: "2000-07",
+		uv: 3490,
+		pv: 4300,
+		amt: 2100,
+	},
+	{
+		date: "2000-08",
+		uv: 4000,
+		pv: 2400,
+		amt: 2400,
+	},
+	{
+		date: "2000-09",
+		uv: 3000,
+		pv: 1398,
+		amt: 2210,
+	},
+	{
+		date: "2000-10",
+		uv: 2000,
+		pv: 9800,
+		amt: 2290,
+	},
+	{
+		date: "2000-11",
+		uv: 2780,
+		pv: 3908,
+		amt: 2000,
+	},
+	{
+		date: "2000-12",
+		uv: 1890,
+		pv: 4800,
+		amt: 2181,
+	},
+	{
+		date: "2000-07",
+		uv: 3490,
+		pv: 4300,
+		amt: 2100,
+	},
+	{
+		date: "2000-08",
+		uv: 4000,
+		pv: 2400,
+		amt: 2400,
+	},
+	{
+		date: "2000-09",
+		uv: 3000,
+		pv: 1398,
+		amt: 2210,
+	},
+	{
+		date: "2000-10",
+		uv: 2000,
+		pv: 9800,
+		amt: 2290,
+	},
+	{
+		date: "2000-11",
+		uv: 2780,
+		pv: 3908,
+		amt: 2000,
+	},
+	{
+		date: "2000-12",
+		uv: 1890,
+		pv: 4800,
+		amt: 2181,
+	},
+	
+];
+
+console.log(data.length);
+
+const monthTickFormatter = (tick) => {
+	const date = new Date(tick);
+
+	return date.getMonth() + 1;
+};
+
+const renderQuarterTick = (tickProps) => {
+	const { x, y, payload } = tickProps;
+	const { value, offset } = payload;
+	const date = new Date(value);
+	const month = date.getMonth();
+	const quarterNo = Math.floor(month / 3) + 1;
+
+	if (month % 3 === 1) {
+		return <text x={x} y={y - 4} textAnchor="middle">{`Q${quarterNo}`}</text>;
+	}
+
+	const isLast = month === 11;
+
+	if (month % 3 === 0 || isLast) {
+		const pathX = Math.floor(isLast ? x + offset : x - offset) + 0.5;
+
+		return <path d={`M${pathX},${y - 4}v${-35}`} stroke="red" />;
+	}
+	return null;
+};
+
 function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 	const [displayCreateDailyTask, setDisplayCreateDailyTask] = useState(false);
 	const [displayCreateReminder, setDisplayCreateReminder] = useState(false);
 	const [displayCreateTask, setDisplayCreateTask] = useState(false);
 	const [formData, setFormData] = useState(initialFormData);
+
+	const [placeholderIndex, setPlaceholderIndex] = useState(0);
+	const placeholders = [
+		"Example: Shopping 2000",
+		"Example: Salary 100000",
+		"Example: Groceries 1000",
+		"Example: Freelace 5000",
+	];
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setPlaceholderIndex(
+				(prevIndex) => (prevIndex + 1) % placeholders.length
+			);
+		}, 3000);
+
+		// Clear the interval when the component unmounts
+		return () => clearInterval(intervalId);
+	}, []);
+
+	const [activeSaving, setActiveSaving] = useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -414,6 +661,16 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 		}
 	}
 
+	const allUpdatesRef = useRef();
+
+	const scrollToBottom = () => {
+		allUpdatesRef.current.scrollTop = allUpdatesRef.current.scrollHeight;
+	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [todoList]);
+
 	const usersContainerRef = useRef(null);
 	const handlePrev = () => {
 		usersContainerRef.current.scrollLeft -=
@@ -423,64 +680,6 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 	const handleNext = () => {
 		usersContainerRef.current.scrollLeft +=
 			usersContainerRef.current.offsetWidth;
-	};
-
-	const [emails, setEmails] = useState([]);
-
-	const handleInput = (event) => {
-		const text = event.target.innerText;
-		const extractedEmails = getEmails(text);
-		setEmails(extractedEmails);
-	};
-
-	const getEmails = (text) => {
-		const emailPattern = /\S+@\S+\.\S+/g;
-		return text.match(emailPattern) || [];
-	};
-
-	const handleDelete = (email) => {
-		const filteredEmails = emails.filter((e) => e !== email);
-		setEmails(filteredEmails);
-	};
-
-	const addMembers = () => {
-		confirmAlert({
-			title: "Confirm to add",
-			message: "Are you sure to do this.",
-			buttons: [
-				{
-					label: "Confirm",
-					onClick: () => {
-						let teamId = todoList.personalList._id;
-
-						fetch(`${todoListRoutes.addMembers}${teamId}`, {
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
-								Authorization: token,
-							},
-							body: JSON.stringify({ membersEmails: emails }),
-						})
-							.then((res) => res.json())
-							.then((res) => {
-								if (res.isError) {
-									notify(res.message, "warning");
-								} else {
-									notify(res.message, "success");
-									setTodoList(res.todoList);
-								}
-							})
-							.catch((err) => {
-								console.log(err);
-								notify(err.message, "error");
-							});
-					},
-				},
-				{
-					label: "Cancel",
-				},
-			],
-		});
 	};
 
 	const sendMessage = () => {
@@ -514,12 +713,388 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 			});
 	};
 
+	const parseText = (text) => {
+		const words = text.match(/[a-zA-Z]+/g);
+		const numbers = text.match(/\d+/g);
+
+		if (words && numbers) {
+			const word = words.join(" ");
+
+			return [word, Math.max(...numbers)];
+		}
+
+		// Return null or handle the case where there's no word or number
+		return null;
+	};
+	const addIncomeExpense = () => {
+		if (!formData.info) {
+			notify("Information required*", "warning");
+			return;
+		}
+
+		let info = parseText(formData.info);
+		if (!info) {
+			notify("Please Follow the instructions...", "warning");
+			return;
+		}
+		let spends = [
+			{
+				amount: info[1],
+				amountType: formData.amountType,
+				usedFor: info[0],
+				time: new Date().toISOString(),
+			},
+		];
+
+		let teamId = todoList.personalList._id;
+
+		fetch(`${todoListRoutes.addSpendToFinancial}${teamId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify({ spends }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todoList);
+					setFormData(initialFormData);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
+	const addSaving = () => {
+		if (!formData.info) {
+			notify("Information required*", "warning");
+			return;
+		}
+
+		let info = parseText(formData.info);
+		if (!info) {
+			notify("Please Follow the instructions...", "warning");
+			return;
+		}
+		let savings = [
+			{
+				amount: info[1],
+				amountType: formData.amountType,
+				usedFor: info[0],
+				time: new Date().toISOString(),
+			},
+		];
+
+		let teamId = todoList.personalList._id;
+
+		fetch(`${todoListRoutes.addSavingToFinancial}${teamId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify({ savings }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todoList);
+					setFormData(initialFormData);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
 	return (
 		<div id="category">
 			<div>
 				{todoList.personalList ? (
 					<div>
-            <section></section>
+						<section></section>
+						<section id="financial">
+							<div
+								style={{
+									justifyContent: "space-between",
+									marginLeft: "20px",
+									marginRight: "20px",
+								}}
+							>
+								<h1>
+									{todoList.personalList.createdBy.creatorName}'s
+									Financial Tracks
+								</h1>
+								{todoList.personalList.financialsPlans && (
+									<div style={{ display: "flex", gap: "20px" }}>
+										<p>
+											{
+												todoList.personalList.financialsPlans
+													.totalSaving
+											}
+										</p>
+										<p>
+											{todoList.personalList.financialsPlans.budget}
+										</p>
+									</div>
+								)}
+							</div>
+							{todoList.personalList.financialsPlans && (
+								<div>
+									<aside>
+										<div>
+											<p>Last 30 day's record</p>
+										</div>
+										<div id="track">
+											<BarChart
+												width={800}
+												height={300}
+												data={data}
+												margin={{
+													top: 5,
+													right: 30,
+													left: 20,
+													bottom: 5,
+												}}
+											>
+												<CartesianGrid strokeDasharray="3 3" />
+												<XAxis
+													dataKey="date"
+													tickFormatter={monthTickFormatter}
+												/>
+												<XAxis
+													dataKey="date"
+													axisLine={false}
+													tickLine={false}
+													interval={0}
+													
+													height={1}
+													scale="band"
+													xAxisId="quarter"
+												/>
+												<YAxis />
+												<Tooltip />
+												<Legend />
+												<Bar dataKey="uv" fill="#5584d8" />
+												<Bar dataKey="pv" fill="#8884d8" />
+												<Bar dataKey="amt" fill="#82ca9d" />
+											</BarChart>
+										</div>
+									</aside>
+									{activeSaving ? (
+										<aside id="record">
+											<div>
+												<p>Savings record</p>
+
+												<div id="faIcon">
+													<img
+														src={IncomeExpenseLogo}
+														alt=""
+														onClick={() => setActiveSaving(false)}
+														style={{
+															width: "50px",
+															position: "relative",
+															top: "-10px",
+															left: "10px",
+														}}
+													/>
+												</div>
+											</div>
+											<main ref={allUpdatesRef}>
+												{todoList.personalList.financialsPlans
+													.savings.length > 0 &&
+													todoList.personalList.financialsPlans.savings.map(
+														(saving) => {
+															return (
+																<div>
+																	<p>{saving.date}</p>
+																	{saving.allSavings.map((s) =>
+																		s.amountType ===
+																		"income" ? (
+																			<div>
+																				<p>
+																					{s.usedFor}{" "}
+																					{s.amount}
+																				</p>
+																				<p></p>
+																				<span>
+																					{s.time}
+																				</span>
+																			</div>
+																		) : (
+																			<div id="own-update">
+																				<p>
+																					{s.usedFor}{" "}
+																					{s.amount}
+																				</p>
+																				<p></p>
+																				<span>
+																					{s.time}
+																				</span>
+																			</div>
+																		)
+																	)}
+																</div>
+															);
+														}
+													)}
+											</main>
+
+											<div>
+												<p>
+													<label>
+														<input
+															type="radio"
+															name="amountType"
+															value="income"
+															checked={
+																formData.amountType === "income"
+															}
+															onChange={handleChange}
+														/>
+														Credit
+													</label>
+													<label>
+														<input
+															type="radio"
+															name="amountType"
+															value="expense"
+															checked={
+																formData.amountType ===
+																"expense"
+															}
+															onChange={handleChange}
+														/>
+														Debit
+													</label>
+												</p>
+												<input
+													type="text"
+													name="info"
+													value={formData.info}
+													onChange={handleChange}
+													placeholder={
+														placeholders[placeholderIndex]
+													}
+												/>
+												<div id="faIcon" onClick={addSaving}>
+													<FontAwesomeIcon
+														icon={faCirclePlus}
+														size="xl"
+													/>
+													<span>Add</span>
+												</div>
+											</div>
+										</aside>
+									) : (
+										<aside id="record">
+											<div>
+												<p>Income-Expense record</p>
+												<div
+													id="faIcon"
+													onClick={() => setActiveSaving(true)}
+												>
+													<FontAwesomeIcon icon={faPiggyBank} />
+												</div>
+											</div>
+											<main ref={allUpdatesRef}>
+												{todoList.personalList.financialsPlans
+													.spends.length > 0 &&
+													todoList.personalList.financialsPlans.spends.map(
+														(spends) => {
+															return (
+																<div>
+																	<p>{spends.date}</p>
+																	{spends.allSpends.map((s) =>
+																		s.amountType ===
+																		"income" ? (
+																			<div>
+																				<p>
+																					{s.usedFor}{" "}
+																					{s.amount}
+																				</p>
+																				<p></p>
+																				<span>
+																					{s.time}
+																				</span>
+																			</div>
+																		) : (
+																			<div id="own-update">
+																				<p>
+																					{s.usedFor}{" "}
+																					{s.amount}
+																				</p>
+																				<p></p>
+																				<span>
+																					{s.time}
+																				</span>
+																			</div>
+																		)
+																	)}
+																</div>
+															);
+														}
+													)}
+											</main>
+											<div>
+												<p>
+													<label>
+														<input
+															type="radio"
+															name="amountType"
+															value="income"
+															checked={
+																formData.amountType === "income"
+															}
+															onChange={handleChange}
+														/>
+														Income
+													</label>
+													<label>
+														<input
+															type="radio"
+															name="amountType"
+															value="expense"
+															checked={
+																formData.amountType ===
+																"expense"
+															}
+															onChange={handleChange}
+														/>
+														Expense
+													</label>
+												</p>
+												<input
+													type="text"
+													name="info"
+													value={formData.info}
+													onChange={handleChange}
+													placeholder={
+														placeholders[placeholderIndex]
+													}
+												/>
+												<div id="faIcon" onClick={addIncomeExpense}>
+													<FontAwesomeIcon
+														icon={faCirclePlus}
+														size="xl"
+													/>
+													<span>Add</span>
+												</div>
+											</div>
+										</aside>
+									)}
+								</div>
+							)}
+						</section>
 						<section id="tasks">
 							<DailyTasks
 								interpolateColor={interpolateColor}
@@ -549,7 +1124,7 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 								creatorName={
 									todoList.personalList.createdBy.creatorName
 								}
-                text="Personal Diary"
+								text="Personal Diary"
 								createdAt={todoList.personalList.createdAt}
 								userId={userId}
 								formData={formData}
