@@ -15,7 +15,7 @@ export const todoListRoutes = {
     createTask: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/task/createTask/`,
     createGoal: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/goal/createTask/`,
     addStepsToGoal: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/goal/addSteps/`,
-    createHabit: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/habit/createHabit/`,
+    addHabit: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/habit/createHabit/`,
     addSpendToFinancial: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/financial/addSpend/`,
     addSavingToFinancial: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/financial/addSaving/`,
     updateTeam: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/team/update/`,

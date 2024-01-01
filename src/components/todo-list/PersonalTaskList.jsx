@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, PureComponent } from "react";
+import { SketchPicker, ChromePicker, GithubPicker } from "react-color";
 import {
 	BarChart,
 	Bar,
@@ -9,6 +10,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from "recharts";
+
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -18,9 +20,14 @@ import {
 	faArrowRightFromBracket,
 	faUsers,
 	faLock,
+	faEllipsisVertical,
 	faCirclePlus,
 	faPiggyBank,
+	faArrowRightArrowLeft,
 	faPaperPlane,
+	faStairs,
+	faXmark,
+	faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { faComments } from "@fortawesome/free-regular-svg-icons";
 import { todoListRoutes } from "../../routes/todo-list.route";
@@ -58,196 +65,10 @@ const initialFormData = {
 	assignedTo: [],
 };
 
-const data = [
-	{
-		date: "2000-01",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		date: "2000-02",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		date: "2000-03",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		date: "2000-04",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		date: "2000-05",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	{
-		date: "2000-06",
-		uv: 2390,
-		pv: 3800,
-		amt: 2500,
-	},
-	{
-		date: "2000-07",
-		uv: 3490,
-		pv: 4300,
-		amt: 2100,
-	},
-	{
-		date: "2000-08",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		date: "2000-09",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		date: "2000-10",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		date: "2000-11",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		date: "2000-12",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	{
-		date: "2000-01",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		date: "2000-02",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		date: "2000-03",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		date: "2000-04",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		date: "2000-05",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	{
-		date: "2000-06",
-		uv: 2390,
-		pv: 3800,
-		amt: 2500,
-	},
-	{
-		date: "2000-07",
-		uv: 3490,
-		pv: 4300,
-		amt: 2100,
-	},
-	{
-		date: "2000-08",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		date: "2000-09",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		date: "2000-10",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		date: "2000-11",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		date: "2000-12",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	{
-		date: "2000-07",
-		uv: 3490,
-		pv: 4300,
-		amt: 2100,
-	},
-	{
-		date: "2000-08",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		date: "2000-09",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		date: "2000-10",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		date: "2000-11",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		date: "2000-12",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	
-];
-
-console.log(data.length);
-
-const monthTickFormatter = (tick) => {
+const dateTickFormatter = (tick) => {
 	const date = new Date(tick);
 
-	return date.getMonth() + 1;
+	return date.getDate();
 };
 
 const renderQuarterTick = (tickProps) => {
@@ -276,6 +97,8 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 	const [displayCreateReminder, setDisplayCreateReminder] = useState(false);
 	const [displayCreateTask, setDisplayCreateTask] = useState(false);
 	const [formData, setFormData] = useState(initialFormData);
+	const [addHabit, setAddHabit] = useState(false);
+	const [currentColor, setCurrentColor] = useState("#FFFFFF");
 
 	const [placeholderIndex, setPlaceholderIndex] = useState(0);
 	const placeholders = [
@@ -291,11 +114,12 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 			);
 		}, 3000);
 
-		// Clear the interval when the component unmounts
 		return () => clearInterval(intervalId);
 	}, []);
 
 	const [activeSaving, setActiveSaving] = useState(false);
+	const [recordData, setRecordData] = useState([]);
+	const [total, setTotal] = useState([0, 0]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -669,18 +493,65 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 
 	useEffect(() => {
 		scrollToBottom();
+
+		let incomeExpense = todoList.personalList.financialsPlans.spends;
+		let savings = todoList.personalList.financialsPlans.savings;
+
+		let totalIncomeExpense = 0;
+		let totalSavings = 0;
+
+		const currentDate = new Date();
+		const last30Days = Array.from({ length: 30 }, (_, index) => {
+			const date = new Date();
+			date.setDate(currentDate.getDate() - index);
+			return date.toISOString().split("T")[0];
+		});
+
+		const recordData = last30Days.map((date) => ({
+			date,
+			income: 0,
+			expense: 0,
+			credit: 0,
+			debit: 0,
+		}));
+
+		incomeExpense.forEach((entry) => {
+			const dateIndex = recordData.findIndex(
+				(record) => record.date === entry.date
+			);
+			if (dateIndex !== -1) {
+				entry.allSpends.forEach((spend) => {
+					if (spend.amountType === "income") {
+						recordData[dateIndex].income += parseFloat(spend.amount);
+						totalIncomeExpense += parseFloat(spend.amount);
+					} else if (spend.amountType === "expense") {
+						recordData[dateIndex].expense += parseFloat(spend.amount);
+						totalIncomeExpense -= parseFloat(spend.amount);
+					}
+				});
+			}
+		});
+
+		savings.forEach((entry) => {
+			const dateIndex = recordData.findIndex(
+				(record) => record.date === entry.date
+			);
+			if (dateIndex !== -1) {
+				entry.allSavings.forEach((saving) => {
+					if (saving.amountType === "income") {
+						recordData[dateIndex].credit += parseFloat(saving.amount);
+						totalSavings += parseFloat(saving.amount);
+					} else if (saving.amountType === "expense") {
+						recordData[dateIndex].debit += parseFloat(saving.amount);
+						totalSavings -= parseFloat(saving.amount);
+					}
+				});
+			}
+		});
+
+		setRecordData(recordData.reverse());
+		setTotal([totalIncomeExpense, totalSavings]);
 	}, [todoList]);
-
-	const usersContainerRef = useRef(null);
-	const handlePrev = () => {
-		usersContainerRef.current.scrollLeft -=
-			usersContainerRef.current.offsetWidth;
-	};
-
-	const handleNext = () => {
-		usersContainerRef.current.scrollLeft +=
-			usersContainerRef.current.offsetWidth;
-	};
 
 	const sendMessage = () => {
 		if (!formData.message) {
@@ -737,14 +608,12 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 			notify("Please Follow the instructions...", "warning");
 			return;
 		}
-		let spends = [
-			{
-				amount: info[1],
-				amountType: formData.amountType,
-				usedFor: info[0],
-				time: new Date().toISOString(),
-			},
-		];
+		let spend = {
+			amount: info[1],
+			amountType: formData.amountType,
+			usedFor: info[0],
+			time: new Date().toISOString(),
+		};
 
 		let teamId = todoList.personalList._id;
 
@@ -754,7 +623,7 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 				"Content-Type": "application/json",
 				Authorization: token,
 			},
-			body: JSON.stringify({ spends }),
+			body: JSON.stringify({ spend }),
 		})
 			.then((res) => res.json())
 			.then((res) => {
@@ -782,14 +651,12 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 			notify("Please Follow the instructions...", "warning");
 			return;
 		}
-		let savings = [
-			{
-				amount: info[1],
-				amountType: formData.amountType,
-				usedFor: info[0],
-				time: new Date().toISOString(),
-			},
-		];
+		let saving = {
+			amount: info[1],
+			amountType: formData.amountType,
+			usedFor: info[0],
+			time: new Date().toISOString(),
+		};
 
 		let teamId = todoList.personalList._id;
 
@@ -799,7 +666,7 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 				"Content-Type": "application/json",
 				Authorization: token,
 			},
-			body: JSON.stringify({ savings }),
+			body: JSON.stringify({ saving }),
 		})
 			.then((res) => res.json())
 			.then((res) => {
@@ -807,6 +674,53 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 					notify(res.message, "warning");
 				} else {
 					setTodoList(res.todoList);
+					setFormData(initialFormData);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
+	const handelAddHabit = () => {
+		if (!formData.name) {
+			notify("Please add habit name*", "warning");
+			return;
+		}
+
+		if (currentColor === "#FFFFFF" || currentColor === "#000000") {
+			notify(
+				"Please choose different color for better experience*",
+				"warning"
+			);
+			return;
+		}
+
+		const habit = {
+			name: formData.name,
+			color: currentColor,
+			tracks: [],
+		};
+
+		let teamId = todoList.personalList._id;
+
+		fetch(`${todoListRoutes.addHabit}${teamId}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify({ habit }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					notify(res.message, "success");
+					setTodoList(res.todoList);
+					setAddHabit(false);
 					setFormData(initialFormData);
 				}
 			})
@@ -828,6 +742,208 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 									justifyContent: "space-between",
 									marginLeft: "20px",
 									marginRight: "20px",
+									padding: "10px",
+									flexWrap: "wrap",
+									fontSize: "25px",
+								}}
+							>
+								<h1>
+									{todoList.personalList.createdBy.creatorName}'s Habit
+									Tracks
+								</h1>
+							</div>
+							{todoList.personalList.financialsPlans && (
+								<div>
+									<aside id="record">
+										<div>
+											<p>All habits</p>
+											{todoList.personalList.habits.length > 0 &&
+											!addHabit ? (
+												<div id="faIcon">
+													<FontAwesomeIcon icon={faStairs} />
+													<span>Keep Going</span>
+												</div>
+											) : (
+												<div
+													id="faIcon"
+													onClick={() => setAddHabit(false)}
+												>
+													<FontAwesomeIcon icon={faXmark} />
+													<span>Cancel</span>
+												</div>
+											)}
+										</div>
+										<div id="habit">
+											{todoList.personalList.habits.length > 0 &&
+											!addHabit ? (
+												todoList.personalList.habits.map(
+													(habit, index) => {
+														return (
+															<div key={index}>
+																<div>
+																	<p>{habit.name} </p>
+																</div>
+																<div>
+																<p>
+																			<FontAwesomeIcon
+																				icon={faPenToSquare}
+																			/>{" "}
+																		</p>
+																		<p>
+																			<FontAwesomeIcon
+																				icon={faTrash}
+																			/>{" "}
+																		</p>
+																</div>
+															</div>
+														);
+													}
+												)
+											) : (
+												<div>
+													<input
+														type="text"
+														name="name"
+														autoComplete="off"
+														value={formData.name}
+														onChange={handleChange}
+														placeholder="Habit Name (*)"
+														style={{
+															width: "100%",
+															height: "40px",
+															paddingLeft: "10px",
+															fontSize: "18px",
+															border: `5px solid ${currentColor}`,
+														}}
+													/>
+													<br />
+													<label
+														htmlFor=""
+														style={{ fontSize: "18px" }}
+													>
+														Choose color
+													</label>
+													<ChromePicker
+														color={currentColor}
+														onChange={(e) =>
+															setCurrentColor(e.hex)
+														}
+													/>
+												</div>
+											)}
+										</div>
+										<div>
+											{todoList.personalList.habits.length > 0 &&
+											!addHabit ? (
+												<button
+													onClick={() => setAddHabit(true)}
+													className="explore-btn"
+													style={{
+														height: "50px",
+														marginTop: "0px",
+													}}
+												>
+													Add more habit
+												</button>
+											) : (
+												<button
+													onClick={handelAddHabit}
+													className="explore-btn"
+													style={{
+														height: "50px",
+														marginTop: "0px",
+													}}
+												>
+													Add habit
+												</button>
+											)}
+										</div>
+									</aside>
+									<aside>
+										<div>
+											<p>Last 30 day's record</p>
+											<div
+												style={{
+													display: "flex",
+													gap: "20px",
+													alignItems: "center",
+												}}
+											>
+												<p
+													style={{
+														display: "flex",
+														alignItems: "center",
+														color: total[0] > 0 ? "green" : "red",
+													}}
+												>
+													<div id="faIcon">
+														<FontAwesomeIcon
+															icon={faArrowRightArrowLeft}
+															rotation={90}
+														/>
+														<span>In-out</span>
+													</div>
+
+													{total[0]}
+												</p>
+												<p
+													style={{
+														display: "flex",
+														alignItems: "center",
+														color: total[0] > 0 ? "green" : "red",
+													}}
+												>
+													<div id="faIcon">
+														<FontAwesomeIcon icon={faPiggyBank} />
+														<span>Saving</span>
+													</div>
+
+													{total[1]}
+												</p>
+											</div>
+										</div>
+										<div id="track">
+											<BarChart
+												width={850}
+												height={350}
+												data={recordData}
+												margin={{
+													top: 5,
+													left: -15,
+													bottom: 5,
+												}}
+											>
+												<CartesianGrid
+													strokeDasharray={3}
+													vertical={false}
+												/>
+												<XAxis
+													dataKey="date"
+													tickFormatter={dateTickFormatter}
+												/>
+
+												<YAxis />
+												<Tooltip />
+												<Legend />
+												<Bar dataKey="income" fill="#13B600" />
+												<Bar dataKey="expense" fill="#D50000" />
+												<Bar dataKey="credit" fill="#5AFE47" />
+												<Bar dataKey="debit" fill="#FF2D2D" />
+											</BarChart>
+										</div>
+									</aside>
+								</div>
+							)}
+						</section>
+						<section id="financial">
+							<div
+								style={{
+									justifyContent: "space-between",
+									marginLeft: "20px",
+									marginRight: "20px",
+									padding: "10px",
+									flexWrap: "wrap",
+									fontSize: "25px",
 								}}
 							>
 								<h1>
@@ -835,15 +951,54 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 									Financial Tracks
 								</h1>
 								{todoList.personalList.financialsPlans && (
-									<div style={{ display: "flex", gap: "20px" }}>
-										<p>
+									<div
+										style={{
+											display: "flex",
+											gap: "20px",
+											alignItems: "center",
+										}}
+									>
+										<p
+											style={{
+												display: "flex",
+												alignItems: "center",
+												color:
+													todoList.personalList.financialsPlans
+														.budget > 0
+														? "green"
+														: "red",
+											}}
+										>
+											<div id="faIcon">
+												<FontAwesomeIcon
+													icon={faArrowRightArrowLeft}
+													rotation={90}
+												/>
+												<span>Budget</span>
+											</div>
+
+											{todoList.personalList.financialsPlans.budget}
+										</p>
+										<p
+											style={{
+												display: "flex",
+												alignItems: "center",
+												color:
+													todoList.personalList.financialsPlans
+														.totalSaving > 0
+														? "green"
+														: "red",
+											}}
+										>
+											<div id="faIcon">
+												<FontAwesomeIcon icon={faPiggyBank} />
+												<span>Saving</span>
+											</div>
+
 											{
 												todoList.personalList.financialsPlans
 													.totalSaving
 											}
-										</p>
-										<p>
-											{todoList.personalList.financialsPlans.budget}
 										</p>
 									</div>
 								)}
@@ -853,40 +1008,73 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 									<aside>
 										<div>
 											<p>Last 30 day's record</p>
+											<div
+												style={{
+													display: "flex",
+													gap: "20px",
+													alignItems: "center",
+												}}
+											>
+												<p
+													style={{
+														display: "flex",
+														alignItems: "center",
+														color: total[0] > 0 ? "green" : "red",
+													}}
+												>
+													<div id="faIcon">
+														<FontAwesomeIcon
+															icon={faArrowRightArrowLeft}
+															rotation={90}
+														/>
+														<span>In-out</span>
+													</div>
+
+													{total[0]}
+												</p>
+												<p
+													style={{
+														display: "flex",
+														alignItems: "center",
+														color: total[0] > 0 ? "green" : "red",
+													}}
+												>
+													<div id="faIcon">
+														<FontAwesomeIcon icon={faPiggyBank} />
+														<span>Saving</span>
+													</div>
+
+													{total[1]}
+												</p>
+											</div>
 										</div>
 										<div id="track">
 											<BarChart
-												width={800}
-												height={300}
-												data={data}
+												width={850}
+												height={350}
+												data={recordData}
 												margin={{
 													top: 5,
-													right: 30,
-													left: 20,
+													left: -15,
 													bottom: 5,
 												}}
 											>
-												<CartesianGrid strokeDasharray="3 3" />
-												<XAxis
-													dataKey="date"
-													tickFormatter={monthTickFormatter}
+												<CartesianGrid
+													strokeDasharray={3}
+													vertical={false}
 												/>
 												<XAxis
 													dataKey="date"
-													axisLine={false}
-													tickLine={false}
-													interval={0}
-													
-													height={1}
-													scale="band"
-													xAxisId="quarter"
+													tickFormatter={dateTickFormatter}
 												/>
+
 												<YAxis />
 												<Tooltip />
 												<Legend />
-												<Bar dataKey="uv" fill="#5584d8" />
-												<Bar dataKey="pv" fill="#8884d8" />
-												<Bar dataKey="amt" fill="#82ca9d" />
+												<Bar dataKey="income" fill="#13B600" />
+												<Bar dataKey="expense" fill="#D50000" />
+												<Bar dataKey="credit" fill="#5AFE47" />
+												<Bar dataKey="debit" fill="#FF2D2D" />
 											</BarChart>
 										</div>
 									</aside>
@@ -895,17 +1083,13 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 											<div>
 												<p>Savings record</p>
 
-												<div id="faIcon">
-													<img
-														src={IncomeExpenseLogo}
-														alt=""
-														onClick={() => setActiveSaving(false)}
-														style={{
-															width: "50px",
-															position: "relative",
-															top: "-10px",
-															left: "10px",
-														}}
+												<div
+													id="faIcon"
+													onClick={() => setActiveSaving(false)}
+												>
+													<FontAwesomeIcon
+														icon={faArrowRightArrowLeft}
+														rotation={90}
 													/>
 												</div>
 											</div>
@@ -927,7 +1111,9 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 																				</p>
 																				<p></p>
 																				<span>
-																					{s.time}
+																					{timeConverter(
+																						s.time
+																					)}
 																				</span>
 																			</div>
 																		) : (
@@ -938,7 +1124,9 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 																				</p>
 																				<p></p>
 																				<span>
-																					{s.time}
+																					{timeConverter(
+																						s.time
+																					)}
 																				</span>
 																			</div>
 																		)
@@ -1024,7 +1212,9 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 																				</p>
 																				<p></p>
 																				<span>
-																					{s.time}
+																					{timeConverter(
+																						s.time
+																					)}
 																				</span>
 																			</div>
 																		) : (
@@ -1035,7 +1225,9 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 																				</p>
 																				<p></p>
 																				<span>
-																					{s.time}
+																					{timeConverter(
+																						s.time
+																					)}
 																				</span>
 																			</div>
 																		)
@@ -1352,7 +1544,7 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 										rows="5"
 									/>
 									<label htmlFor="deadline">
-										Choose deadline (if any)
+										Choose a deadline (if any)
 									</label>
 									<input
 										type="datetime-local"
@@ -1390,7 +1582,7 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 									/>
 
 									<label htmlFor="deadline">
-										Choose deadline (if any)
+										Choose a deadline (if any)
 									</label>
 									<input
 										type="datetime-local"

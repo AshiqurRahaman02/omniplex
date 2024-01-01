@@ -827,3 +827,16 @@
 	right: 3px;
 }
 
+#habit{
+	min-height: 250px;
+	max-height: 350px;
+	overflow: scroll;
+	padding: 10px;
+}
+#habit>div{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 18px;
+	padding: 5px;
+}
