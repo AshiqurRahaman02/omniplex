@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 
 import "../../styles/todo-list.css";
 
@@ -16,7 +16,6 @@ import HobbiesList from "../../components/todo-list/HobbiesList";
 import { styled } from "@mui/material/styles";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { signal } from "@preact/signals-react";
 
 import { ToastContainer, toast } from "react-toastify";
 import { todoListRoutes } from "../../routes/todo-list.route";
@@ -119,8 +118,6 @@ const TravelSwitch = styled(Switch)(({ theme }) => ({
 	},
 }));
 
-
-
 const sampleUserDetails = {
 	_id: "asdfasdf",
 	name: "Ashik",
@@ -143,7 +140,6 @@ scrolToTop();
 function Home() {
 	const navigate = useNavigate();
 
-	const [totalNotifications, setTotolNotifications] = useState(0);
 	const [isTraveling, setIsTraveling] = useState(false);
 	const [quote, setQuote] = useState("YOU'LL SEE IT WHEN YOU BELIEVE IT.");
 
@@ -228,10 +224,13 @@ function Home() {
 		setActiveCategory(linkId);
 	};
 
-	const handelReadNotification = async(time)=>{
+	const handelReadNotification = async (time) => {
 		console.log(time);
-		await fetch(`${todoListRoutes.markNotificationAsRead}${time}`,{method: "PUT", headers: {'Content-Type': 'application/json', Authorization: token}})
-	}
+		await fetch(`${todoListRoutes.markNotificationAsRead}${time}`, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json", Authorization: token },
+		});
+	};
 	return (
 		<div>
 			<Nav />
@@ -251,7 +250,14 @@ function Home() {
 											{todoList.notifications.map(
 												(notification, index) => {
 													return (
-														<div key={index} onClick={()=>handelReadNotification(notification.time)}>
+														<div
+															key={index}
+															onClick={() =>
+																handelReadNotification(
+																	notification.time
+																)
+															}
+														>
 															<p
 																style={{
 																	display: "flex",
@@ -293,7 +299,16 @@ function Home() {
 							</div>
 						)}
 						<FormControlLabel
-							onClick={() => setIsTraveling((pre) => !pre)}
+							onClick={() => {
+								setIsTraveling((pre) => !pre);
+								if(activeCategory === "work" || activeCategory === "project"){
+									window.location.hash = "#travel"
+									setActiveCategory("travel")
+								}else if(activeCategory === "travel"){
+									window.location.hash = "#work"
+									setActiveCategory("work")
+								}
+							}}
 							control={
 								isTraveling ? (
 									<TravelSwitch defaultChecked />
@@ -308,11 +323,15 @@ function Home() {
 				</nav>
 				<section id="notes-section">
 					<h2 style={{ margin: "5px 20px" }}>Notes:</h2>
-					{todoList && <Notes todoList={todoList}
-								setTodoList={setTodoList}
-								token={token}
-								notify={notify}
-								userId={userDetails._id}/>}
+					{todoList && (
+						<Notes
+							todoList={todoList}
+							setTodoList={setTodoList}
+							token={token}
+							notify={notify}
+							userId={userDetails._id}
+						/>
+					)}
 				</section>
 				<section id="categories">
 					{isTraveling ? (
@@ -370,35 +389,35 @@ function Home() {
 					<section>
 						{activeCategory === "project" ? (
 							<ProjectList
-							todoList={todoList}
-							setTodoList={setTodoList}
-							token={token}
-							notify={notify}
-							userId={userDetails._id}
+								todoList={todoList}
+								setTodoList={setTodoList}
+								token={token}
+								notify={notify}
+								userId={userDetails._id}
 							/>
 						) : activeCategory === "travel" ? (
 							<TravelList
-							todoList={todoList}
-							setTodoList={setTodoList}
-							token={token}
-							notify={notify}
-							userId={userDetails._id}
+								todoList={todoList}
+								setTodoList={setTodoList}
+								token={token}
+								notify={notify}
+								userId={userDetails._id}
 							/>
 						) : activeCategory === "personal" ? (
 							<PersonalTaskList
-							todoList={todoList}
-							setTodoList={setTodoList}
-							token={token}
-							notify={notify}
-							userId={userDetails._id}
+								todoList={todoList}
+								setTodoList={setTodoList}
+								token={token}
+								notify={notify}
+								userId={userDetails._id}
 							/>
 						) : activeCategory === "hobbies" ? (
 							<HobbiesList
-							todoList={todoList}
-							setTodoList={setTodoList}
-							token={token}
-							notify={notify}
-							userId={userDetails._id}
+								todoList={todoList}
+								setTodoList={setTodoList}
+								token={token}
+								notify={notify}
+								userId={userDetails._id}
 							/>
 						) : (
 							<WorkList
