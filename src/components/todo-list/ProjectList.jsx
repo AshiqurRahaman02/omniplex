@@ -562,6 +562,48 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 			});
 	};
 
+	const deleteTeam = ()=>{
+
+		confirmAlert({
+				title: "Confirm to delete Team",
+				message: "Are you sure to do this.",
+				buttons: [
+					{
+						label: "Confirm",
+						onClick: () => {
+							let teamId = todoList.projectList[activeTeamId]._id;
+	
+							fetch(`${todoListRoutes.deleteTeam}${teamId}`, {
+								method: "DELETE",
+								headers: {
+									"Content-Type": "application/json",
+									Authorization: token,
+								},
+								body: JSON.stringify({ membersEmails: emails }),
+							})
+								.then((res) => res.json())
+								.then((res) => {
+									if (res.isError) {
+										notify(res.message, "warning");
+									} else {
+										notify(res.message, "success");
+										setTodoList(res.todoList);
+										setActiveTeamId(0)
+									}
+								})
+								.catch((err) => {
+									console.log(err);
+									notify(err.message, "error");
+								});
+						},
+					},
+					{
+						label: "Cancel",
+					},
+				],
+			});
+	  }
+
 	return (
 		<div id="category">
 			<div>
@@ -618,7 +660,7 @@ function ProjectList({ todoList, setTodoList, token, userId, notify }) {
 										<FontAwesomeIcon icon={faPenToSquare} size="xl" />{" "}
 										<span>Edit Team</span>
 									</div>
-									<div id="faIcon">
+									<div id="faIcon" onClick={deleteTeam}>
 										<FontAwesomeIcon icon={faTrash} size="xl" />{" "}
 										<span>Delete Team</span>
 									</div>

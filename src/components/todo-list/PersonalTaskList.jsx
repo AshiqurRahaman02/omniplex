@@ -9,6 +9,8 @@ import {
 	Tooltip,
 	Legend,
 	ResponsiveContainer,
+	LineChart,
+	Line,
 } from "recharts";
 
 import { confirmAlert } from "react-confirm-alert";
@@ -28,8 +30,13 @@ import {
 	faStairs,
 	faXmark,
 	faPenToSquare,
+	faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
-import { faComments } from "@fortawesome/free-regular-svg-icons";
+import {
+	faCirclePlay,
+	faCircleStop,
+	faComments,
+} from "@fortawesome/free-regular-svg-icons";
 import { todoListRoutes } from "../../routes/todo-list.route";
 import DailyTasks from "./DailyTasks";
 import Reminder from "./Reminder";
@@ -68,7 +75,7 @@ const initialFormData = {
 const dateTickFormatter = (tick) => {
 	const date = new Date(tick);
 
-	return date.getDate();
+	return `${date.getDate()}/${date.getMonth() + 1}`;
 };
 
 const renderQuarterTick = (tickProps) => {
@@ -120,6 +127,9 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 	const [activeSaving, setActiveSaving] = useState(false);
 	const [recordData, setRecordData] = useState([]);
 	const [total, setTotal] = useState([0, 0]);
+	const [habitTrackData, setHabitTrackData] = useState([]);
+
+	const [timers, setTimers] = useState({});
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -491,8 +501,31 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 		allUpdatesRef.current.scrollTop = allUpdatesRef.current.scrollHeight;
 	};
 
+	function secondsToMinutes(seconds) {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = seconds % 60;
+		const formattedSeconds =
+			remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+		return `${minutes}.${formattedSeconds}`;
+	}
+
 	useEffect(() => {
 		scrollToBottom();
+		let habits = todoList.personalList.habits;
+
+		const todayDate = new Date().toISOString().split("T")[0];
+		const initialTimers = habits.reduce((acc, habit) => {
+			const lastTrack = habit.tracks.slice(-1)[0];
+			acc[habit._id] = {
+				isRunning: false,
+				elapsedSeconds:
+					lastTrack && lastTrack.date === todayDate
+						? lastTrack.totalTime
+						: 0,
+			};
+			return acc;
+		}, {});
+		setTimers(initialTimers);
 
 		let incomeExpense = todoList.personalList.financialsPlans.spends;
 		let savings = todoList.personalList.financialsPlans.savings;
@@ -501,6 +534,43 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 		let totalSavings = 0;
 
 		const currentDate = new Date();
+
+		const last21Days = Array.from({ length: 21 }, (_, index) => {
+			const date = new Date();
+			date.setDate(currentDate.getDate() - index);
+			return date.toISOString().split("T")[0];
+		});
+
+		// Initialize habitTrackData with default values
+		const habitTrackData = last21Days.map((date) => ({
+			date,
+		}));
+
+		// Process habits data
+		habits.forEach((habit) => {
+			habit.tracks.forEach((track) => {
+				const dateIndex = habitTrackData.findIndex(
+					(data) => data.date === track.date
+				);
+				if (dateIndex !== -1) {
+					habitTrackData[dateIndex][habit.name] = secondsToMinutes(
+						track.totalTime
+					);
+				}
+			});
+		});
+
+		// If a habit is not tracked on a particular day, set totalTime to 0
+		habitTrackData.forEach((data) => {
+			habits.forEach((habit) => {
+				if (!data.hasOwnProperty(habit.name)) {
+					data[habit.name] = 0;
+				}
+			});
+		});
+
+		setHabitTrackData(habitTrackData.reverse());
+
 		const last30Days = Array.from({ length: 30 }, (_, index) => {
 			const date = new Date();
 			date.setDate(currentDate.getDate() - index);
@@ -730,6 +800,77 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 			});
 	};
 
+	const handleStartTimer = (habitId) => {
+		setTimers((prevTimers) => ({
+			...prevTimers,
+			[habitId]: {
+				...prevTimers[habitId],
+				isRunning: true,
+			},
+		}));
+	};
+
+	const handleStopTimer = (habitId) => {
+		setTimers((prevTimers) => ({
+			...prevTimers,
+			[habitId]: {
+				...prevTimers[habitId],
+				isRunning: false,
+			},
+		}));
+
+		let totalTime = timers[habitId]?.elapsedSeconds || 0;
+
+		let teamId = todoList.personalList._id;
+
+		fetch(`${todoListRoutes.updateHabit}${teamId}/${habitId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: token,
+			},
+			body: JSON.stringify({ totalTime }),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.isError) {
+					notify(res.message, "warning");
+				} else {
+					setTodoList(res.todoList);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				notify(err.message, "error");
+			});
+	};
+
+	const formatTime = (seconds) => {
+		const hours = Math.floor(seconds / 3600);
+		const minutes = Math.floor((seconds % 3600) / 60);
+		const remainingSeconds = seconds % 60;
+		return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+			2,
+			"0"
+		)}:${String(remainingSeconds).padStart(2, "0")}`;
+	};
+
+	useEffect(() => {
+		const timerInterval = setInterval(() => {
+			setTimers((prevTimers) => {
+				const updatedTimers = { ...prevTimers };
+				Object.keys(updatedTimers).forEach((habitId) => {
+					if (updatedTimers[habitId].isRunning) {
+						updatedTimers[habitId].elapsedSeconds += 1;
+					}
+				});
+				return updatedTimers;
+			});
+		}, 1000);
+
+		return () => clearInterval(timerInterval);
+	}, []);
+
 	return (
 		<div id="category">
 			<div>
@@ -752,7 +893,7 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 									Tracks
 								</h1>
 							</div>
-							{todoList.personalList.financialsPlans && (
+							{todoList.personalList.habits && (
 								<div>
 									<aside id="record">
 										<div>
@@ -781,26 +922,69 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 														return (
 															<div key={index}>
 																<div>
-																	<p>{habit.name} </p>
+																	<p>{habit.name}</p>
 																</div>
-																<div>
-																<p>
-																			<FontAwesomeIcon
-																				icon={faPenToSquare}
-																			/>{" "}
-																		</p>
-																		<p>
-																			<FontAwesomeIcon
-																				icon={faTrash}
-																			/>{" "}
-																		</p>
+																<div
+																	style={{
+																		display: "flex",
+																		gap: "5px",
+																		alignItems: "center",
+																	}}
+																>
+																	<p>
+																		{formatTime(
+																			timers[habit._id]
+																				?.elapsedSeconds ||
+																				0
+																		)}
+																	</p>
+																	<div>
+																		{!timers[habit._id]
+																			?.isRunning && (
+																			<div
+																				id="faIcon"
+																				onClick={() =>
+																					handleStartTimer(
+																						habit._id
+																					)
+																				}
+																			>
+																				<FontAwesomeIcon
+																					icon={
+																						faCirclePlay
+																					}
+																					size="xl"
+																				/>
+																				<span>Start</span>
+																			</div>
+																		)}
+																		{timers[habit._id]
+																			?.isRunning && (
+																			<div
+																				id="faIcon"
+																				onClick={() =>
+																					handleStopTimer(
+																						habit._id
+																					)
+																				}
+																			>
+																				<FontAwesomeIcon
+																					icon={
+																						faCircleStop
+																					}
+																					size="xl"
+																				/>
+																				<span>Stop</span>
+																			</div>
+																		)}
+																	</div>
 																</div>
 															</div>
 														);
 													}
 												)
 											) : (
-												<div>
+												<div style={{ flexDirection: "column" }}>
 													<input
 														type="text"
 														name="name"
@@ -861,75 +1045,69 @@ function PersonalList({ todoList, setTodoList, token, userId, notify }) {
 									</aside>
 									<aside>
 										<div>
-											<p>Last 30 day's record</p>
+											<p>Last 21 day's record <span style={{fontSize:"12px"}}>{" "}in minute</span></p>
 											<div
 												style={{
 													display: "flex",
 													gap: "20px",
 													alignItems: "center",
+													fontSize:"15px"
 												}}
 											>
-												<p
-													style={{
-														display: "flex",
-														alignItems: "center",
-														color: total[0] > 0 ? "green" : "red",
-													}}
-												>
-													<div id="faIcon">
-														<FontAwesomeIcon
-															icon={faArrowRightArrowLeft}
-															rotation={90}
-														/>
-														<span>In-out</span>
-													</div>
-
-													{total[0]}
-												</p>
-												<p
-													style={{
-														display: "flex",
-														alignItems: "center",
-														color: total[0] > 0 ? "green" : "red",
-													}}
-												>
-													<div id="faIcon">
-														<FontAwesomeIcon icon={faPiggyBank} />
-														<span>Saving</span>
-													</div>
-
-													{total[1]}
-												</p>
+												<p>Small steps every day, big results over time.</p>
 											</div>
 										</div>
 										<div id="track">
-											<BarChart
+											<LineChart
 												width={850}
-												height={350}
-												data={recordData}
+												height={300}
+												data={habitTrackData}
 												margin={{
 													top: 5,
-													left: -15,
+													right: 30,
+													left: 10,
 													bottom: 5,
 												}}
 											>
-												<CartesianGrid
-													strokeDasharray={3}
-													vertical={false}
-												/>
+												<CartesianGrid strokeDasharray="3 3" />
 												<XAxis
 													dataKey="date"
 													tickFormatter={dateTickFormatter}
 												/>
-
 												<YAxis />
 												<Tooltip />
 												<Legend />
-												<Bar dataKey="income" fill="#13B600" />
-												<Bar dataKey="expense" fill="#D50000" />
-												<Bar dataKey="credit" fill="#5AFE47" />
-												<Bar dataKey="debit" fill="#FF2D2D" />
-											</BarChart>
+												{/* <Line
+													type="monotone"
+													dataKey="pv"
+													stroke="#8884d8"
+													activeDot={{ r: 8 }}
+												/>
+												<Line
+													type="monotone"
+													dataKey="amt"
+													stroke="#7774d8"
+													activeDot={{ r: 8 }}
+												/>
+												<Line
+													type="monotone"
+													dataKey="uv"
+													stroke="#82ca9d"
+													activeDot={{ r: 8 }}
+												/> */}
+												{todoList.personalList.habits.map(
+													(habit, index) => {
+														return (
+															<Line
+																type="monotone"
+																dataKey={habit.name}
+																stroke={habit.color}
+																activeDot={{ r: 8 }}
+															/>
+														);
+													}
+												)}
+											</LineChart>
 										</div>
 									</aside>
 								</div>
