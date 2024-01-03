@@ -16,6 +16,8 @@ import Account from './pages/Account';
 import TodoListHome from './pages/todo-list/Home';
 import Join from './pages/todo-list/join';
 
+// youtube pages
+import YoutubeHome from './pages/youtube/Home';
 
 function App() {
   return (
@@ -30,6 +32,9 @@ function App() {
         {/* todo-list */}
         <Route path="/todolist" element={<TodoListHome/>}/>
         <Route path="/todolist/team/join/:teamId" element={<Join/>} />
+
+        {/* youtube */}
+        <Route path="/youtube" element={<YoutubeHome/>} />
       </Routes>
     </Router>
   );
