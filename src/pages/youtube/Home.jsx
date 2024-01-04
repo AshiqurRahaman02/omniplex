@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 
 // for icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,14 +12,20 @@ import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 
 import "../../styles/youtube.css";
 import LeftSideBar from "../../components/youtube/LeftSideBar";
+import Categories from "../../components/youtube/Categories";
 
-const userLogo = "assets/logo/ashiqur_pic.png"
+const userLogo = "assets/logo/ashiqur_pic.png";
 
 function Home() {
-	const [isSignedIn, setIsSignedIn] = useState(false);
+	const [isSignedIn, setIsSignedIn] = useState(true);
 	const [currentColor, serCurrentColor] = useState("white");
 
 	const [isSideBarVisible, setSideBarVisible] = useState(true);
+
+	useEffect(() => {
+		document.title = "YouTube";
+		// console.log(process.env.REACT_APP_YOUTUBE_API_KEY)
+	}, []);
 	return (
 		<div
 			id="youtube"
@@ -39,7 +44,7 @@ function Home() {
 						stroke="currentColor"
 						class="w-6 h-6"
 						id="guide-button"
-						onClick={()=>setSideBarVisible((pre)=> !pre)}
+						onClick={() => setSideBarVisible((pre) => !pre)}
 					>
 						<path
 							stroke-linecap="round"
@@ -143,7 +148,7 @@ function Home() {
 							</svg>
 						</div>
 						<div id="notification-icon">
-							<FontAwesomeIcon icon={faBell} size="lg"/>
+							<FontAwesomeIcon icon={faBell} size="lg" />
 						</div>
 						<div id="user-logo">
 							<img src={userLogo} alt="" />
@@ -194,8 +199,15 @@ function Home() {
 					</div>
 				)}
 			</nav>
-			<header>
-								<LeftSideBar isSideBarVisible={isSideBarVisible} isSignedIn={isSignedIn} currentColor={currentColor}/>
+			<header style={{display:"flex",gap:"20px"}}>
+				<LeftSideBar
+					isSideBarVisible={isSideBarVisible}
+					isSignedIn={isSignedIn}
+					currentColor={currentColor}
+				/>
+				<main>
+								<Categories/>
+				</main>
 			</header>
 		</div>
 	);
