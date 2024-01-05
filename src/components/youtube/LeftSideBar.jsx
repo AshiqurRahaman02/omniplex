@@ -64,11 +64,11 @@ const subscribedChannels = [
 function LeftSideBar({ isSideBarVisible, isSignedIn, currentColor }) {
 	const [allChannelVisible, setAllChannelVisible] = useState(false);
 	return (
-		<div style={{position:"relative",zIndex:'1'}}>
+		<div>
 			{isSideBarVisible ? (
 				<div id="detailLeftBar">
 					<div>
-						<div>
+						<div id="home">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								enable-background="new 0 0 24 24"
@@ -284,7 +284,7 @@ function LeftSideBar({ isSideBarVisible, isSignedIn, currentColor }) {
 					{isSignedIn ? (
 						<div>
 							<div id="content-head">
-								<p>Subscriptions</p>
+								<p style={{fontSize:"15px"}}>Subscriptions</p>
 							</div>
 							{subscribedChannels.map((channel, index) => {
 								if (!allChannelVisible && index > 6) {
@@ -303,7 +303,11 @@ function LeftSideBar({ isSideBarVisible, isSignedIn, currentColor }) {
 											alt=""
 											src={channel.logo}
 										/>{" "}
-										<p>{channel.name.length > 15 ? channel.name.slice(0,15)+"...":channel.name}</p>
+										<p>
+											{channel.name.length > 15
+												? channel.name.slice(0, 15) + "..."
+												: channel.name}
+										</p>
 										{!channel.isLive && channel.isActive && (
 											<span
 												style={{
@@ -862,30 +866,52 @@ function LeftSideBar({ isSideBarVisible, isSignedIn, currentColor }) {
 							<p>Send feedback</p>
 						</div>
 					</div>
-					
+
 					<hr />
 					<div id="about">
 						<div>
-						<Link to="#"  style={{color:`${currentColor}`}}>About</Link>
-						<Link to="#"  style={{color:`${currentColor}`}}>Press</Link>
-						<Link to="#"  style={{color:`${currentColor}`}}>Copyright</Link>
-						<br />
-						<Link to="#"  style={{color:`${currentColor}`}}>Contact us</Link>
-						<Link to="#"  style={{color:`${currentColor}`}}>Creators</Link>
-						<br />
-						<Link to="#"  style={{color:`${currentColor}`}}>Advertise</Link>
-						<Link to="#"  style={{color:`${currentColor}`}}>Delelopers</Link>
-
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								About
+							</Link>
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Press
+							</Link>
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Copyright
+							</Link>
+							<br />
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Contact us
+							</Link>
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Creators
+							</Link>
+							<br />
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Advertise
+							</Link>
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Delelopers
+							</Link>
 						</div>
 						<div>
-						<Link to="#"  style={{color:`${currentColor}`}}>Terms</Link>
-						<Link to="#"  style={{color:`${currentColor}`}}>Privacy</Link>
-						<Link to="#"  style={{color:`${currentColor}`}}>Policy & Safety</Link>
-						<br />
-						<Link to="#"  style={{color:`${currentColor}`}}>How YouTube works</Link>
-						<br />
-						<Link to="#"  style={{color:`${currentColor}`}}>Test new features</Link>
-
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Terms
+							</Link>
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Privacy
+							</Link>
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Policy & Safety
+							</Link>
+							<br />
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								How YouTube works
+							</Link>
+							<br />
+							<Link to="#" style={{ color: `${currentColor}` }}>
+								Test new features
+							</Link>
 						</div>
 						<p>© 2024 Google LLC</p>
 					</div>
