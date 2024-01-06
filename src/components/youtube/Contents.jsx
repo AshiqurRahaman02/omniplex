@@ -1,119 +1,22 @@
-import { duration } from "@mui/material";
-import React, { useEffect, useState } from "react";
 
-const response = {
-	kind: "youtube#videoListResponse",
-	etag: "V7iMC5nOSnkAzruIoanZzckMsh8",
-	items: [
-		{
-			kind: "youtube#video",
-			etag: "QTGnN35ZNNH-BhimJQhU7v84UjE",
-			id: "GCzDnIAl-x4",
-			snippet: {
-				publishedAt: "2024-01-05T03:00:15Z",
-				channelId: "UCSiDGb0MnHFGjs4E2WKvShw",
-				title: "How To Make Charcoal At Home - कोयले से पैसे कमाये | Very Easy",
-				description:
-					"Charcoal From Wood ...घर पर कोयला कैसे बनाये....In This Video We Made Charcoal At Home Using Only Woods.\n\nYe Bhi Check Karo - https://www.youtube.com/watch?v=ApzXZ9LzKes&list=PLs2q0kQKcqma0C44OiJUdaOSoC61Bmloe\n\nSUBSCRIBE : https://youtube.com/MRINDIANHACKER?sub_confirmation=1\n\nFOLLOW KARLO 😘\nInstagram : https://www.instagram.com/dilraj_singh_rawat\nTwitter : https://www.x.com/MR_INDIANHACKER\nFacebook : https://www.facebook.com/mrindianhacker00\n\nImagine charcoal as a tiny superhero with lots of holes in its suit. These holes act like magnets, grabbing bad guys like dirt, yucky chemicals, and even bad breath germs!\nHere's what this charcoal superhero can do:\n1 - Shiny teeth: When you brush with charcoal toothpaste, the superhero grabs stainy yummies stuck on your teeth, making them pearly white!\n2 - Happy tummy: If you ever eat something that doesn't agree with you, charcoal can suck up the bad stuff before it makes your tummy grumpy!\n3 - Clean skin: Like a tiny vacuum, charcoal in face masks grabs dirt and oil that can clog your pores, leaving your skin smooth and happy.\n4 - Fresh air: Special charcoal filters can grab tiny stinky things from the air, making it smell clean and fresh, like after a summer rain!\nRemember: Like any superhero, charcoal needs to be used carefully. Always ask a grown-up before trying anything new, and never eat charcoal unless it's made for food!\n\nSo there you have it, the amazing world of charcoal, the tiny superhero with holes! Pretty cool, right?\n\nThanks for watching! Love you Titanium Army",
-				thumbnails: {
-					default: {
-						url: "https://i.ytimg.com/vi/GCzDnIAl-x4/default.jpg",
-						width: 120,
-						height: 90,
-					},
-					medium: {
-						url: "https://i.ytimg.com/vi/GCzDnIAl-x4/mqdefault.jpg",
-						width: 320,
-						height: 180,
-					},
-					high: {
-						url: "https://i.ytimg.com/vi/GCzDnIAl-x4/hqdefault.jpg",
-						width: 480,
-						height: 360,
-					},
-					standard: {
-						url: "https://i.ytimg.com/vi/GCzDnIAl-x4/sddefault.jpg",
-						width: 640,
-						height: 480,
-					},
-					maxres: {
-						url: "https://i.ytimg.com/vi/GCzDnIAl-x4/maxresdefault.jpg",
-						width: 1280,
-						height: 720,
-					},
-				},
-				channelTitle: "MR. INDIAN HACKER",
-				tags: [
-					"charcoal",
-					"charkol",
-					"how to make charcoal at home",
-					"activated",
-					"how to make charcoal at home in hindi",
-					"koyla",
-					"making charcoal",
-					"DIY charcoal",
-					"Charcoal making at home",
-					"कोयला बनाना",
-					"कोयले का बिजनेस",
-					"घर बैठे कमाई करें",
-					"mr indian hacker",
-					"mr. indian hacker",
-					"experiments",
-					"experiment",
-					"coal",
-					"Easy charcoal making process",
-					"how to make charcoal",
-					"small business ideas",
-					"how to make coal",
-					"business ideas",
-					"business ideas in india",
-					"village business ideas",
-					"mr indian hacker new video",
-				],
-				categoryId: "28",
-				liveBroadcastContent: "none",
-				defaultLanguage: "en-US",
-				localized: {
-					title: "How To Make Charcoal At Home - कोयले से पैसे कमाये | Very Easy",
-					description:
-						"Charcoal From Wood ...घर पर कोयला कैसे बनाये....In This Video We Made Charcoal At Home Using Only Woods.\n\nYe Bhi Check Karo - https://www.youtube.com/watch?v=ApzXZ9LzKes&list=PLs2q0kQKcqma0C44OiJUdaOSoC61Bmloe\n\nSUBSCRIBE : https://youtube.com/MRINDIANHACKER?sub_confirmation=1\n\nFOLLOW KARLO 😘\nInstagram : https://www.instagram.com/dilraj_singh_rawat\nTwitter : https://www.x.com/MR_INDIANHACKER\nFacebook : https://www.facebook.com/mrindianhacker00\n\nImagine charcoal as a tiny superhero with lots of holes in its suit. These holes act like magnets, grabbing bad guys like dirt, yucky chemicals, and even bad breath germs!\nHere's what this charcoal superhero can do:\n1 - Shiny teeth: When you brush with charcoal toothpaste, the superhero grabs stainy yummies stuck on your teeth, making them pearly white!\n2 - Happy tummy: If you ever eat something that doesn't agree with you, charcoal can suck up the bad stuff before it makes your tummy grumpy!\n3 - Clean skin: Like a tiny vacuum, charcoal in face masks grabs dirt and oil that can clog your pores, leaving your skin smooth and happy.\n4 - Fresh air: Special charcoal filters can grab tiny stinky things from the air, making it smell clean and fresh, like after a summer rain!\nRemember: Like any superhero, charcoal needs to be used carefully. Always ask a grown-up before trying anything new, and never eat charcoal unless it's made for food!\n\nSo there you have it, the amazing world of charcoal, the tiny superhero with holes! Pretty cool, right?\n\nThanks for watching! Love you Titanium Army",
-				},
-				defaultAudioLanguage: "en",
-			},
-			contentDetails: {
-				duration: "PT15M6S",
-				dimension: "2d",
-				definition: "hd",
-				caption: "false",
-				licensedContent: true,
-				contentRating: {},
-				projection: "rectangular",
-			},
-			statistics: {
-				viewCount: "1108269",
-				likeCount: "134712",
-				favoriteCount: "0",
-				commentCount: "7284",
-			},
-		},
-	],
-	nextPageToken: "CAEQAA",
-	pageInfo: {
-		totalResults: 174,
-		resultsPerPage: 1,
-	},
-};
-// "embedHtml": "\u003ciframe width=\"480\" height=\"270\" src=\"//www.youtube.com/embed/mjQ_ICCIx1Q\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" allowfullscreen\u003e\u003c/iframe\u003e"
+import React, { useEffect, useState } from "react";
+import { Link,  useNavigate } from "react-router-dom";
+
+const loading = [
+	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+	22, 23, 24,
+];
 
 function Contents({ activeCategory, setActiveCategory }) {
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(true);
 
-	const [contents, setContents] = useState([
-		1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-		22, 23, 24,
-	]);
+	const [contents, setContents] = useState([]);
+	const [pageToken, setPageToken] = useState("");
 
 	useEffect(() => {
+		setIsLoading(true);
+		setContents([]);
 		getVideos();
 	}, [activeCategory]);
 
@@ -124,8 +27,7 @@ function Contents({ activeCategory, setActiveCategory }) {
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.items) {
-					// setContents(data.items);
-					// setIsLoading(false);
+					setPageToken(data.nextPageToken);
 					getChannels(data.items);
 				}
 			})
@@ -133,6 +35,36 @@ function Contents({ activeCategory, setActiveCategory }) {
 				console.log(err);
 			});
 	};
+	const getMoreVideos = () => {
+		const url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=24&regionCode=IN&videoCategoryId=${activeCategory}&pageToken=${pageToken}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
+
+		fetch(url)
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.items) {
+					setPageToken(data.nextPageToken);
+					getChannels(data.items);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	function truncateTitle(title, maxLength) {
+		if (title.length <= maxLength) {
+			return title;
+		}
+
+		const truncatedTitle = title.substring(0, maxLength);
+		const lastSpaceIndex = truncatedTitle.lastIndexOf(" ");
+
+		if (lastSpaceIndex !== -1) {
+			return truncatedTitle.substring(0, lastSpaceIndex) + "...";
+		}
+
+		return truncatedTitle + "...";
+	}
 	const getChannels = async (videos) => {
 		let ids = "";
 
@@ -146,15 +78,13 @@ function Contents({ activeCategory, setActiveCategory }) {
 			}
 
 			let content = {
+				videoId: item.id,
 				channelId: item.snippet.channelId,
 				thumbnails: item.snippet.thumbnails.maxres
 					? item.snippet.thumbnails.maxres.url
 					: item.snippet.thumbnails.medium.url,
 				duration: durationConverter(item.contentDetails.duration),
-				title:
-					item.snippet.title.length > 75
-						? item.snippet.title.slice(0, 75) + "..."
-						: item.snippet.title,
+				title: truncateTitle(item.snippet.title, 75),
 				channelTitle: item.snippet.channelTitle,
 				viewCount: viewsConverter(item.statistics.viewCount),
 				publishedAt: timeConverter(item.snippet.publishedAt),
@@ -167,6 +97,7 @@ function Contents({ activeCategory, setActiveCategory }) {
 		await fetch(url)
 			.then((res) => res.json())
 			.then((data) => {
+				console.log(data.items[0]);
 				if (data.items) {
 					findThambnailAndSetContents(data.items, contents);
 				} else {
@@ -178,7 +109,6 @@ function Contents({ activeCategory, setActiveCategory }) {
 				console.log(err);
 			});
 	};
-
 	const findThambnailAndSetContents = (channels, contents) => {
 		const contentsWithChannelLogo = contents.map((content) => {
 			const correspondingChannel = channels.find(
@@ -195,9 +125,36 @@ function Contents({ activeCategory, setActiveCategory }) {
 			return content;
 		});
 
-		setContents(contentsWithChannelLogo);
+		setContents((pre) => [...pre, ...contentsWithChannelLogo]);
 		setIsLoading(false);
 	};
+
+	const handleScroll = () => {
+		const scrollY = window.scrollY || window.pageYOffset;
+		const windowHeight = window.innerHeight;
+		const documentHeight = document.documentElement.scrollHeight;
+
+		if (scrollY + windowHeight >= documentHeight - 2000 && !isLoading) {
+			getMoreVideos();
+		}
+	};
+	const debounce = (func, delay) => {
+		let timeoutId;
+		return (...args) => {
+			clearTimeout(timeoutId);
+			timeoutId = setTimeout(() => {
+				func(...args);
+			}, delay);
+		};
+	};
+	const debouncedScroll = debounce(handleScroll, 1000);
+	useEffect(() => {
+		window.addEventListener("scroll", debouncedScroll);
+
+		return () => {
+			window.removeEventListener("scroll", debouncedScroll);
+		};
+	}, [isLoading, debouncedScroll]);
 
 	function viewsConverter(number) {
 		if (number < 1000) {
@@ -271,8 +228,8 @@ function Contents({ activeCategory, setActiveCategory }) {
 		<div id="contents">
 			<div>
 				{isLoading
-					? contents.map((c) => (
-							<div>
+					? loading.map((c, index) => (
+							<div key={index}>
 								<div className="skeleton-loader thambnail-img"></div>
 								<div>
 									<div className="skeleton-loader creator-logo"></div>
@@ -295,9 +252,9 @@ function Contents({ activeCategory, setActiveCategory }) {
 								</div>
 							</div>
 					  ))
-					: contents.map((content) => (
-							<div>
-								<div className="thambnail-img">
+					: contents.map((content, index) => (
+							<div key={index}>
+								<div className="thambnail-img" onClick={()=>navigate(`/watch?v=${content.videoId}`)}>
 									<img src={content.thumbnails} alt="" />
 									<span>{content.duration}</span>
 								</div>
@@ -306,7 +263,7 @@ function Contents({ activeCategory, setActiveCategory }) {
 										<img src={content.channelLogo} alt="" />
 									</div>
 									<div>
-										<div className="title">
+										<div className="title"  onClick={()=>navigate(`/watch?v=${content.videoId}`)}>
 											<p>{content.title}</p>
 										</div>
 										<div className="channel-name">
@@ -332,6 +289,37 @@ function Contents({ activeCategory, setActiveCategory }) {
 								</div>
 							</div>
 					  ))}
+			</div>
+			<div>
+				{loading.map((c, index) => {
+					if (index > 11) {
+						return;
+					}
+					return (
+						<div key={index}>
+							<div className="skeleton-loader thambnail-img"></div>
+							<div>
+								<div className="skeleton-loader creator-logo"></div>
+								<div>
+									<div className="skeleton-loader title"></div>
+									<div className="skeleton-loader channel-name"></div>
+									<div>
+										<span className="skeleton-loader views"></span>{" "}
+										<span
+											style={{
+												width: "4px",
+												height: "4px",
+												borderRadius: "50%",
+												background: "gray",
+											}}
+										></span>
+										<span className="skeleton-loader upload-date"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);

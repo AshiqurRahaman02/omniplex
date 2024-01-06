@@ -18,6 +18,7 @@ import Join from './pages/todo-list/join';
 
 // youtube pages
 import YoutubeHome from './pages/youtube/Home';
+import Watch from './pages/youtube/Watch';
 
 function App() {
   return (
@@ -34,7 +35,8 @@ function App() {
         <Route path="/todolist/team/join/:teamId" element={<Join/>} />
 
         {/* youtube */}
-        <Route path="/youtube" element={<YoutubeHome/>} />
+        <Route path="/youtube" element={<YoutubeHome />} />
+        <Route path="/watch" element={<Watch />} />
       </Routes>
     </Router>
   );
