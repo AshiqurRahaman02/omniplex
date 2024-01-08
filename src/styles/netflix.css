@@ -1,0 +1,305 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel+Sans:wght@600&family=Poppins:wght@300;400;700&display=swap");
+
+.netflix-body {
+	background-color: black;
+}
+
+.main {
+	background-image: url("../../public//assets/netflix/images/bg.jpg");
+	background-position: center center;
+	/* background-size: max(1200px, 100vw); */
+	background-repeat: no-repeat;
+	height: 710px;
+	position: relative;
+}
+
+.main .box {
+	height: 710px;
+	width: 100%;
+	opacity: 0.69;
+	position: absolute;
+	top: 0;
+	background-color: black;
+}
+
+.netflix-nav {
+	max-width: 77vw;
+	justify-content: space-between;
+	margin: auto;
+	display: flex;
+	align-items: center;
+	height: 92px;
+}
+
+.netflix-nav img {
+	color: #e50920;
+	width: 150px;
+	position: relative;
+	z-index: 10;
+}
+
+.select-language {
+	display: flex;
+	align-items: center;
+	/* gap: 20px; */
+}
+
+.select-language>svg{
+    color: white;
+    z-index: 1;
+    position: relative;
+    right: 30px;
+}
+.select-language>svg:nth-child(1){
+    right: -30px;
+}
+
+.select-language > select {
+	width: 100px;
+	z-index: 10;
+	position: relative;
+	width: 130px;
+	outline: none;
+	background-color: transparent;
+	border: 1px solid white;
+	color: white;
+	padding: 8px;
+	padding-left: 40px;
+	border-radius: 5px;
+
+    -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+}
+.select-language option {
+	background-color: white;
+	color: black;
+}
+.netflix-nav button {
+	position: relative;
+	z-index: 10;
+	border: 0;
+	font-weight: bold;
+	padding: 8px 15px;
+	background-color: #e50920;
+	color: white;
+	border-radius: 5px;
+}
+.netflix-nav button:hover{
+    cursor: pointer;
+	background-color: #c40014;
+
+}
+
+.hero {
+	font-family: "Martel Sans", sans-serif;
+	height: calc(100% - 100px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	color: white;
+	position: relative;
+	gap: 20px;
+	padding: 0 30px;
+}
+
+.hero > :nth-child(1) {
+	font-family: "Poppins", sans-serif;
+	font-weight: bolder;
+	font-size: 45px;
+	text-align: center;
+    margin-top: 5px;
+}
+
+.hero > :nth-child(2) {
+	font-weight: 400;
+	font-size: 24px;
+	text-align: center;
+}
+
+.hero > :nth-child(3) {
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+}
+
+.hero-buttons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+}
+.hero-buttons input{
+    height: 56px;
+    width: 400px;
+    padding-left: 20px;
+
+    padding: 7px 101px 8px 14px;
+	color: white;
+    z-index: 10;
+    position: relative;
+	font-size: 17px;
+	border-radius: 4px;
+	background-color: rgba(23, 23, 23, 0.7);
+	border: 1px solid rgba(246, 238, 238, 0.5);
+}
+.hero-buttons button{
+    position: relative;
+	z-index: 10;
+	border: 0;
+    font-size: 20px;
+	font-weight: bold;
+	padding: 16px 30px;
+	background-color: #e50914;
+	color: white;
+	border-radius: 5px;
+}
+
+.separation {
+	height: 7px;
+	background-color: rgb(46, 44, 44);
+	position: relative;
+	z-index: 20;
+}
+
+.first {
+	display: flex;
+	justify-content: center;
+	max-width: 77vw;
+	margin: auto;
+	color: white;
+	justify-content: center;
+	align-items: center;
+    margin-top: 50px;
+}
+
+.secImg {
+	position: relative;
+}
+
+.secImg img {
+	width: 555px;
+	position: relative;
+	z-index: 10;
+}
+
+.secImg video {
+	position: absolute;
+}
+.first .secImg video{
+    left: 70px;
+    top: 120px;
+    width: 410px;
+}
+.third .secImg video{
+    left: 100px;
+    top: 69px;
+    width: 350px;
+}
+
+.first > div {
+	display: flex;
+	flex-direction: column;
+	padding: 34px 0;
+}
+
+.first > div :nth-child(1) {
+	font-size: 48px;
+	font-weight: bolder;
+}
+
+.first > div :nth-child(2) {
+	font-size: 24px;
+}
+
+.second .download{
+    position: absolute;
+    border: whitesmoke solid 1px;
+    background-color: black;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 10;
+    font-size: 16px;
+    left: 130px;
+    bottom: 60px;
+}
+.second .download>img:nth-child(1){
+    width: 60px;
+}
+.second .download>img:nth-child(3){
+    width: 40px;
+}
+
+.faq h2 {
+	text-align: center;
+	font-size: 48px;
+}
+
+.faq {
+	background: black;
+	color: white;
+	padding: 34px;
+}
+
+.faqbox:hover {
+	background-color: #414141;
+	color: white;
+}
+
+.faqbox svg {
+	filter: invert(1);
+}
+
+.faqbox {
+	transition: all 1s ease-out;
+	font-size: 24px;
+	display: flex;
+	justify-content: space-between;
+	background-color: #2d2d2d;
+	padding: 24px;
+	max-width: 60vw;
+	margin: 34px auto;
+	cursor: pointer;
+}
+
+.netflix-footer {
+	color: white;
+	max-width: 77vw;
+	margin: auto;
+	padding: 60px;
+}
+
+.netflix-footer .questions {
+	padding: 34px 0;
+}
+
+.netflix-footer .footer {
+	display: flex;
+	color: white;
+    background-color: black;
+    padding: 0;
+    max-width: 100%;
+}
+
+.netflix-footer .footer a {
+	font-size: 14px;
+	color: white;
+}
+
+.netflix-footer .footer-item {
+	display: flex;
+	flex-direction: column;
+	gap: 23px;
+}
+.footer~.select-language{
+    margin-top: 30px;
+    margin-left: -20px;
+}
+.footer~.select-language~p{
+    margin-top: 10px;
+    font-size: 15px;
+}
