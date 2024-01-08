@@ -1,19 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-// for icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faBars,
-	faMagnifyingGlass,
-	faMicrophone,
-	faEllipsisVertical,
-} from "@fortawesome/free-solid-svg-icons";
-import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 
 import "../../styles/youtube.css";
 import YoutubeNav from "../../components/youtube/YoutubeNav";
-import Categories from "../../components/youtube/Categories";
 
 const userLogo = "assets/logo/ashiqur_pic.png";
 
