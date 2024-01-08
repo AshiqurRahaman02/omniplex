@@ -21,6 +21,9 @@ import YoutubeHome from './pages/youtube/Home';
 import Watch from './pages/youtube/Watch';
 import Search from './pages/youtube/Search';
 
+// netflix pages
+import NetflixHome from './pages/netflix/Home';
+
 function App() {
   return (
     <Router>
@@ -39,6 +42,9 @@ function App() {
         <Route path="/youtube" element={<YoutubeHome />} />
         <Route path="/watch" element={<Watch />} />
         <Route path="/search" element={<Search />} />
+
+        {/* netflix */}
+        <Route path="/netflix" element={<NetflixHome />} />
       </Routes>
     </Router>
   );
