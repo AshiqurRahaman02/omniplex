@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-// for icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faBars,
-	faMagnifyingGlass,
-	faMicrophone,
-	faEllipsisVertical,
-} from "@fortawesome/free-solid-svg-icons";
-import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
-
 import "../../styles/youtube.css";
 import LeftSideBar from "../../components/youtube/LeftSideBar";
 import Categories from "../../components/youtube/Categories";
 import Contents from "../../components/youtube/Contents";
 import YoutubeNav from "../../components/youtube/YoutubeNav";
 
-const userLogo = "assets/logo/ashiqur_pic.png";
 
 function Home() {
 	const [isSignedIn, setIsSignedIn] = useState(false);

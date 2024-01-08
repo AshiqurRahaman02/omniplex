@@ -5,12 +5,10 @@ import { useNavigate } from 'react-router-dom';
 // for icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faBars,
 	faMagnifyingGlass,
 	faMicrophone,
-	faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
-import { faBell, faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 
 import "../../styles/youtube.css";
 
@@ -22,7 +20,7 @@ function YoutubeNav({currentColor,setSideBarVisible,isSignedIn}) {
 
     const handelClick = ()=>{
         let q=searchText.trim(" ").split(" ").join("+")
-        navigate(`/search?q=${q}`)
+        navigate(`/search?search_query=${q}`)
     }
   return (
     <nav style={{
