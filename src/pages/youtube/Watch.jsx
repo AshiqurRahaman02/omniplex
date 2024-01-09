@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "../../styles/youtube.css";
 import YoutubeNav from "../../components/youtube/YoutubeNav";
+import changeFavicon from "../../utils/FaviconUtils";
 
 const userLogo = "assets/logo/ashiqur_pic.png";
 
@@ -67,6 +68,7 @@ function Watch() {
 	};
 
 	useEffect(() => {
+		changeFavicon("https://www.youtube.com/s/desktop/375de707/img/favicon.ico")
 		const searchParams = new URLSearchParams(window.location.search);
 
 		const videoId = searchParams.get("v");
@@ -74,7 +76,7 @@ function Watch() {
 			navigate("/youtube");
 		}
 
-		let src = `https://www.youtube.com/embed/${videoId}?autoplay=1&cc_load_policy=1&enablejsapi=1&modestbranding=1`;
+		let src = `https://www.youtube.com/embed/${videoId}?autoPlay=1&ccLoadPolicy=1&enableJsapi=1&modestBranding=1`;
 		setVideoSrc(src);
 
 		getVideo(videoId);
@@ -408,7 +410,7 @@ function Watch() {
 							title="video"
 							src={videosSrc}
 							frameborder="0"
-							allowfullscreen
+							allowFullScreen= "true"
 						/>
 					)}
 					{video && (

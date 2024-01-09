@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/youtube.css";
 import LeftSideBar from "../../components/youtube/LeftSideBar";
 import YoutubeNav from "../../components/youtube/YoutubeNav";
+import changeFavicon from "../../utils/FaviconUtils";
 const loading = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 function Search() {
@@ -25,6 +26,9 @@ function Search() {
 			navigate("/youtube");
 		}
 		setContents([]);
+		document.title = `${search} - YouTube`;
+
+		changeFavicon("https://www.youtube.com/s/desktop/375de707/img/favicon.ico")
 		let query = search.split(" ").join("%20");
 		console.log(search);
 		getSearchVideos(query);
