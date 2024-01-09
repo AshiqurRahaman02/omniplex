@@ -2,19 +2,75 @@
 
 .netflix-body {
 	background-color: black;
+	position: relative;
+}
+#browser {
+	width: 100%;
+	height: 100vh;
+	color: white;
+	display: grid;
+	place-items: center;
+}
+#browser>h1{
+	font-size: 50px;
+	position: relative;
+	top: 120px;
+}
+#browser > div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+#browser > div > div {
+	background-image: url("https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXYofKdCJceEP7pdxcEZ9wt80GsxEyXIbnG_QM8znksNz3JexvRbDLr0_AcNKr2SJtT-MLr1eCOA-e7xlDHsx4Jmmsi5HL8.png?r=1d4");
+	background-position: cover;
+	background-size: 100%;
+	background-repeat: no-repeat;
+
+	width: 150px;
+	height: 150px;
+	display: grid;
+	place-items: center;
+	gap: 10px;
+	position: relative;
+
+	transition: 0.5s;
+}
+#browser > div > div:hover{
+	cursor: pointer;
+	transform: scale(1.05);
+}
+#browser > div > div>p{
+	position: absolute;
+	bottom: -35px;
+	font-size: 25px;
+	color: rgb(179, 179, 179);
+}
+#browser >button{
+	height: 30px;
+	width: 200px;
+	color: rgb(179, 179, 179);
+	padding: 12px 20px 35px;
+	font-size: 20px;
+	background-color: transparent;
+	border: 1px double rgb(179, 179, 179);
+
+	cursor: pointer;
 }
 
-.main {
+.main,
+.login-main {
 	background-image: url("../../public//assets/netflix/images/bg.jpg");
 	background-position: center center;
 	/* background-size: max(1200px, 100vw); */
 	background-repeat: no-repeat;
-	height: 710px;
+	height: 100vh;
 	position: relative;
 }
-
-.main .box {
-	height: 710px;
+.main .box,
+.login-main .box {
+	height: 100vh;
 	width: 100%;
 	opacity: 0.69;
 	position: absolute;
@@ -44,14 +100,14 @@
 	/* gap: 20px; */
 }
 
-.select-language>svg{
-    color: white;
-    z-index: 1;
-    position: relative;
-    right: 30px;
+.select-language > svg {
+	color: white;
+	z-index: 1;
+	position: relative;
+	right: 30px;
 }
-.select-language>svg:nth-child(1){
-    right: -30px;
+.select-language > svg:nth-child(1) {
+	right: -30px;
 }
 
 .select-language > select {
@@ -67,9 +123,9 @@
 	padding-left: 40px;
 	border-radius: 5px;
 
-    -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 }
 .select-language option {
 	background-color: white;
@@ -85,10 +141,13 @@
 	color: white;
 	border-radius: 5px;
 }
-.netflix-nav button:hover{
-    cursor: pointer;
+.netflix-nav button > a {
+	color: white;
+	text-decoration: none;
+}
+.netflix-nav button:hover {
+	cursor: pointer;
 	background-color: #c40014;
-
 }
 
 .hero {
@@ -109,7 +168,7 @@
 	font-weight: bolder;
 	font-size: 45px;
 	text-align: center;
-    margin-top: 5px;
+	margin-top: 5px;
 }
 
 .hero > :nth-child(2) {
@@ -130,25 +189,30 @@
 	justify-content: center;
 	gap: 16px;
 }
-.hero-buttons input{
-    height: 56px;
-    width: 400px;
-    padding-left: 20px;
-
-    padding: 7px 101px 8px 14px;
+.hero-buttons .form-control {
+	height: 56px;
+	width: 400px;
 	color: white;
-    z-index: 10;
-    position: relative;
+	z-index: 10;
+	position: relative;
 	font-size: 17px;
 	border-radius: 4px;
-	background-color: rgba(23, 23, 23, 0.7);
+	background-color: rgba(7, 7, 7, 0.288);
 	border: 1px solid rgba(246, 238, 238, 0.5);
+	margin: 0;
 }
-.hero-buttons button{
-    position: relative;
+.hero-buttons .form-control input {
+	background-color: #0000002f;
+}
+.hero-buttons .form-control input:is(:focus, :valid) {
+	background-color: #0000002f;
+	padding: 16px 20px 0;
+}
+.hero-buttons button {
+	position: relative;
 	z-index: 10;
 	border: 0;
-    font-size: 20px;
+	font-size: 20px;
 	font-weight: bold;
 	padding: 16px 30px;
 	background-color: #e50914;
@@ -171,7 +235,7 @@
 	color: white;
 	justify-content: center;
 	align-items: center;
-    margin-top: 50px;
+	margin-top: 50px;
 }
 
 .secImg {
@@ -187,15 +251,15 @@
 .secImg video {
 	position: absolute;
 }
-.first .secImg video{
-    left: 70px;
-    top: 120px;
-    width: 410px;
+.first .secImg video {
+	left: 70px;
+	top: 120px;
+	width: 410px;
 }
-.third .secImg video{
-    left: 100px;
-    top: 69px;
-    width: 350px;
+.third .secImg video {
+	left: 100px;
+	top: 69px;
+	width: 350px;
 }
 
 .first > div {
@@ -213,25 +277,25 @@
 	font-size: 24px;
 }
 
-.second .download{
-    position: absolute;
-    border: whitesmoke solid 1px;
-    background-color: black;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    z-index: 10;
-    font-size: 16px;
-    left: 130px;
-    bottom: 60px;
+.second .download {
+	position: absolute;
+	border: whitesmoke solid 1px;
+	background-color: black;
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	padding: 10px;
+	border-radius: 10px;
+	z-index: 10;
+	font-size: 16px;
+	left: 130px;
+	bottom: 60px;
 }
-.second .download>img:nth-child(1){
-    width: 60px;
+.second .download > img:nth-child(1) {
+	width: 60px;
 }
-.second .download>img:nth-child(3){
-    width: 40px;
+.second .download > img:nth-child(3) {
+	width: 40px;
 }
 
 .faq h2 {
@@ -245,7 +309,7 @@
 	padding: 34px;
 }
 
-.faqbox:hover {
+.faqbox > p:nth-child(1):hover {
 	background-color: #414141;
 	color: white;
 }
@@ -255,15 +319,16 @@
 }
 
 .faqbox {
-	transition: all 1s ease-out;
 	font-size: 24px;
-	display: flex;
-	justify-content: space-between;
 	background-color: #2d2d2d;
-	padding: 24px;
 	max-width: 60vw;
-	margin: 34px auto;
 	cursor: pointer;
+	margin: 20px auto;
+}
+.faqbox > p {
+	display: flex;
+	padding: 24px;
+	justify-content: space-between;
 }
 
 .netflix-footer {
@@ -280,9 +345,9 @@
 .netflix-footer .footer {
 	display: flex;
 	color: white;
-    background-color: black;
-    padding: 0;
-    max-width: 100%;
+	background-color: black;
+	padding: 0;
+	max-width: 100%;
 }
 
 .netflix-footer .footer a {
@@ -295,11 +360,133 @@
 	flex-direction: column;
 	gap: 23px;
 }
-.footer~.select-language{
-    margin-top: 30px;
-    margin-left: -20px;
+.footer ~ .select-language {
+	margin-top: 30px;
+	margin-left: -20px;
 }
-.footer~.select-language~p{
-    margin-top: 10px;
-    font-size: 15px;
+.footer ~ .select-language ~ p {
+	margin-top: 10px;
+	font-size: 15px;
+}
+
+.form-wrapper {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	border-radius: 4px;
+	padding: 70px;
+	width: 430px;
+	transform: translate(-50%, -50%);
+	background: rgba(0, 0, 0, 0.644);
+}
+
+.form-wrapper h2 {
+	color: #fff;
+	font-size: 2rem;
+}
+
+.form-wrapper form {
+	margin: 25px 0 65px;
+}
+
+.form-control {
+	height: 50px;
+	position: relative;
+	margin-bottom: 16px;
+}
+
+.form-control input {
+	height: 100%;
+	width: 100%;
+	background: #333;
+	border: none;
+	outline: none;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 1rem;
+	padding: 0 20px;
+}
+
+.form-control input:is(:focus, :valid) {
+	background: #444;
+	padding: 16px 20px 0;
+}
+
+.form-control label {
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 1rem;
+	pointer-events: none;
+	color: #8c8c8c;
+	transition: all 0.1s ease;
+}
+
+.form-control input:is(:focus, :valid) ~ label {
+	font-size: 0.75rem;
+	transform: translateY(-130%);
+}
+
+form button {
+	width: 100%;
+	padding: 16px 0;
+	font-size: 1rem;
+	background: #e50914;
+	color: #fff;
+	font-weight: 500;
+	border-radius: 4px;
+	border: none;
+	outline: none;
+	margin: 25px 0 10px;
+	cursor: pointer;
+	transition: 0.1s ease;
+}
+
+form button:hover {
+	background: #c40812;
+}
+
+.form-wrapper a {
+	text-decoration: none;
+}
+
+.form-wrapper a:hover {
+	text-decoration: underline;
+}
+
+.form-wrapper :where(label, p, small, a) {
+	color: #b3b3b3;
+}
+
+form .form-help {
+	display: flex;
+	justify-content: space-between;
+}
+
+form .remember-me {
+	display: flex;
+}
+
+form .remember-me input {
+	margin-right: 5px;
+	accent-color: #b3b3b3;
+}
+
+form .form-help :where(label, a) {
+	font-size: 0.9rem;
+}
+
+.form-wrapper p a {
+	color: #fff;
+}
+
+.form-wrapper small {
+	display: block;
+	margin-top: 15px;
+	color: #b3b3b3;
+}
+
+.form-wrapper small a {
+	color: #0071eb;
 }

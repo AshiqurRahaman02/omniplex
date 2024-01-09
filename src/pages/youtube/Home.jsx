@@ -5,6 +5,7 @@ import LeftSideBar from "../../components/youtube/LeftSideBar";
 import Categories from "../../components/youtube/Categories";
 import Contents from "../../components/youtube/Contents";
 import YoutubeNav from "../../components/youtube/YoutubeNav";
+import changeFavicon from "../../utils/FaviconUtils";
 
 
 function Home() {
@@ -17,7 +18,7 @@ function Home() {
 
 	useEffect(() => {
 		document.title = "YouTube";
-		// console.log(process.env.REACT_APP_YOUTUBE_API_KEY)
+		changeFavicon("https://www.youtube.com/s/desktop/375de707/img/favicon.ico")
 	}, []);
 	return (
 		<div
