@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../styles/netflix.css";
 import changeFavicon from "../../utils/FaviconUtils";
 
-const NetFlixLogo = "assets/netflix/images/logo.svg";
+const NetFlixLogo = "/assets/netflix/images/logo.svg";
 const faqs = [
 	{
 		question: "What is Netflix?",
@@ -54,13 +54,36 @@ function Home() {
 			"https://assets.nflxext.com/ffe/siteui/common/icons/nficon2016.ico"
 		);
 
+		const activeAccount = sessionStorage.getItem("activeAccount");
+
+		if(activeAccount){
+			navigate("/netflix/browse");
+		}
+
 		const storedAccounts =
 			JSON.parse(localStorage.getItem("netflixAccounts")) || [];
 
-		if (storedAccounts.length !== 0) {
+		if (storedAccounts.length > 0) {
 			setAccounts(storedAccounts);
 		}
 	}, []);
+
+	function storeDataWithTimeLimit(key, data, durationInMinutes) {
+		const currentTime = new Date().getTime();
+		const expirationTime = currentTime + durationInMinutes * 60 * 1000;
+		const dataWithTimeLimit = {
+			data: data,
+			expirationTime: expirationTime,
+		};
+
+		sessionStorage.setItem(key, JSON.stringify(dataWithTimeLimit));
+	}
+
+	const handleChooseAccount = (account) => {
+		storeDataWithTimeLimit("activeAccount", account, 60);
+
+		navigate("/netflix/browse");
+	};
 	return (
 		<div className="netflix-body">
 			{accounts ? (
@@ -68,7 +91,10 @@ function Home() {
 					<h1>Who is Watching?</h1>
 					<div>
 						{accounts.map((account, index) => (
-							<div key={index}>
+							<div
+								key={index}
+								onClick={() => handleChooseAccount(account)}
+							>
 								<p>{account.name}</p>
 							</div>
 						))}

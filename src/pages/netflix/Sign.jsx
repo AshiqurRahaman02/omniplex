@@ -58,7 +58,7 @@ function Sign() {
 				</nav>
 				<div className="box"></div>
 				<div class="form-wrapper">
-					<h2>Sign In</h2>
+					{isLogin ? <h2>Sign In</h2> : <h2>Sign Up</h2>}
 					<form onSubmit={handleSubmit}>
 						{!isLogin && (
 							<div className="form-control">

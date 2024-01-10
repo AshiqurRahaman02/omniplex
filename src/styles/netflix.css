@@ -21,6 +21,7 @@
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
+	gap: 20px;
 }
 #browser > div > div {
 	background-image: url("https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXYofKdCJceEP7pdxcEZ9wt80GsxEyXIbnG_QM8znksNz3JexvRbDLr0_AcNKr2SJtT-MLr1eCOA-e7xlDHsx4Jmmsi5HL8.png?r=1d4");
@@ -93,6 +94,13 @@
 	position: relative;
 	z-index: 10;
 }
+.netflix-nav img~span{
+	display: flex;
+	gap: 20px;
+	color: white;
+	font-size: 15px ;
+	font-weight: 600;cursor: pointer;
+}
 
 .select-language {
 	display: flex;
@@ -149,8 +157,40 @@
 	cursor: pointer;
 	background-color: #c40014;
 }
+.netflix-nav-second{
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	height: 100%;
+	color: white;
+	position: relative;
+}
+.netflix-nav-second>input{
+	padding: 2px;
+	padding-left: 5px;
+	outline: none;
+	height: 34px;
+	padding-right: 30px;
+	position: absolute;
+	font-size: 15px;
+	color: white;
 
-.hero {
+	transition: 1s;
+}
+.netflix-nav-second>input~svg{
+	z-index: 10;
+}
+.netflix-nav-second>div{
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+.netflix-nav-second>div>img{
+	width: 35px;
+	border-radius: 5px;
+}
+
+.hero ,.browse-hero{
 	font-family: "Martel Sans", sans-serif;
 	height: calc(100% - 100px);
 	display: flex;
@@ -218,6 +258,45 @@
 	background-color: #e50914;
 	color: white;
 	border-radius: 5px;
+}
+
+.browse-hero{
+	align-items: start;
+	justify-content: start;
+	width: 40%;
+	margin-left: 2%;
+	margin-top: 14vh;
+	height: max-content;
+	/* box-shadow: ; */
+}
+.browse-hero>img{
+	width: 100%;
+	filter: drop-shadow(79px -99px 116px -4px rgba(230, 40, 40, 1));
+}
+.browse-hero>p{
+	font-size: 17px;
+	line-height: 23px;
+	font-family: "Poppins", sans-serif;
+}
+.browse-hero>div{
+	display: flex;
+	gap: 10px;
+}
+.browse-hero>div>button{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	gap: 13px;
+	border-radius: 5px;
+	font-size: 19px;
+	padding: 11px 26px;
+	font-weight: 600;
+	background-color: white;
+}
+.browse-hero>div>button:nth-child(2){
+	background-color: #4D4E4D;
+	color: white;
 }
 
 .separation {
