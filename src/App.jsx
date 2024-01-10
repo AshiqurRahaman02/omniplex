@@ -24,6 +24,7 @@ import Search from './pages/youtube/Search';
 // netflix pages
 import NetflixHome from './pages/netflix/Home';
 import NetflixSignIn from "./pages/netflix/Sign"
+import NetflixBrowser from './pages/netflix/Browser';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         {/* netflix */}
         <Route path="/netflix" element={<NetflixHome />} />
         <Route path="/netflix/login" element={<NetflixSignIn />} />
+        <Route path="/netflix/browse" element={<NetflixBrowser />} />
       </Routes>
     </Router>
   );
