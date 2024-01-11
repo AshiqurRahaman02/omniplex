@@ -1,8 +1,9 @@
-export const popular = [
+const popular = [
 	{
 		title: "Money Heist: Korea - Joint Economic Area",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfEQMWocPVdpNjLRPmUy1I_f4po5GnpeXluByp6-8PqKu18yOvErs4FaBbuHCfEAERsXMtPtFuBU9c3QTnEQi-LfnZtodgbPCLaJmQ1yCpXmTOwBlWn4rPZYM4o-W9kkchO6.jpg?r=1aa",
+			titleImage:"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABQwslcjXqMzUnrZkH24HLXBq0J_gOGR0hxStCT5Bj6F8G_Ya6s-LaFFyVaqPFhX8cSFXJZZ9QlpJVq0ri6geN8Pr9FSDT2z5UYXN1cUxYcjp73BMOENCeeNqauN9AVy_Ab7yZzsoRt0R6oNFVD0jCUfYflKnuzGLgAcinaRDP0nlunTSbp-k.webp?r=a1a",
 		thambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABVrEk646clVqqfWp_o7e0HweiakxtIAONsg2F2PZcZmb1R__vbsfA5zUs_acE2heVUDnZjcsr2oD5smZwr6pj2OqWkXxLsCvBXv5.webp?r=3df",
 		description:
@@ -101,9 +102,10 @@ export const popular = [
 		],
 	},
 	{
-		title: "Money Heist: Korea - Joint Economic Area",
+		title: "The Good Doctor",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABbAtol4N8au3_vTzBVW9pYcJSGBApH3A5LKKwu3M7fuP8mMT1dEfuA2BdLriBp_ZFf48x-mmHww0VflpZOoqBjiUQJQjkYM4Yt_UCV1lRZNCByTBVrkdorSN5bY-qDx4nwjEmrzLyQMgBN4z_cmuQEwcWLezzMW3cos8xKbh12ueRnlIqYo80LAsFXRTHDkp6sP8_Jcpx3T_-6ulFocfja0vBNPq57PMSd5j0umtXhFj84jihKdbHtiM6IBaWlkVDrK_wUjelIm3F4Mmmq_Mr0Y.webp?r=65f",
+			titleImage:"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABWIhhxyr4La38UdC5i_nh-cHWxb2awKmYHP073mzL5_ZsQgVM5ncHl7dLkq9w-9LG_Kj__3cnBv3MrGQDMm5IoDWXZ5iFOCSCkMqzWctCoQ.webp?r=8ba",
 		thambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABcqj_R2bz1M0Jr6mxfHnsmLvC8onSjWAMWz-3MmBW-PF8gu2JwhmS8GaTJ4l5dkuXDGO2xq-s-xLSxNjT18kJ1ZrM2TFX8Hxxdud.webp?r=6f8",
 		description:
@@ -578,8 +580,9 @@ export const popular = [
 	{
 		title: "Society of the Snow",
 		creators: "J.A. Bayona",
+		duration:"2h 25m",
 		mainThambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABbpOe1spWf_RnVILVQJnzcs8EoRWvp6xcRbWumPZaRqmF7lMTt9YUPW2aLr5rMHtVnriG91uIK1PdksACZQ8AgAEy8ujrCfY7mtz.webp?r=393",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABSbCNM1NjMtvBygoTJXZjVK_0Ro72M-SQOfMScXS6rcWOGmH3AbtZKPSv3qbxbmfmakJgVakjnzST7ch65VD2jReNIxI-f78Hm5lMQN0DKS3aZzYXOnvtKvDIzIkVDFyny_fLmw17NAhIjzGR1jRWTuUxOF9GBdDRVliDD-4I2WxSgOKsHJBPAEnj48K5eORFlzOd-WYFXZHMWijnFlGRAUElBJJVvwXS5ajlvOnIRDYMNVOIvcTO9o7AG6GmSBx5QQPirWT9EQxuZPdM1VkZ2RM3aC4E89o9CX63BH7bkh-3VuopzMSu5hd6J7YBs2Too1gBL6rjs_s9XdDQo9BEY-EQLRKmyAb6WLf00n9mKRs7kts41Q.jpg?r=864",
 		thambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABbpOe1spWf_RnVILVQJnzcs8EoRWvp6xcRbWumPZaRqmF7lMTt9YUPW2aLr5rMHtVnriG91uIK1PdksACZQ8AgAEy8ujrCfY7mtz.webp?r=393",
 		titleImage:
@@ -593,12 +596,13 @@ export const popular = [
 	{
 		title: "Top Gun Maverick",
 		creators: "J.A. Bayona",
+		duration:"2h 11m",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfDeG0Olf5eaACwJyUrIy2EXhi5VoWkQWK9j6XLRPPrGb83Uichh-BmaAhL9y-SlbzjkWirzmSYVkhYiIifriUws04CPE7UY5RAplW8f3awVsrQXm6O4yNa2uciMBptDovqOWPvPIVe_ulU7qQnox-n_jjtAzd-qohDHaAf4Eh9Au0TLoCusUQY6accIM88fp6WGZz0Nd-i1PjiHswI52kMFJgFtD-5daLgwCYV27cMd7z1AqG2vth1aq5Mu0KSKUTd75C3TbhBpgLPbZNrzhoHPOxkq.webp?r=67e",
 		thambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfDeG0Olf5eaACwJyUrIy2EXhi5VoWkQWK9j6XLRPPrGb83Uichh-BmaAhL9y-SlbzjkWirzmSYVkhYiIifriUws04CPE7UY5RAplW8f3awVsrQXm6O4yNa2uciMBptDovqOWPvPIVe_ulU7qQnox-n_jjtAzd-qohDHaAf4Eh9Au0TLoCusUQY6accIM88fp6WGZz0Nd-i1PjiHswI52kMFJgFtD-5daLgwCYV27cMd7z1AqG2vth1aq5Mu0KSKUTd75C3TbhBpgLPbZNrzhoHPOxkq.webp?r=67e",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABXjjbOVR8qRhNmDm2TPbeY2_ub8tiVPB1-CrhsFB6e_kWGQBBl8m2SqI-qtRVyXDZuuXwPN3kjymyXN9GoUQzypSHbkDhRvhTgCn.webp?r=310",
 		titleImage:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfDeG0Olf5eaACwJyUrIy2EXhi5VoWkQWK9j6XLRPPrGb83Uichh-BmaAhL9y-SlbzjkWirzmSYVkhYiIifriUws04CPE7UY5RAplW8f3awVsrQXm6O4yNa2uciMBptDovqOWPvPIVe_ulU7qQnox-n_jjtAzd-qohDHaAf4Eh9Au0TLoCusUQY6accIM88fp6WGZz0Nd-i1PjiHswI52kMFJgFtD-5daLgwCYV27cMd7z1AqG2vth1aq5Mu0KSKUTd75C3TbhBpgLPbZNrzhoHPOxkq.webp?r=67e",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABct_rZRPERMGwNoJNpgVKu7vYi3ejjm_Q59OgMl4q_3syd98TzfbQBgdA5ixdbiIXuvFmEooPlUQn6riIBFZS3qI7zsvKzT9gvvUAha8wuw.webp?r=2ad",
 		description:
 			"After more than 30 years as one of the Navy's top aviators, Maverick trains a group of Top Gun graduates for a specialized — and dangerous — mission.",
 		casts: ["Enzo Vogrincic", "Agustin Pardella", "Matias Recalt"],
@@ -608,12 +612,13 @@ export const popular = [
 	{
 		title: "hi PAPA",
 		creators: "J.A. Bayona",
+		duration:"2h 36m",
 		mainThambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfyFJOeSX7JxxRsfsvPZPvOnIUQiHSz1PPba220MBv_3UgKyE9pMFz62KpZDaavS9a3WDgDhhWkPmSF9Y3HcBh3dempwid3PoIeIbu-dsAEEyuXs0-d8Uf4fxZwtUuAeHuT0LS7yIa1c-HEJDyH9Q6MszvIYzfH-k1JrsPxMsq7tDVJf28vc5Bz5_HUTn4lRiWgSOmGucIXTdpQlXoeqpVY6KCwZ8pzaXFR3hgZRPzAEDHcjmzncMN7ZCD7DHuzpRAkO_DW_QfHBvbIkJ5WX9t-pJVCsZoPqtaIbm3UVscwbdskBAJaew-bD2A9u1uG3V0Fogrs0UJtXNU8LxiFaE64.webp?r=0a8",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABY0pR3-vZDBxDnQNbSc_bJC5s_OdK7FFlhKWpRb95xIRENb7-S6cwUQej6LMu4usoMJ-s1xrk88nAd0OIsN2aGkirLU0Fw4OgXaDQTb75wf8UrExI9u-M53Th0tf2dc2dKDfwr0bF4vpd3dIK0ep4uUOysI1qiIvpzXIIJmQYMQPbawFH9SDibDGk2OXIaDYjY6jEBIgQF1Go7uO7gKw_dp-9B733kMkb1kXUmp20Dr1QM5C_popz_A3WmAmocljgeQsEi-tMOM2Bw-bPOm4zouy82gFe-eAAe827SPfnUgXblzhZ2faFuuop9FlUWhAg_SwyXzAwmIWUdz0PpxSfHOZ.webp?r=313",
 		thambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfyFJOeSX7JxxRsfsvPZPvOnIUQiHSz1PPba220MBv_3UgKyE9pMFz62KpZDaavS9a3WDgDhhWkPmSF9Y3HcBh3dempwid3PoIeIbu-dsAEEyuXs0-d8Uf4fxZwtUuAeHuT0LS7yIa1c-HEJDyH9Q6MszvIYzfH-k1JrsPxMsq7tDVJf28vc5Bz5_HUTn4lRiWgSOmGucIXTdpQlXoeqpVY6KCwZ8pzaXFR3hgZRPzAEDHcjmzncMN7ZCD7DHuzpRAkO_DW_QfHBvbIkJ5WX9t-pJVCsZoPqtaIbm3UVscwbdskBAJaew-bD2A9u1uG3V0Fogrs0UJtXNU8LxiFaE64.webp?r=0a8",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABeB2KLfvgEmIrtCjuo3u9VmkNJQw0fdvDqoNda9S1q8fOxfRbsbUU84f_3ijKncKSazPB5WbtBMIOG3XYj8qm5253C4XkCMKtoov.webp?r=b56",
 		titleImage:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfyFJOeSX7JxxRsfsvPZPvOnIUQiHSz1PPba220MBv_3UgKyE9pMFz62KpZDaavS9a3WDgDhhWkPmSF9Y3HcBh3dempwid3PoIeIbu-dsAEEyuXs0-d8Uf4fxZwtUuAeHuT0LS7yIa1c-HEJDyH9Q6MszvIYzfH-k1JrsPxMsq7tDVJf28vc5Bz5_HUTn4lRiWgSOmGucIXTdpQlXoeqpVY6KCwZ8pzaXFR3hgZRPzAEDHcjmzncMN7ZCD7DHuzpRAkO_DW_QfHBvbIkJ5WX9t-pJVCsZoPqtaIbm3UVscwbdskBAJaew-bD2A9u1uG3V0Fogrs0UJtXNU8LxiFaE64.webp?r=0a8",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABenbmbDwEwn9fEfLCPdbvM_BGLpwv__zD_Gcx8CmSK9bgfn9e2E0peK7FobSFr1FrO7dyp6OBeBTF50foL4zGl3xBvkCJlq9qOAIp0MCsUM.webp?r=c53",
 		description:
 			"A 6-year-old with cystic fibrosis recruits the help of an enigmatic new friend to convince her single dad to tell her about her mother.",
 		casts: ["Enzo Vogrincic", "Agustin Pardella", "Matias Recalt"],
@@ -623,12 +628,13 @@ export const popular = [
 	{
 		title: "GRAN TURISMO",
 		creators: "J.A. Bayona",
+		duration:"2h 14m",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABd3VsDTGNYGXZhO1ieCGPgVsP8VxMH0QoCfYaWVbMTbxDxUaNth_BlyHOE65psmCq7sX7jPKkuawkzWfQuQ9WNfLjGTppdv_HFE.webp?r=303",
 		thambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABd3VsDTGNYGXZhO1ieCGPgVsP8VxMH0QoCfYaWVbMTbxDxUaNth_BlyHOE65psmCq7sX7jPKkuawkzWfQuQ9WNfLjGTppdv_HFE.webp?r=303",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABT4O7g4tmq6Z5jcfucaLbDgMYtgjLjJ7Np70vf9K2MN2tK_VtrUHLUDh6e7bgJ0MKd0liDPh98W_mnD7Oj7RYh4RcUUL3Vkfy7YEcihc7W8EA-s168qdHFvjxg.webp?r=fe5",
 		titleImage:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABd3VsDTGNYGXZhO1ieCGPgVsP8VxMH0QoCfYaWVbMTbxDxUaNth_BlyHOE65psmCq7sX7jPKkuawkzWfQuQ9WNfLjGTppdv_HFE.webp?r=303",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABXptxHDfZkSM_E6rSyPKCApqhHzAE1gxHBbaRua5HqtE7_zQmCQcqydtv5fTxdnZT4lZ-QzoAG-pv9Fg48uWsBT-Sm63OaJ5wiuHIE39pn4.webp?r=434",
 		description:
 			"Driven teenager Jann Mardenborough uses his video game skills to pursue a once-in-a-lifetime opportunity: becoming a pro racer. Based on a true story.",
 		casts: ["Enzo Vogrincic", "Agustin Pardella", "Matias Recalt"],
@@ -743,7 +749,7 @@ export const popular = [
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABZwDvm1n95tdUlapIrF8SzEEuE0Tl8JPM-K-H1Sv-5BciJhzsMgcSj4ddbRCVmRNVDokrNGiwxVSrzS3Jdn_MCWH66u4HvcOqk_iR0vP0lEywOe-79ZAG69JfdyTIn5oINjg.jpg?r=2db",
 		thambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABZ_WBkceBRkPZ1zUNOwl2aPwpFy27pWWhNtV3kDyyfniW0bo7Gj_rPqfxA_Ee_YmcKMHFXETEGZX-DQzK-56z94mbj_RImnxOW98jaDpy7s0BVAZ3lcsLFk-XRzeFwNXJc9F1Q.jpg?r=2db",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABbynvSnrIVgQ-j9IOPBO67usElGEU6r4K_g0yBQrqR5xVowHpVttnF5951M9VRrY0J1GmIluxFCzZpLvAJuFKezEq7j73yPIDfx0YipbvZB1kqQ4RCMhGBEFXg.webp?r=db9",
 		titleImage:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABe3N1i0Zr_ZsXJhc1O2muNJMQtOZ3549BJd3focXUxXvXnbwJbRnrJ6xPNE0J6BWa3CrSYHt-w1JDmLiUzQaiSZUKOr4Fm0DeA5ew8Mh7nFX8-bjWukzmpX-K52rNAbP9KXuqRIYhdVmg7dKna4c9MrKIGBprrdrLDWrbwsNplpLRT2ec5hm.webp?r=b2a",
 		description:
@@ -844,7 +850,7 @@ export const popular = [
 	{
 		title: "THE PLAYLIST",
 		mainThambnail:
-			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABRbyOaaLIpetkVsg4ibIHQM7fT5it52LdIL2cJh3g64usYAoKnTOr-yStg_3-jUnY0EXTkwyIikcmBPEkjXOo1jbC0DAHSQAQeJFKPvOm2HgaFXlbtq221naXnJJyokA759Z0A.jpg?r=a07",
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABWB3D5uBSp7Zu55Z60p3t-15w_ezGNn_OrRYo5Q6djBVQavl1pmch6wyR3UrHPCIiCHT3-15h3D-ixi_b51NuB9KLjjay_pQsReW.webp?r=a61",
 		thambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABWB3D5uBSp7Zu55Z60p3t-15w_ezGNn_OrRYo5Q6djBVQavl1pmch6wyR3UrHPCIiCHT3-15h3D-ixi_b51NuB9KLjjay_pQsReW.webp?r=a61",
 		titleImage:
@@ -932,3 +938,5 @@ export const popular = [
 		],
 	},
 ];
+
+export default popular

@@ -1,12 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import popular from "../../constant/netflix/popular";
+import searches from "../../constant/netflix/searches";
+import { movies, shows } from "../../constant/netflix/trending";
+// import shows from "../../constant/netflix/trending";
+
 import "../../styles/netflix.css";
 import changeFavicon from "../../utils/FaviconUtils";
+import Content from "../../components/netflix/Content";
+import Trending from "../../components/netflix/Trendin";
 
 const NetFlixLogo = "/assets/netflix/images/logo.svg";
 
-const icons = ["https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABfjwXqIYd3kCEU6KWsiHSHvkft8VhZg0yyD50a_pHXku4dz9VgxWwfA2ontwogStpj1NE9NJMt7sCpSKFEY2zmgqqQfcw1FMWwB9.png?r=229", "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABYo85Lg8Qn22cahF2sIw7K_gDo3cGpvw3Gt5xl7FIazw864EYeVkm71Qvrlz0HP2fU4n26AVq15v5t8T4lVBpBcqqZbmRHHsMefk.png?r=1d4", "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABZumJ3wvSKM7od-r3UjhVF9j3yteWlQYA-51F3SNoI682llhul1Xf_CUkMnfP_17Md2lpOOhbwHeGufvo8kOTjptoS_bcwtniHKz.png?r=e6e", "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABTxO1HAzIh18LDAY7Igs6qQ3GhmsclmpCllWnoojeSDD0lMm9hUCp-C4VGo3cT40xfg_7SpIoY6pmRIl-W7B5CN8kvXCBqM7n8_f.png?r=a4b", "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABVc9oEhkrJHdxJJOoZNIZt9QaP4XpllFOJ-Xgklgvm-F0tC5x7Fei7B15Cd0SFjDQb8r4O_5yxpbB_EQCUsmQwTTgzrQ_mE8TWwT1Tnk8WDuFXUezAUnNm2VEHKmEdZvoi0ffjE0N8lFeJEvq4E.png?r=bd7"];
+const icons = [
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABfjwXqIYd3kCEU6KWsiHSHvkft8VhZg0yyD50a_pHXku4dz9VgxWwfA2ontwogStpj1NE9NJMt7sCpSKFEY2zmgqqQfcw1FMWwB9.png?r=229",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABYo85Lg8Qn22cahF2sIw7K_gDo3cGpvw3Gt5xl7FIazw864EYeVkm71Qvrlz0HP2fU4n26AVq15v5t8T4lVBpBcqqZbmRHHsMefk.png?r=1d4",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABZumJ3wvSKM7od-r3UjhVF9j3yteWlQYA-51F3SNoI682llhul1Xf_CUkMnfP_17Md2lpOOhbwHeGufvo8kOTjptoS_bcwtniHKz.png?r=e6e",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABTxO1HAzIh18LDAY7Igs6qQ3GhmsclmpCllWnoojeSDD0lMm9hUCp-C4VGo3cT40xfg_7SpIoY6pmRIl-W7B5CN8kvXCBqM7n8_f.png?r=a4b",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABVc9oEhkrJHdxJJOoZNIZt9QaP4XpllFOJ-Xgklgvm-F0tC5x7Fei7B15Cd0SFjDQb8r4O_5yxpbB_EQCUsmQwTTgzrQ_mE8TWwT1Tnk8WDuFXUezAUnNm2VEHKmEdZvoi0ffjE0N8lFeJEvq4E.png?r=bd7",
+];
 
 const navList = [
 	"Home",
@@ -17,11 +30,15 @@ const navList = [
 	"Browse by Language",
 ];
 
+const active = Math.floor(Math.random() * popular.length);
+let imageUrl = popular[active]
+	? popular[active].thambnail
+	: "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABepkXuzGaDhQEUpOtCrCzwvPWkC15bY5t_FaLWDAzDEqOI2Ntnc6w29lnpDIJucYrumhQyivBBoWybfGCjud29SzF8wDiyHX49Fi.webp?r=036";
+
 function Browser() {
 	const [displaySearch, setDisplaySearch] = useState(false);
 	const [scrolling, setScrolling] = useState(false);
-	const imageUrl =
-		"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABepkXuzGaDhQEUpOtCrCzwvPWkC15bY5t_FaLWDAzDEqOI2Ntnc6w29lnpDIJucYrumhQyivBBoWybfGCjud29SzF8wDiyHX49Fi.webp?r=036";
+
 	useEffect(() => {
 		document.title = "Home - Netflix";
 		changeFavicon(
@@ -35,6 +52,7 @@ function Browser() {
 				setScrolling(false);
 			}
 		};
+		console.log(popular);
 
 		// Attach the scroll event listener when the component mounts
 		window.addEventListener("scroll", handleScroll);
@@ -157,13 +175,17 @@ function Browser() {
 					</nav>
 					<div className="browse-hero">
 						<img
-							src="https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABTpPlf6SJrH4bmOAW57AdC6HVZibzWfdpR4wxZUb0lQihDvFCtpZMswQPLO0-mLHlGmk5PThPkCiIQy8fi2U0HulTJ-it7BI-mMa28RFs1d26ZepeDAJfUn3VZtdJGA_9pyutctsdCICbj4MIUXGe3a4W_Qf3mXzjA-O_GVhK6f8p9UJu46g7g.webp?r=950"
+							src={
+								popular[active]
+									? popular[active].titleImage
+									: "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABTpPlf6SJrH4bmOAW57AdC6HVZibzWfdpR4wxZUb0lQihDvFCtpZMswQPLO0-mLHlGmk5PThPkCiIQy8fi2U0HulTJ-it7BI-mMa28RFs1d26ZepeDAJfUn3VZtdJGA_9pyutctsdCICbj4MIUXGe3a4W_Qf3mXzjA-O_GVhK6f8p9UJu46g7g.webp?r=950"
+							}
 							alt=""
 						/>
 						<p>
-							In this fictionalized account, a Swedish tech entrepreneur
-							and his partners set out to revolutionize the music
-							industry with a legal streaming platform.
+							{popular[active]
+								? popular[active].description
+								: "In this fictionalized account, a Swedish tech entrepreneur and his partners set out to revolutionize the music industry with a legal streaming platform."}
 						</p>
 						<div>
 							<button>
@@ -204,6 +226,162 @@ function Browser() {
 								</svg>
 								More Info
 							</button>
+						</div>
+					</div>
+				</div>
+				<div style={{ backgroundColor: "black" }}>
+					<Content data={popular} text="Popular on netflix" />
+					<Content
+						data={searches}
+						text="Top Searches"
+						className="second-content"
+					/>
+
+					<Trending
+						data={movies}
+						text="Top 10 Movies in India Today"
+						className="second-content"
+					/>
+				</div>
+				<div id="info-model">
+					<div>
+						<div
+							style={{ backgroundImage: `url(${imageUrl})` }}
+							className="model-top"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke-width="1.5"
+								stroke="currentColor"
+								class="w-6 h-6"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M6 18 18 6M6 6l12 12"
+								/>
+							</svg>
+
+							<img
+								src={
+									popular[active]
+										? popular[active].titleImage
+										: "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABTpPlf6SJrH4bmOAW57AdC6HVZibzWfdpR4wxZUb0lQihDvFCtpZMswQPLO0-mLHlGmk5PThPkCiIQy8fi2U0HulTJ-it7BI-mMa28RFs1d26ZepeDAJfUn3VZtdJGA_9pyutctsdCICbj4MIUXGe3a4W_Qf3mXzjA-O_GVhK6f8p9UJu46g7g.webp?r=950"
+								}
+								alt=""
+							/>
+							<div>
+								<button>
+									<svg
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+										class="ltr-4z3qvp e1svuwfo1"
+										data-name="Play"
+										aria-hidden="true"
+									>
+										<path
+											d="M5 2.69127C5 1.93067 5.81547 1.44851 6.48192 1.81506L23.4069 11.1238C24.0977 11.5037 24.0977 12.4963 23.4069 12.8762L6.48192 22.1849C5.81546 22.5515 5 22.0693 5 21.3087V2.69127Z"
+											fill="currentColor"
+										></path>
+									</svg>
+									Play
+								</button>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M12 4.5v15m7.5-7.5h-15"
+									/>
+								</svg>
+
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="w-6 h-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
+									/>
+								</svg>
+							</div>
+						</div>
+						<div className="model-second">
+							<div>
+								<p>
+									<span>93% Match</span> <span>2020</span>
+									<span> 4 Seasons</span>
+								</p>
+								<p>
+									<span>language</span>,<span>tobacco use</span>
+								</p>
+								<p>
+									Inspired by a championship match he sees on TV,
+									junior high schooler Hinata joins a volleyball club
+									and begins training, despite his short height.
+								</p>
+							</div>
+							<div>
+								<p>
+									<span>Cast:</span> <span>Ayumu Murase</span>,
+									<span>Kaito Ishikawa</span>,<span>Satoshi Hino</span>
+									,<span>more</span>
+								</p>
+								<p>
+									<span>Generes:</span> <span>Shou</span>,{" "}
+									<span>Familly Watch </span>, <span>Japanese</span>
+								</p>
+								<p>
+									<span>This show is:</span> <span>Inspiring</span>,{" "}
+									<span>Feel-Good</span>
+								</p>
+							</div>
+						</div>
+						<div>
+							<div>
+								<h2>Episodes</h2>{" "}
+								<select name="" id="">
+									<option value="">Haikyu!!</option>
+								</select>
+							</div>
+							<p>
+								Haikyu!!: <span>language</span>,<span>tobacco use</span>
+							</p>
+						</div>
+						<div>
+							<div>
+								<p>1</p>
+								<img
+									src="https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABRonK5ja1hOy_LNkwbwlrO61h3C545LIantkT4_11T6NwPVNv6QBJ2bL2AvTZo-Em9AK8RKb0ZK7lrOvPgMaEtWOFKy8kjZ7iG7JXzh70Wptddys8QWf4w3f.webp?r=333"
+									alt=""
+								/>
+								<div>
+									<p>
+										<span>The End</span> <span>24m</span>
+									</p>
+									<p>
+										Inspired by a volleyball hero, young Hinata later
+										participates in his first match against "the King
+										of the Court." A passion and a rivalry are born.
+									</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
