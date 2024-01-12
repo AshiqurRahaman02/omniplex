@@ -1,67 +1,42 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function Content({ data, text, className }) {
-	const [displayPrevious, setDisplayPrevious] = useState(false);
-	const [displayNext, setDisplayNext] = useState(true);
-
+function Content({ data, text, className, setActiveInfo ,type}) {
 	const categoriesContainerRef = useRef(null);
 	const handlePrev = () => {
-		setDisplayNext(true);
-
 		categoriesContainerRef.current.scrollLeft -=
 			categoriesContainerRef.current.offsetWidth;
-
-		const current = categoriesContainerRef.current.scrollLeft;
-
-		if (current === 0) {
-			setDisplayPrevious(false);
-		}
 	};
 
 	const handleNext = () => {
-		setDisplayPrevious(true);
-		const previous = categoriesContainerRef.current.scrollLeft;
-
 		categoriesContainerRef.current.scrollLeft +=
 			categoriesContainerRef.current.offsetWidth;
-
-		const current = categoriesContainerRef.current.scrollLeft;
-
-		if (current - previous+500 < categoriesContainerRef.current.offsetWidth) {
-			setDisplayNext(false);
-		}
 	};
 	return (
 		<div id="netfilx-content" className={className}>
 			<h2>{text}</h2>
 			<div>
-				{displayPrevious && (
-					<button onClick={handlePrev} id="previous">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-6 h-6"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M15.75 19.5 8.25 12l7.5-7.5"
-							/>
-						</svg>
-					</button>
-				)}
+				<button onClick={handlePrev} id="previous">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M15.75 19.5 8.25 12l7.5-7.5"
+						/>
+					</svg>
+				</button>
 				<div id="all-data" ref={categoriesContainerRef}>
 					{data.map((ele, i) => {
-						// if (i > 5) {
-						// 	return;
-						// }
-						// console.log(ele, i);
 						return (
 							<div>
 								<img src={ele.mainThambnail} alt="" />
+								{type && type === "watching" && <progress  value={2+Math.floor(Math.random()*7)} max="10"></progress>}
 								<div id="data-info">
 									<div>
 										<div>
@@ -116,6 +91,15 @@ function Content({ data, text, className }) {
 												// stroke-width="1.5"
 												stroke="currentColor"
 												class="w-6 h-6"
+												onClick={() => {
+													if (setActiveInfo) {
+														setActiveInfo(ele);
+														window.scrollTo({
+															top: 0,
+															behavior: "smooth",
+														});
+													}
+												}}
 											>
 												<path
 													stroke-linecap="round"
@@ -164,24 +148,22 @@ function Content({ data, text, className }) {
 						);
 					})}
 				</div>
-				{displayNext && (
-					<button onClick={handleNext} id="next">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-6 h-6"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="m8.25 4.5 7.5 7.5-7.5 7.5"
-							/>
-						</svg>
-					</button>
-				)}
+				<button onClick={handleNext} id="next">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="m8.25 4.5 7.5 7.5-7.5 7.5"
+						/>
+					</svg>
+				</button>
 			</div>
 		</div>
 	);

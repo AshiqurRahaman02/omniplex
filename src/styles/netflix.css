@@ -41,7 +41,6 @@
 #browser > div > div:hover {
 	cursor: pointer;
 	transform: scale(1.05);
-	
 }
 #browser > div > div > p {
 	position: absolute;
@@ -205,8 +204,6 @@
 	position: relative;
 	gap: 20px;
 	padding: 0 30px;
-
-
 }
 
 .hero > :nth-child(1) {
@@ -632,7 +629,6 @@ form .form-help :where(label, a) {
 }
 #netfilx-content #all-data > div {
 	position: relative;
-
 	transition: 0.5s;
 }
 #netfilx-content #all-data > div:hover {
@@ -641,10 +637,10 @@ form .form-help :where(label, a) {
 	z-index: 10;
 	/* left: 50px; */
 }
-#netfilx-content #all-data > div:nth-child(1):hover{
+#netfilx-content #all-data > div:nth-child(1):hover {
 	left: 55px;
 }
-#netfilx-content #all-data > div:last-child:hover{
+#netfilx-content #all-data > div:last-child:hover {
 	right: 55px;
 }
 #netfilx-content #all-data > div:hover #data-info {
@@ -652,6 +648,22 @@ form .form-help :where(label, a) {
 }
 #netfilx-content #all-data > div > img {
 	width: 229px;
+}
+#netfilx-content #all-data > div > progress {
+	width: 90%;
+	height: 3px;
+	margin: 0px 5%;
+	background-color: transparent;
+}
+progress[value]::-webkit-progress-bar {
+	background-color: rgb(204, 204, 204);
+	border-radius: red;
+	overflow: hidden;
+}
+
+progress[value]::-webkit-progress-value {
+	background-color: red;
+	border-radius: red;
 }
 #data-info {
 	display: none;
@@ -679,7 +691,7 @@ form .form-help :where(label, a) {
 	border-radius: 50%;
 	cursor: pointer;
 }
-#netfilx-content #data-info>p{
+#netfilx-content #data-info > p {
 	font-size: 12px;
 	margin: 5px 0px;
 	display: flex;
@@ -687,7 +699,7 @@ form .form-help :where(label, a) {
 	flex-wrap: wrap;
 	gap: 0px 10px;
 }
-#netfilx-content #data-info>p:nth-child(2)>span:nth-child(1){
+#netfilx-content #data-info > p:nth-child(2) > span:nth-child(1) {
 	color: rgb(10, 236, 10);
 }
 
@@ -720,49 +732,57 @@ form .form-help :where(label, a) {
 	right: -4.1vw;
 }
 
-
-.second-content{
+.second-content {
 	margin-top: -100px;
 }
 
-#trending{
+#trending {
 	display: flex;
 	position: relative;
 	align-items: center;
 	margin-top: 50px;
 }
-#trending>svg{
+#trending > svg {
 	width: 100px;
 	height: 150px;
 }
-#trending>img{
+#trending > img {
 	width: 140px;
 }
 
-#info-model{
+#info-model {
 	position: absolute;
-	top: 60px;
+	top: 0px;
 	width: 100%;
 	margin: auto;
 	padding: 20px;
 	background-color: #2e2e2e69;
+	padding-bottom: 100px;
+	max-height: 100vh;
+	overflow-x: hidden;
 }
-#info-model>div{
-	width: 50%;
+#info-model > div {
+	z-index: 10;
+	width: 60%;
 	margin: auto;
 	background-color: #000000;
 	color: white;
+	border-radius: 10px;
+	position: relative;
+	top: 50px;
 }
-.model-top{
+.model-top {
 	background-position: cover;
 	background-size: 100%;
-	height: 450px;
+	min-height: 450px;
+	height: max-content;
 	padding-left: 5%;
 	background-repeat: no-repeat;
 	position: relative;
-
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
 }
-.model-top>svg{
+.model-top > svg {
 	position: absolute;
 	width: 40px;
 	height: 40px;
@@ -773,16 +793,16 @@ form .form-help :where(label, a) {
 	top: 10px;
 	right: 10px;
 }
-.model-top>img{
+.model-top > img {
 	width: 40%;
 	margin-top: 28%;
 }
-.model-top>div{
+.model-top > div {
 	display: flex;
 	gap: 10px;
 	margin-top: 10px;
 }
-.model-top>div > svg{
+.model-top > div > svg {
 	width: 40px;
 	height: 40px;
 	padding: 5px;
@@ -790,7 +810,7 @@ form .form-help :where(label, a) {
 	border-radius: 50%;
 	cursor: pointer;
 }
-.model-top>div > button {
+.model-top > div > button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -803,32 +823,142 @@ form .form-help :where(label, a) {
 	background-color: white;
 	cursor: pointer;
 }
-.model-top>div > button:hover {
+.model-top > div > button:hover {
 	background-color: #d1d1d1;
 }
 
-.model-second{
-	padding: 0px 10px;
+.model-second {
+	margin-top: 30px;
+	padding: 0px 5%;
 	display: flex;
 	gap: 20px;
 	justify-content: space-between;
 	color: #ecececda;
 }
-.model-second>div:nth-child(1){
+.model-second > div:nth-child(1) {
 	width: 60%;
 	font-size: 17px;
 }
-.model-second>div:nth-child(2){
+.model-second > div:nth-child(2) {
 	width: 39%;
 }
-.model-second>div:nth-child(1)>p:nth-child(1)>span:nth-child(1){
+.model-second > div:nth-child(1) > p:nth-child(1) > span:nth-child(1) {
 	color: rgb(0, 255, 0);
 }
 
-.model-second>div>p{
+.model-second > div > p {
 	margin: 5px 0px;
 }
-.model-second>div:nth-child(2)>p>span:nth-child(1){
+.model-second > div:nth-child(2) > p > span:nth-child(1) {
 	font-style: italic;
 	color: rgb(167, 166, 166);
+}
+.model-second ~ div {
+	padding: 10px 5%;
+}
+.model-second ~ div > div {
+	display: flex;
+	margin-top: 30px;
+	justify-content: space-between;
+}
+.model-second ~ div > p {
+	display: flex;
+	margin: 10px 0px;
+	gap: 3px;
+}
+.model-second ~ div > p {
+	font-style: italic;
+}
+
+.episodes {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.episodes > div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.episodes > div > div:nth-child(2) {
+	position: relative;
+	width: 250px;
+}
+.episodes > div > div:nth-child(2):hover > svg {
+	opacity: 1;
+}
+.episodes > div > div:nth-child(2) > svg {
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	width: 50px;
+	height: 50px;
+	padding: 5px;
+	border: 2px solid rgb(255, 255, 255);
+	background-color: rgba(68, 68, 68, 0.493);
+	border-radius: 50%;
+	cursor: pointer;
+}
+.episodes > div > div:nth-child(2) > img {
+	width: 180px;
+}
+.episodes > div > div:nth-child(3) {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-content: space-between;
+}
+.episodes > div > div:nth-child(3) > p:nth-child(1) {
+	display: flex;
+	justify-content: space-between;
+	font-size: 20px;
+}
+
+.more-like-this > div {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+.more-like-this > div > div {
+	width: 32%;
+	background-color: rgba(128, 128, 128, 0.438);
+}
+.more-like-this > div > div > div:nth-child(2) {
+	padding: 10px;
+}
+.more-like-this > div > div > div {
+	position: relative;
+}
+.more-like-this > div > div > div:hover > svg {
+	opacity: 1;
+}
+.more-like-this > div > div > div > svg {
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	width: 50px;
+	height: 50px;
+	padding: 5px;
+	border: 2px solid rgb(255, 255, 255);
+	background-color: rgba(68, 68, 68, 0.493);
+	border-radius: 50%;
+	cursor: pointer;
+}
+.more-like-this > div > div > div > img {
+	width: 100%;
+}
+.more-like-this
+	> div
+	> div
+	> div:nth-child(2)
+	> p:nth-child(1)
+	> span:nth-child(1) {
+	color: rgb(0, 255, 0);
 }
