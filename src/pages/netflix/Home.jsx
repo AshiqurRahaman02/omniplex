@@ -37,6 +37,13 @@ const faqs = [
 	},
 ];
 
+const icons = [
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABfjwXqIYd3kCEU6KWsiHSHvkft8VhZg0yyD50a_pHXku4dz9VgxWwfA2ontwogStpj1NE9NJMt7sCpSKFEY2zmgqqQfcw1FMWwB9.png?r=229",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABYo85Lg8Qn22cahF2sIw7K_gDo3cGpvw3Gt5xl7FIazw864EYeVkm71Qvrlz0HP2fU4n26AVq15v5t8T4lVBpBcqqZbmRHHsMefk.png?r=1d4",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABZumJ3wvSKM7od-r3UjhVF9j3yteWlQYA-51F3SNoI682llhul1Xf_CUkMnfP_17Md2lpOOhbwHeGufvo8kOTjptoS_bcwtniHKz.png?r=e6e",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABTxO1HAzIh18LDAY7Igs6qQ3GhmsclmpCllWnoojeSDD0lMm9hUCp-C4VGo3cT40xfg_7SpIoY6pmRIl-W7B5CN8kvXCBqM7n8_f.png?r=a4b",
+	"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABVc9oEhkrJHdxJJOoZNIZt9QaP4XpllFOJ-Xgklgvm-F0tC5x7Fei7B15Cd0SFjDQb8r4O_5yxpbB_EQCUsmQwTTgzrQ_mE8TWwT1Tnk8WDuFXUezAUnNm2VEHKmEdZvoi0ffjE0N8lFeJEvq4E.png?r=bd7",
+];
 function Home() {
 	const navigate = useNavigate();
 	const [accounts, setAccounts] = useState([]);
@@ -94,6 +101,12 @@ function Home() {
 							<div
 								key={index}
 								onClick={() => handleChooseAccount(account)}
+
+								style={{
+									backgroundImage: `url(${icons[index%5]})`,
+									backgroundPosition: "top",
+									backgroundSize: "100%",
+								}}
 							>
 								<p>{account.name}</p>
 							</div>
