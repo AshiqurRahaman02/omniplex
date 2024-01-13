@@ -1,9 +1,11 @@
 const popular = [
 	{
 		title: "Money Heist: Korea - Joint Economic Area",
+		video: "/assets/netflix/videos/Money Heist_ Korea - Joint Economic Area.mp4",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfEQMWocPVdpNjLRPmUy1I_f4po5GnpeXluByp6-8PqKu18yOvErs4FaBbuHCfEAERsXMtPtFuBU9c3QTnEQi-LfnZtodgbPCLaJmQ1yCpXmTOwBlWn4rPZYM4o-W9kkchO6.jpg?r=1aa",
-			titleImage:"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABQwslcjXqMzUnrZkH24HLXBq0J_gOGR0hxStCT5Bj6F8G_Ya6s-LaFFyVaqPFhX8cSFXJZZ9QlpJVq0ri6geN8Pr9FSDT2z5UYXN1cUxYcjp73BMOENCeeNqauN9AVy_Ab7yZzsoRt0R6oNFVD0jCUfYflKnuzGLgAcinaRDP0nlunTSbp-k.webp?r=a1a",
+		titleImage:
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABQwslcjXqMzUnrZkH24HLXBq0J_gOGR0hxStCT5Bj6F8G_Ya6s-LaFFyVaqPFhX8cSFXJZZ9QlpJVq0ri6geN8Pr9FSDT2z5UYXN1cUxYcjp73BMOENCeeNqauN9AVy_Ab7yZzsoRt0R6oNFVD0jCUfYflKnuzGLgAcinaRDP0nlunTSbp-k.webp?r=a1a",
 		thambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABVrEk646clVqqfWp_o7e0HweiakxtIAONsg2F2PZcZmb1R__vbsfA5zUs_acE2heVUDnZjcsr2oD5smZwr6pj2OqWkXxLsCvBXv5.webp?r=3df",
 		description:
@@ -103,9 +105,11 @@ const popular = [
 	},
 	{
 		title: "The Good Doctor",
+		video: "/assets/netflix/videos/The Good Doctor.mp4",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABbAtol4N8au3_vTzBVW9pYcJSGBApH3A5LKKwu3M7fuP8mMT1dEfuA2BdLriBp_ZFf48x-mmHww0VflpZOoqBjiUQJQjkYM4Yt_UCV1lRZNCByTBVrkdorSN5bY-qDx4nwjEmrzLyQMgBN4z_cmuQEwcWLezzMW3cos8xKbh12ueRnlIqYo80LAsFXRTHDkp6sP8_Jcpx3T_-6ulFocfja0vBNPq57PMSd5j0umtXhFj84jihKdbHtiM6IBaWlkVDrK_wUjelIm3F4Mmmq_Mr0Y.webp?r=65f",
-			titleImage:"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABWIhhxyr4La38UdC5i_nh-cHWxb2awKmYHP073mzL5_ZsQgVM5ncHl7dLkq9w-9LG_Kj__3cnBv3MrGQDMm5IoDWXZ5iFOCSCkMqzWctCoQ.webp?r=8ba",
+		titleImage:
+			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABWIhhxyr4La38UdC5i_nh-cHWxb2awKmYHP073mzL5_ZsQgVM5ncHl7dLkq9w-9LG_Kj__3cnBv3MrGQDMm5IoDWXZ5iFOCSCkMqzWctCoQ.webp?r=8ba",
 		thambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABcqj_R2bz1M0Jr6mxfHnsmLvC8onSjWAMWz-3MmBW-PF8gu2JwhmS8GaTJ4l5dkuXDGO2xq-s-xLSxNjT18kJ1ZrM2TFX8Hxxdud.webp?r=6f8",
 		description:
@@ -413,6 +417,7 @@ const popular = [
 	},
 	{
 		title: "Peaky Blinders",
+		video: "/assets/netflix/videos/Peaky Blinders.mp4",
 		creators: "Steven Knight",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABRbyOaaLIpetkVsg4ibIHQM7fT5it52LdIL2cJh3g64usYAoKnTOr-yStg_3-jUnY0EXTkwyIikcmBPEkjXOo1jbC0DAHSQAQeJFKPvOm2HgaFXlbtq221naXnJJyokA759Z0A.jpg?r=a07",
@@ -579,8 +584,9 @@ const popular = [
 	},
 	{
 		title: "Society of the Snow",
+		video: "/assets/netflix/videos/Society of the Snow.mp4",
 		creators: "J.A. Bayona",
-		duration:"2h 25m",
+		duration: "2h 25m",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABSbCNM1NjMtvBygoTJXZjVK_0Ro72M-SQOfMScXS6rcWOGmH3AbtZKPSv3qbxbmfmakJgVakjnzST7ch65VD2jReNIxI-f78Hm5lMQN0DKS3aZzYXOnvtKvDIzIkVDFyny_fLmw17NAhIjzGR1jRWTuUxOF9GBdDRVliDD-4I2WxSgOKsHJBPAEnj48K5eORFlzOd-WYFXZHMWijnFlGRAUElBJJVvwXS5ajlvOnIRDYMNVOIvcTO9o7AG6GmSBx5QQPirWT9EQxuZPdM1VkZ2RM3aC4E89o9CX63BH7bkh-3VuopzMSu5hd6J7YBs2Too1gBL6rjs_s9XdDQo9BEY-EQLRKmyAb6WLf00n9mKRs7kts41Q.jpg?r=864",
 		thambnail:
@@ -595,8 +601,9 @@ const popular = [
 	},
 	{
 		title: "Top Gun Maverick",
+		video: "/assets/netflix/videos/Top Gun_ Maverick.mp4",
 		creators: "J.A. Bayona",
-		duration:"2h 11m",
+		duration: "2h 11m",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABfDeG0Olf5eaACwJyUrIy2EXhi5VoWkQWK9j6XLRPPrGb83Uichh-BmaAhL9y-SlbzjkWirzmSYVkhYiIifriUws04CPE7UY5RAplW8f3awVsrQXm6O4yNa2uciMBptDovqOWPvPIVe_ulU7qQnox-n_jjtAzd-qohDHaAf4Eh9Au0TLoCusUQY6accIM88fp6WGZz0Nd-i1PjiHswI52kMFJgFtD-5daLgwCYV27cMd7z1AqG2vth1aq5Mu0KSKUTd75C3TbhBpgLPbZNrzhoHPOxkq.webp?r=67e",
 		thambnail:
@@ -612,7 +619,8 @@ const popular = [
 	{
 		title: "hi PAPA",
 		creators: "J.A. Bayona",
-		duration:"2h 36m",
+		video: "/assets/netflix/videos/HI PAPA.mp4",
+		duration: "2h 36m",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABY0pR3-vZDBxDnQNbSc_bJC5s_OdK7FFlhKWpRb95xIRENb7-S6cwUQej6LMu4usoMJ-s1xrk88nAd0OIsN2aGkirLU0Fw4OgXaDQTb75wf8UrExI9u-M53Th0tf2dc2dKDfwr0bF4vpd3dIK0ep4uUOysI1qiIvpzXIIJmQYMQPbawFH9SDibDGk2OXIaDYjY6jEBIgQF1Go7uO7gKw_dp-9B733kMkb1kXUmp20Dr1QM5C_popz_A3WmAmocljgeQsEi-tMOM2Bw-bPOm4zouy82gFe-eAAe827SPfnUgXblzhZ2faFuuop9FlUWhAg_SwyXzAwmIWUdz0PpxSfHOZ.webp?r=313",
 		thambnail:
@@ -627,8 +635,9 @@ const popular = [
 	},
 	{
 		title: "GRAN TURISMO",
+		video: "/assets/netflix/videos/GRAN TURISMO.mp4",
 		creators: "J.A. Bayona",
-		duration:"2h 14m",
+		duration: "2h 14m",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABd3VsDTGNYGXZhO1ieCGPgVsP8VxMH0QoCfYaWVbMTbxDxUaNth_BlyHOE65psmCq7sX7jPKkuawkzWfQuQ9WNfLjGTppdv_HFE.webp?r=303",
 		thambnail:
@@ -643,6 +652,7 @@ const popular = [
 	},
 	{
 		title: "Lookism",
+		video: "/assets/netflix/videos/Lookism.mp4",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABWFdCHYjgh_GCSeX1piBaNypa4e6yyGK1p4HZcmP7HgjfEDtgzoUHM3BwpHgUrAKxTpne8A4Xg-ZJ_vHeR2DSRRY4LIocgX-ara0m7RYcU4ZcfyrdWEwM6xT-2tpvUh-w8Tw.jpg?r=c32",
 		thambnail:
@@ -746,6 +756,7 @@ const popular = [
 	},
 	{
 		title: "One Piece",
+		video: "/assets/netflix/videos/ONE PIECE.mp4",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6gmvu2hxdfnQ55LZZjyzYR4kzGk/AAAABZwDvm1n95tdUlapIrF8SzEEuE0Tl8JPM-K-H1Sv-5BciJhzsMgcSj4ddbRCVmRNVDokrNGiwxVSrzS3Jdn_MCWH66u4HvcOqk_iR0vP0lEywOe-79ZAG69JfdyTIn5oINjg.jpg?r=2db",
 		thambnail:
@@ -849,6 +860,7 @@ const popular = [
 	},
 	{
 		title: "THE PLAYLIST",
+		video: "/assets/netflix/videos/The Playlist.mp4",
 		mainThambnail:
 			"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABWB3D5uBSp7Zu55Z60p3t-15w_ezGNn_OrRYo5Q6djBVQavl1pmch6wyR3UrHPCIiCHT3-15h3D-ixi_b51NuB9KLjjay_pQsReW.webp?r=a61",
 		thambnail:
@@ -926,7 +938,7 @@ const popular = [
 							"The eccentric entrepreneur and co-founder of Spotify, Martin Lorentzon, looks back on the first five years of 'bankrolling Daniel's mistakes.'",
 					},
 					{
-						name:"The Artist",
+						name: "The Artist",
 						thambnail:
 							"https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZnxCZ1GmCoiyBSGA_7ZKusNu89TXON6aIMj6PRI5nSWVmrGmR7f7If8S-AA5QaDcL76Ajj1x9ChoyzEqaiDqNIqXff3EXUIYspBF2BNSC70ictupqLA5NIb.jpg?r=d22",
 						duration: "48m",
@@ -939,4 +951,4 @@ const popular = [
 	},
 ];
 
-export default popular
+export default popular;

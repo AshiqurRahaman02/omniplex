@@ -32,6 +32,7 @@ let imageUrl = popular[active]
 	: "https://occ-0-1947-2164.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABepkXuzGaDhQEUpOtCrCzwvPWkC15bY5t_FaLWDAzDEqOI2Ntnc6w29lnpDIJucYrumhQyivBBoWybfGCjud29SzF8wDiyHX49Fi.webp?r=036";
 
 function Browser() {
+	const navigate = useNavigate()
 	const [displaySearch, setDisplaySearch] = useState(false);
 	const [scrolling, setScrolling] = useState(false);
 
@@ -44,7 +45,7 @@ function Browser() {
 		);
 
 		const handleScroll = () => {
-			if (window.scrollY > 0) {
+			if (window.scrollY > 10) {
 				setScrolling(true);
 			} else {
 				setScrolling(false);
@@ -193,7 +194,7 @@ function Browser() {
 								: "In this fictionalized account, a Swedish tech entrepreneur and his partners set out to revolutionize the music industry with a legal streaming platform."}
 						</p>
 						<div>
-							<button>
+							<button onClick={()=>navigate(`/netflix/watch?trackId=${active}`)}>
 								<svg
 									width="24"
 									height="24"
@@ -246,6 +247,11 @@ function Browser() {
 						className="second-content"
 						type="watching"
 					/>
+					<Trending
+						data={movies}
+						text="Top 10 Movies in India Today"
+						className="second-content"
+					/>
 					<Content
 						data={searches}
 						text="Top Searches"
@@ -253,8 +259,8 @@ function Browser() {
 					/>
 
 					<Trending
-						data={movies}
-						text="Top 10 Movies in India Today"
+						data={shows}
+						text="Top 10 Shows in India Today"
 						className="second-content"
 					/>
 				</div>

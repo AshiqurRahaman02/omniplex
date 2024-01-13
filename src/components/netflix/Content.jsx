@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Content({ data, text, className, setActiveInfo ,type}) {
+function Content({ data, text, className, setActiveInfo, type }) {
+	const navigate = useNavigate()
 	const categoriesContainerRef = useRef(null);
 	const handlePrev = () => {
 		categoriesContainerRef.current.scrollLeft -=
@@ -36,7 +38,12 @@ function Content({ data, text, className, setActiveInfo ,type}) {
 						return (
 							<div>
 								<img src={ele.mainThambnail} alt="" />
-								{type && type === "watching" && <progress  value={2+Math.floor(Math.random()*7)} max="10"></progress>}
+								{type && type === "watching" && (
+									<progress
+										value={2 + Math.floor(Math.random() * 7)}
+										max="10"
+									></progress>
+								)}
 								<div id="data-info">
 									<div>
 										<div>
@@ -47,6 +54,12 @@ function Content({ data, text, className, setActiveInfo ,type}) {
 												// stroke-width="1.5"
 												stroke="currentColor"
 												class="w-6 h-6"
+
+												onClick={() => {
+													if (setActiveInfo) {
+														navigate(`/netflix/watch?trackId=${i}`)
+													}
+												}}
 											>
 												<path
 													d="M5 2.69127C5 1.93067 5.81547 1.44851 6.48192 1.81506L23.4069 11.1238C24.0977 11.5037 24.0977 12.4963 23.4069 12.8762L6.48192 22.1849C5.81546 22.5515 5 22.0693 5 21.3087V2.69127Z"
