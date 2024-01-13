@@ -649,7 +649,11 @@ form .form-help :where(label, a) {
 #netfilx-content #all-data > div > img {
 	width: 229px;
 }
+#netfilx-content #all-data > div:hover > progress{
+	display: none;
+}
 #netfilx-content #all-data > div > progress {
+	display: block;
 	width: 90%;
 	height: 3px;
 	margin: 0px 5%;
@@ -961,4 +965,15 @@ progress[value]::-webkit-progress-value {
 	> p:nth-child(1)
 	> span:nth-child(1) {
 	color: rgb(0, 255, 0);
+}
+
+
+.video-controls{
+	width: 100%;
+}
+
+.video-slider{
+	height: 3px;
+	width: 100%;
+	color: red;
 }
