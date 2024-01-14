@@ -27,6 +27,10 @@ import NetflixSignIn from "./pages/netflix/Sign"
 import NetflixBrowser from './pages/netflix/Browser';
 import NetflixWatch from './pages/netflix/Watch';
 
+// spotify pages
+import SpotifyHome from './pages/spotify/Home'
+import SpotifySignIn from "./pages/spotify/Sign"
+
 function App() {
   return (
     <Router>
@@ -51,6 +55,11 @@ function App() {
         <Route path="/netflix/login" element={<NetflixSignIn />} />
         <Route path="/netflix/browse" element={<NetflixBrowser />} />
         <Route path="/netflix/watch" element={<NetflixWatch />} />
+
+        
+        {/* spotify */}
+        <Route path="/spotify" element={<SpotifyHome />} />
+        <Route path="/spotify/:type" element={<SpotifySignIn />} />
       </Routes>
     </Router>
   );
