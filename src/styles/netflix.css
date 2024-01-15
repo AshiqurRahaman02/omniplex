@@ -11,6 +11,15 @@
 	display: grid;
 	place-items: center;
 }
+.netflix-body ::-webkit-scrollbar {
+	width: 0.5rem;
+	background-color: #0f0f0f;
+	border: 0.5rem;
+}
+.netflix-body ::-webkit-scrollbar-thumb {
+	background-color: gray;
+	border-radius: 0.3rem;
+}
 #browser > h1 {
 	font-size: 50px;
 	position: relative;

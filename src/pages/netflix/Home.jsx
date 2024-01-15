@@ -63,7 +63,7 @@ function Home() {
 
 		const activeAccount = sessionStorage.getItem("activeAccount");
 
-		if(activeAccount){
+		if (activeAccount) {
 			navigate("/netflix/browse");
 		}
 
@@ -93,7 +93,7 @@ function Home() {
 	};
 	return (
 		<div className="netflix-body">
-			{accounts ? (
+			{accounts.length > 0 ? (
 				<div id="browser">
 					<h1>Who is Watching?</h1>
 					<div>
@@ -101,9 +101,8 @@ function Home() {
 							<div
 								key={index}
 								onClick={() => handleChooseAccount(account)}
-
 								style={{
-									backgroundImage: `url(${icons[index%5]})`,
+									backgroundImage: `url(${icons[index % 5]})`,
 									backgroundPosition: "top",
 									backgroundSize: "100%",
 								}}
