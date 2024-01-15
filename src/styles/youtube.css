@@ -17,12 +17,12 @@
 	margin: 0;
 	padding: 0;
 }
-::-webkit-scrollbar {
+#youtube ::-webkit-scrollbar {
 	width: 0.5rem;
 	background-color: #0f0f0f;
 	border: 0.5rem;
 }
-::-webkit-scrollbar-thumb {
+#youtube ::-webkit-scrollbar-thumb {
 	background-color: gray;
 	border-radius: 0.3rem;
 }
@@ -372,7 +372,7 @@ header>main{
 	height: 35px;
 	border-radius: 10px;
 }
-#previous,#next{
+#yt-categories #previous,#yt-categories #next{
 	width: 40px;
 	height: 40px;
 	padding: 10px;
@@ -383,16 +383,16 @@ header>main{
 	background-color: #0f0f0f;
 	color: #F1F1F1;
 }
-#previous:hover,#next:hover{
+#yt-categories #previous:hover,#yt-categories #next:hover{
 	
 	background-color: gray;
 }
-#previous{
+#yt-categories #previous{
 	box-shadow: 10px 0px 96px 80px #0f0f0f;
 	left: -12px;
 	top: 6px;
 }
-#next{
+#yt-categories #next{
 	box-shadow: -10px 0px 96px 80px #0f0f0f;
 	right: -30px;
 	top: 6px;
