@@ -3,29 +3,40 @@
 	padding: 10px;
 	height: 100vh;
 }
-.spotify>div:nth-child(1){
-    display: flex;
-    gap: 10px;
+.spotify ::-webkit-scrollbar {
+	width: 0.5rem;
+	background-color: #0f0f0f;
+	border: 0.5rem;
 }
-.spotify>div:nth-child(2)
-{
-    background-image: linear-gradient(90deg,#af2896,#509bf5);
+.spotify ::-webkit-scrollbar-thumb {
+	background-color: transparent;
+}
+.spotify:hover ::-webkit-scrollbar-thumb {
+	background-color: gray;
+	border-radius: 0rem;
+}
+.spotify > div:nth-child(1) {
+	display: flex;
+	gap: 10px;
+}
+.spotify > div:nth-child(2) {
+	background-image: linear-gradient(90deg, #af2896, #509bf5);
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    color: white;
-    font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 12px;
+	color: white;
+	font-weight: 600;
 }
 
-.spotify>div:nth-child(2) button{
-    padding: 8px 17px;
+.spotify > div:nth-child(2) button {
+	padding: 8px 17px;
 	width: max-content;
 	border-radius: 20px;
 	font-weight: 600;
-    font-size: 17px;
-    border: 0;
+	font-size: 17px;
+	border: 0;
 }
 
 #spotify-left {
@@ -40,6 +51,9 @@
 	background-color: #121212;
 	padding: 10px;
 	border-radius: 10px;
+}
+#spotify-library {
+	height: 65vh;
 }
 #spotify-nav > p {
 	color: white;
@@ -72,21 +86,21 @@ svg {
 	opacity: 0.6;
 }
 
-#spotify-library > div:nth-child(2) {
+#spotify-library #main {
 	margin-top: 15px;
 
 	min-height: 100px;
 	max-height: 185px;
 	overflow-x: hidden;
 }
-#spotify-library > div:nth-child(2)::-webkit-scrollbar-thumb {
-    background-color: transparent;
+#spotify-library #main::-webkit-scrollbar-thumb {
+	background-color: transparent;
 }
 
-#spotify-library > div:nth-child(2):hover::-webkit-scrollbar-thumb {
-    background-color: gray;
+#spotify-library #main:hover::-webkit-scrollbar-thumb {
+	background-color: gray;
 }
-#spotify-library > div:nth-child(2) > div {
+#spotify-library #main > div {
 	padding: 8px 5px;
 	display: flex;
 	flex-direction: column;
@@ -97,351 +111,486 @@ svg {
 	margin-top: 15px;
 	border-radius: 8px;
 }
-#spotify-library > div:nth-child(2) > div > h4 {
+#spotify-library #main > div > h4 {
 	font-size: 16px;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-#spotify-library > div:nth-child(2) > div > p {
+#spotify-library #main > div > p {
 	font-size: 14px;
 	font-weight: 600;
 	margin-bottom: 10px;
 }
-#spotify-library > div:nth-child(2) > div > button {
+#spotify-library #main > div > button {
 	padding: 8px 17px;
 	width: max-content;
 	border-radius: 20px;
 	font-weight: 600;
 }
 
-
-
-
-#spotify-library > div:nth-child(3) {
-    padding: 8px 12px;
-    display: flex;
-    margin: 40px 0px;
-    gap: 15px 20px;
-    flex-wrap: wrap;
-    width: 90%;
+#spotify-library #main + div {
+	padding: 8px 12px;
+	display: flex;
+	margin: 40px 0px;
+	gap: 15px 20px;
+	flex-wrap: wrap;
+	width: 90%;
 }
-#spotify-library > div:nth-child(3) >a{
-    color: #9E9E9E;
-    text-decoration: none;
-    font-size: 13px;
+#spotify-library #main + div > a {
+	color: #9e9e9e;
+	text-decoration: none;
+	font-size: 13px;
 }
-#spotify-library > div:nth-child(4) {
-    padding: 8px 12px;
-    margin: 40px 0px;
-
+#spotify-library #main + div + div {
+	padding: 8px 12px;
+	margin: 20px 0px;
 }
-#spotify-library > div:nth-child(4)  > button {
+#spotify-library #main + div + div > button {
 	padding: 5px 15px;
 	width: max-content;
 	border-radius: 20px;
 	font-weight: 600;
-    display: flex;
-    gap: 10px;
-    color: white;
-    background-color: transparent;
-    align-items: center;
-    border: 1px solid white;
+	display: flex;
+	gap: 10px;
+	color: white;
+	background-color: transparent;
+	align-items: center;
+	border: 1px solid white;
 }
 
-#spotify-main{
-    color: white;
+.playlist-artist{
+	padding: 8px 15px;
+	display: flex;
+	gap: 20px;
+	font-size: 14px;
+
+	font-weight: 600;
+}
+.playlist-artist>span{
+	background-color: #232323;
+	padding: 6px 13px;
+	border-radius: 20px;
+}
+#spotify-library #main-library {
+	max-height: 51vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding: 8px 15px;
+}
+#spotify-library #main-library::-webkit-scrollbar-thumb {
+	background-color: transparent;
+}
+
+#spotify-library #main-library:hover::-webkit-scrollbar-thumb {
+	background-color: gray;
+}
+#spotify-library #main-library > p:nth-child(1) {
+	font-size: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+#spotify-library #main-library > p:nth-child(1) > span {
+	display: flex;
+	align-items: center;
+
+	position: relative;
+}
+#spotify-library #main-library > p:nth-child(1) > span>input{
+	padding: 2px;
+	outline: none;
+	height: 30px;
+	padding-left: 30px;
+	position: absolute;
+	font-size: 15px;
+	color: white;
+
+	transition: 1s;
+}
+#spotify-library #main-library > p:nth-child(1) svg {
+	width: 16px;
+	height: 16px;
+	margin-left: 5px;
+
+	position: relative;
+	z-index: 1;
+	cursor: pointer;
+}
+#spotify-library #main-library > div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+#spotify-library #main-library > div > div > img {
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
+}
+#spotify-library #main-library > div > div > h4 {
+	font-size: 15px;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+#spotify-library #main-library > div > div > p {
+	display: flex;
+	color: gray;
+	align-items: center;
+	gap: 5px;
+	font-size: 15px;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+#spotify-main {
+	color: white;
 	background-color: #121212;
 	padding: 10px;
 	border-radius: 10px;
-    width: 75%;
-    max-height: 89vh;
-    padding-bottom: 5px;
-    padding-top: 0px;
-    overflow-y: scroll;
+	width: 75%;
+	max-height: 87vh;
+	padding-bottom: 5px;
+	padding-top: 0px;
+	overflow-y: scroll;
 }
-#spotify-main>nav{
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 20px;
-    background-color: #121212;
+#spotify-main > nav {
+	display: flex;
+	justify-content: space-between;
+	padding: 15px 20px;
+	background-color: #121212;
 
-    position: sticky;
-    top:0;
-    z-index: 10;
+	position: sticky;
+	top: 0;
+	z-index: 10;
 }
-#spotify-main>nav>div{
-    display: flex;
-    gap: 10px;
+#spotify-main > nav > div {
+	display: flex;
+	gap: 10px;
 }
-#spotify-main>nav svg{
-    fill: gray;
-    background-color: black;
-    width: 40px;
-    padding: 10px;
-    height: 40px;
-    border-radius: 50%;
-    cursor:no-drop;
+#spotify-main > nav svg {
+	fill: gray;
+	background-color: black;
+	width: 32px;
+	padding: 5px;
+	height: 32px;
+	border-radius: 50%;
+	cursor: no-drop;
 }
-#spotify-main>nav button{
-    padding: 8px 17px;
+#spotify-main > nav button {
+	padding: 0px 20px;
 	width: max-content;
 	border-radius: 20px;
 	font-weight: 600;
-    font-size: 17px;
-    border: 0;
-    transition: 0.5s;
-    opacity: .7;
-    cursor: pointer;
+	font-size: 14px;
+	border: 0;
+	transition: 0.5s;
+	opacity: 0.7;
+	cursor: pointer;
 }
-#spotify-main>nav button:hover{
-    transform: scale(1.05);
-    opacity: 1;
+#spotify-main > nav button:hover {
+	transform: scale(1.05);
+	opacity: 1;
 }
-#spotify-main>nav button:nth-child(1){
-    color: rgb(255, 255, 255);
-    background-color: transparent;
-}
-
-#spotify-main>footer {
-    margin-top: 50px;
-    padding: 10px 20px;
-}
-#spotify-main>footer>div{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-}
-#spotify-main>footer>div>div:nth-child(1){
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
+#spotify-main > nav button:nth-child(1) {
+	color: rgb(255, 255, 255);
+	background-color: transparent;
 }
 
-#spotify-main>footer>div>div:nth-child(1) ul{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+#spotify-main > footer {
+	margin-top: 50px;
+	padding: 10px 20px;
 }
-#spotify-main>footer>div>div:nth-child(1) li{
-    color: #A1A1A1;
+#spotify-main > footer > div {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 20px;
 }
-#spotify-main>footer>div>div:nth-child(2){
-    /* width: 100px; */
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-}
-#spotify-main>footer>div>div:nth-child(2) svg{
-    fill: rgb(255, 255, 255);
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-#spotify-main>footer>div>div:nth-child(2)>div{
-    padding: 10px;
-    width: max-content;
-    height: max-content;
-    display: flex;
-    align-items: center;
-    border-radius: 50%;
-    background-color: #292929;
-}
-#spotify-main>footer>hr{
-    margin: 10px 15px;
-    border: rgb(59, 59, 59) 1px solid;
-}
-#spotify-main>footer>p{
-    margin: 30px 10px;
-    padding: 10px 0px;
-    font-size: 13px;
-    color: rgb(150, 150, 150);
+#spotify-main > footer > div > div:nth-child(1) {
+	width: 50%;
+	display: flex;
+	justify-content: space-between;
 }
 
-#spotify-main main>div{
-    padding: 20px 0px;
+#spotify-main > footer > div > div:nth-child(1) ul {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 }
-#spotify-main main>div>div:nth-child(1){
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 10px 10px;
+#spotify-main > footer > div > div:nth-child(1) li {
+	color: #a1a1a1;
 }
-#spotify-main main>div>div:nth-child(2){
-    /* display: grid;
+#spotify-main > footer > div > div:nth-child(2) {
+	/* width: 100px; */
+	display: flex;
+	gap: 10px;
+	justify-content: space-between;
+}
+#spotify-main > footer > div > div:nth-child(2) svg {
+	fill: rgb(255, 255, 255);
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+#spotify-main > footer > div > div:nth-child(2) > div {
+	padding: 10px;
+	width: max-content;
+	height: max-content;
+	display: flex;
+	align-items: center;
+	border-radius: 50%;
+	background-color: #292929;
+}
+#spotify-main > footer > hr {
+	margin: 10px 15px;
+	border: rgb(59, 59, 59) 1px solid;
+}
+#spotify-main > footer > p {
+	margin: 30px 10px;
+	padding: 10px 0px;
+	font-size: 13px;
+	color: rgb(150, 150, 150);
+}
+
+#spotify-main main > div {
+	padding: 20px 0px;
+}
+#spotify-main main > div > div:nth-child(1) {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	padding: 10px 10px;
+}
+#spotify-main main > div > div:nth-child(2) {
+	/* display: grid;
     grid-template-columns: repeat(5,1fr); */
-    display: flex;
-    flex-wrap: wrap;
-    gap: 11px;
-    /* justify-content: space-between; */
+	display: flex;
+	flex-wrap: wrap;
+	gap: 11px;
+	/* justify-content: space-between; */
 }
 
-#playlist{
-    width: 204px;
-    /* border: 1px solid red; */
-    padding: 10px;
-    background-color: #171717;
-    border-radius: 10px;
-    transition: .5s;
+#playlist {
+	width: 204px;
+	/* border: 1px solid red; */
+	padding: 10px;
+	background-color: #171717;
+	border-radius: 10px;
+	transition: 0.5s;
 }
-#playlist:hover{
-    background-color: #333333;
+#playlist:hover {
+	background-color: #333333;
 }
-#playlist>div:nth-child(1){
- position: relative;
+#playlist > div:nth-child(1) {
+	position: relative;
 }
-#playlist>div:nth-child(1)>img{
-    width: 100%;
-    border-radius: 10px;
+#playlist > div:nth-child(1) > img {
+	width: 100%;
+	border-radius: 10px;
 }
-#playlist>div:nth-child(1)>svg{
-    position: absolute;
-    background-color: #1fdf64;
-    bottom: 0px;
-    right: 30px;
+#playlist > div:nth-child(1) > svg {
+	position: absolute;
+	background-color: #1fdf64;
+	bottom: 0px;
+	right: 30px;
 
-    width: 0px;
-    height: 0px;
-    padding: 0px;
-    border-radius: 50%;
+	width: 0px;
+	height: 0px;
+	padding: 0px;
+	border-radius: 50%;
 
-    transition: .5s;
-    cursor: pointer;
+	transition: 0.5s;
+	cursor: pointer;
 }
-#playlist:hover>div:nth-child(1)>svg{
-    bottom: 15px;
-    right: 10px;
+#playlist:hover > div:nth-child(1) > svg {
+	bottom: 15px;
+	right: 10px;
 
-    width: 50px;
-    height: 50px;
-    padding: 10px;
+	width: 50px;
+	height: 50px;
+	padding: 10px;
 }
-#playlist>div:nth-child(2)>p{
-    font-size: 14px;
-    padding-right: 5px;
-}
-
-.spotify-sign{
-    background-color: #121212;
-    margin: 0;
-    padding: 0;
-    color: white;
-}
-.spotify-sign>div:nth-child(1){
-    padding: 24px 20px 10px;
-}
-.spotify-sign>div:nth-child(2){
-    width: 330px;
-    margin: auto;
+#playlist > div:nth-child(2) > p {
+	font-size: 14px;
+	padding-right: 5px;
 }
 
-.spotify-sign>div:nth-child(2)>h1{
-    font-size: 44px;
-    line-height: 46px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
+.spotify-sign {
+	background-color: #121212;
+	margin: 0;
+	padding: 0;
+	color: white;
+}
+.spotify-sign > div:nth-child(1) {
+	padding: 24px 20px 10px;
+}
+.spotify-sign > div:nth-child(2) {
+	width: 330px;
+	margin: auto;
 }
 
-.spotify-sign #form{
-
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-}
-.spotify-sign #form>label{
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 20px;
-}
-.spotify-sign #form>input[type="text"]{
-    width: 100%;
-    padding: 5px 15px;
-    height:45px;
-    margin-top: 10px;
-    border: 1.5px solid gray;
-    font-size: 15px;
-    font-weight: 600;
-    background-color: transparent;
-    border-radius: 5px;
-}
-.spotify-sign #form>input[type="text"]::placeholder{
-    color: rgb(204, 204, 204);
-}
-.spotify-sign #form>a{
-    color:#1ED760;
-    font-size: 13px;
-    font-weight: 600;
-    margin: 10px 0px;
-}
-.spotify-sign #form>button{
-    background-color:#1ED760;
-    border: 0;
-    width: 100%;
-    font-size: 17px;
-    font-weight: 700;
-    margin: 10px 0px;
-    padding: 14px 20px;
-    border-radius: 30px;
-}
-.spotify-sign #form+div{
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    margin: 10px 0px;
-}
-.spotify-sign #form~div>hr{
-    width: 45%;
-    height: 1px;
-    border: 1px solid gray;
-    margin-top: 5px;
+.spotify-sign > div:nth-child(2) > h1 {
+	font-size: 44px;
+	line-height: 46px;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	margin: 0;
 }
 
-.spotify-sign #auth{
-    padding: 20px 0px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.spotify-sign #form {
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
 }
-.spotify-sign #auth>div{
-    position: relative;
-    text-align: center;
+.spotify-sign #form > label {
+	font-size: 14px;
+	font-weight: 600;
+	margin-top: 20px;
+}
+.spotify-sign #form > input[type="text"] {
+	width: 100%;
+	padding: 5px 15px;
+	height: 45px;
+	margin-top: 10px;
+	border: 1.5px solid gray;
+	font-size: 15px;
+	font-weight: 600;
+	background-color: transparent;
+	border-radius: 5px;
+}
+.spotify-sign #form > input[type="text"]::placeholder {
+	color: rgb(204, 204, 204);
+}
+.spotify-sign #form > a {
+	color: #1ed760;
+	font-size: 13px;
+	font-weight: 600;
+	margin: 10px 0px;
+}
+.spotify-sign #form > button {
+	background-color: #1ed760;
+	border: 0;
+	width: 100%;
+	font-size: 17px;
+	font-weight: 700;
+	margin: 10px 0px;
+	padding: 14px 20px;
+	border-radius: 30px;
+}
+.spotify-sign #form + div {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	margin: 10px 0px;
+}
+.spotify-sign #form ~ div > hr {
+	width: 45%;
+	height: 1px;
+	border: 1px solid gray;
+	margin-top: 5px;
+}
 
-    background-color:transparent;
-    border: 1px solid gray;
-    width: 100%;
-    /* font-size: 17px; */
-    font-weight: 700;
-    /* margin: 10px 0px; */
-    padding: 14px 20px;
-    border-radius: 30px;
+.spotify-sign #auth {
+	padding: 20px 0px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
-.spotify-sign #auth>div>svg{
-    position: absolute;
+.spotify-sign #auth > div {
+	position: relative;
+	text-align: center;
 
-    left: 20px;
+	background-color: transparent;
+	border: 1px solid gray;
+	width: 100%;
+	/* font-size: 17px; */
+	font-weight: 700;
+	/* margin: 10px 0px; */
+	padding: 14px 20px;
+	border-radius: 30px;
 }
-.spotify-sign #auth~hr{
-    height: 0px;
-    border: .5px solid rgb(78, 78, 78);
-    margin-top: 5px;
-}
-.spotify-sign #info{
-    display: flex;
-    flex-direction: column;
-    color: rgb(161, 161, 161);
-    padding: 10px 0px;
-    gap: 20px;
+.spotify-sign #auth > div > svg {
+	position: absolute;
 
-    width: 95%;
-    margin-top: 20px;
-    padding: 0px auto;
-    padding-bottom: 30px;
-    text-align: center;
+	left: 20px;
 }
-.spotify-sign #info a{
-    color: white;
+.spotify-sign #auth ~ hr {
+	height: 0px;
+	border: 0.5px solid rgb(78, 78, 78);
+	margin-top: 5px;
 }
-.spotify-sign #info>p:nth-child(2){
-    font-size: 12px;
+.spotify-sign #info {
+	display: flex;
+	flex-direction: column;
+	color: rgb(161, 161, 161);
+	padding: 10px 0px;
+	gap: 20px;
+
+	width: 95%;
+	margin-top: 20px;
+	padding: 0px auto;
+	padding-bottom: 30px;
+	text-align: center;
+}
+.spotify-sign #info a {
+	color: white;
+}
+.spotify-sign #info > p:nth-child(2) {
+	font-size: 12px;
+}
+
+.spotify #playing-container svg {
+	fill: #a7a7a7;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+}
+.spotify #playing-container > div:nth-child(1) {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+.spotify #playing-container > div:nth-child(1) > div > img {
+	width: 55px;
+}
+.spotify #playing-container > div:nth-child(1) > div > p:nth-child(1) {
+	font-size: 14px;
+}
+.spotify #playing-container > div:nth-child(1) > div > p:nth-child(2) {
+	font-size: 12px;
+}
+
+.spotify #playing-container > div:nth-child(1) > div > svg {
+	margin-left: 20px;
+}
+
+.spotify #playing-container > div:nth-child(3) {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.spotify #playing-container > div:nth-child(2) {
+	width: 550px;
+	text-align: center;
+}
+.spotify #playing-container > div:nth-child(2) > div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 15px;
+}
+.spotify #playing-container > div:nth-child(2) > div button {
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	border: 0;
+}
+.spotify #playing-container > div:nth-child(2) > div button > svg {
+	width: 20px;
+	height: 20px;
+	fill: black;
 }

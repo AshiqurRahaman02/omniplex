@@ -28,7 +28,10 @@ function Sign() {
 				<div>
 					<h1>Login to Spotify</h1>
 					<div id="auth">
-						<div onClick={navigateToHome}>
+						<div  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>
 							<svg
 								width="25"
 								height="24"
@@ -63,7 +66,10 @@ function Sign() {
 							</svg>{" "}
 							<p>Sign up with Google</p>
 						</div>
-						<div onClick={navigateToHome}>
+						<div  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>
 							<svg
 								width="25"
 								height="24"
@@ -79,7 +85,10 @@ function Sign() {
 							</svg>
 							<p>Sign up with Facebook</p>
 						</div>
-						<div onClick={navigateToHome}>
+						<div  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>
 							<svg
 								width="24"
 								height="24"
@@ -101,7 +110,10 @@ function Sign() {
 						<input type="text" placeholder="Email or username" />
 						<label htmlFor="">Password</label>
 						<input type="text" placeholder="Password" />
-						<button onClick={navigateToHome}>Log In</button>
+						<button onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>Log In</button>
 
 						<Link>Forgot your passowrd?</Link>
 					</div>
@@ -124,7 +136,10 @@ function Sign() {
 						<label htmlFor="">Email address</label>
 						<input type="text" placeholder="name@domain.com" />
 						<Link>Use phone number instead.</Link>
-						<button onClick={navigateToHome}>Next</button>
+						<button  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>Next</button>
 					</div>
 					<div>
 						<hr />
@@ -132,7 +147,10 @@ function Sign() {
 						<hr />
 					</div>
 					<div id="auth">
-						<div onClick={navigateToHome}>
+						<div  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>
 							<svg
 								width="25"
 								height="24"
@@ -167,7 +185,10 @@ function Sign() {
 							</svg>{" "}
 							<p>Sign up with Google</p>
 						</div>
-						<div onClick={navigateToHome}>
+						<div  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>
 							<svg
 								width="25"
 								height="24"
@@ -183,7 +204,10 @@ function Sign() {
 							</svg>
 							<p>Sign up with Facebook</p>
 						</div>
-						<div onClick={navigateToHome}>
+						<div  onClick={()=>{
+							localStorage.setItem("spotifyLogedIn",true)
+					 		navigateToHome() 
+					 }}>
 							<svg
 								width="24"
 								height="24"

@@ -5,9 +5,13 @@ import "../../styles/spotify.css";
 import { Link, useNavigate } from "react-router-dom";
 
 import Playlists from "../../components/spotify/Playlists";
+
+import library from "../../constant/spotify/library";
+
 import dinnerPlaylists from "../../constant/spotify/dinner";
 import sleepPlaylists from "../../constant/spotify/sleep";
 import trendingPlaylists from "../../constant/spotify/trending";
+import { Slider } from "@mui/material";
 
 let leftBottomLinks = [
 	{
@@ -39,15 +43,17 @@ let leftBottomLinks = [
 
 function Home() {
 	const navigate = useNavigate();
-	const [showAllPlaylists, setShowAllPlaylists] = useState({
-		playlist1: false,
-	});
+	const [userLogedIn, setUserLoggedIn] = useState();
+	const [dislaySearchLibrary, setDisplaySearchLibrary] = useState(false);
 	useEffect(() => {
 		document.title = "Spotify - Web Player: Music for everyone";
 		changeFavicon(
 			"https://open.spotifycdn.com/cdn/images/favicon32.b64ecc03.png"
 		);
-	});
+
+		setUserLoggedIn(localStorage.getItem("spotifyLogedIn"));
+	}, []);
+
 	return (
 		<div className="spotify">
 			<div>
@@ -116,42 +122,141 @@ function Home() {
 								</svg>
 							</p>
 						</div>
-						<div>
+						{userLogedIn ? (
 							<div>
-								<h4>Create your first playlist</h4>
-								<p>It's easy, we'll help you</p>
-								<button>Create playlist</button>
+								<p className="playlist-artist">
+									<span>Playlists</span>
+									<span>Artist</span>
+								</p>
+								<div id="main-library">
+									<p>
+										<span>
+											<svg
+												data-encore-id="icon"
+												role="img"
+												aria-hidden="true"
+												class="Svg-sc-ytk21e-0 dYnaPI CIVozJ8XNPJ60uMN23Yg"
+												viewBox="0 0 16 16"
+												onClick={() =>
+													setDisplaySearchLibrary((pre) => !pre)
+												}
+											>
+												<path d="M7 1.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5zM.25 7a6.75 6.75 0 1 1 12.096 4.12l3.184 3.185a.75.75 0 1 1-1.06 1.06L11.304 12.2A6.75 6.75 0 0 1 .25 7z"></path>
+											</svg>
+											<input
+												type="search"
+												placeholder="Search in your Library"
+												style={{
+													width: dislaySearchLibrary
+														? "230px"
+														: "30px",
+													border: dislaySearchLibrary
+														? "1px solid white"
+														: "0px",
+													backgroundColor: dislaySearchLibrary
+														? "#000000e1"
+														: "transparent",
+												}}
+											/>
+										</span>{" "}
+										<span>
+											Recents{" "}
+											<svg
+												data-encore-id="icon"
+												role="img"
+												aria-hidden="true"
+												viewBox="0 0 16 16"
+												class="Svg-sc-ytk21e-0 cAMMLk"
+											>
+												<path d="M15 14.5H5V13h10v1.5zm0-5.75H5v-1.5h10v1.5zM15 3H5V1.5h10V3zM3 3H1V1.5h2V3zm0 11.5H1V13h2v1.5zm0-5.75H1v-1.5h2v1.5z"></path>
+											</svg>
+										</span>
+									</p>
+									{library.map((l, i) => {
+										if (l.type === "Artist") {
+											return (
+												<div key={i}>
+													<div>
+														<img
+															src={l.img}
+															alt=""
+															style={{ borderRadius: "50%" }}
+														/>
+													</div>
+													<div>
+														<h4>{l.owner}</h4>
+														<p>
+															<span>{l.type}</span>{" "}
+														</p>
+													</div>
+												</div>
+											);
+										}
+										return (
+											<div key={i}>
+												<div>
+													<img src={l.img} alt="" />
+												</div>
+												<div>
+													<h4>{l.title}</h4>
+													<p>
+														<span>{l.type}</span>{" "}
+														<span
+															style={{
+																width: "5px",
+																height: "5px",
+																borderRadius: "50%",
+																background: "gray",
+															}}
+														></span>{" "}
+														<span>{l.owner}</span>
+													</p>
+												</div>
+											</div>
+										);
+									})}
+								</div>
 							</div>
+						) : (
 							<div>
-								<h4>Let's find some podcasts to follow</h4>
-								<p>We'll keep you updated on new episodes</p>
-								<button>Create playlist</button>
+								<div id="main">
+									<div>
+										<h4>Create your first playlist</h4>
+										<p>It's easy, we'll help you</p>
+										<button>Create playlist</button>
+									</div>
+									<div>
+										<h4>Let's find some podcasts to follow</h4>
+										<p>We'll keep you updated on new episodes</p>
+										<button>Create playlist</button>
+									</div>
+								</div>
+								<div>
+									{leftBottomLinks.map((link, index) => (
+										<Link to={link.to}>{link.text}</Link>
+									))}
+								</div>
+								<div>
+									<button>
+										<svg
+											style={{
+												fill: "white",
+												width: "16px",
+											}}
+											xmlns="http://www.w3.org/2000/svg"
+											data-encore-id="icon"
+											role="img"
+											aria-hidden="true"
+											viewBox="0 0 16 16"
+											class="Svg-sc-ytk21e-0 kPpCsU"
+										>
+											<path d="M8.152 16H8a8 8 0 1 1 .152 0zm-.41-14.202c-.226.273-.463.713-.677 1.323-.369 1.055-.626 2.496-.687 4.129h3.547c-.06-1.633-.318-3.074-.687-4.129-.213-.61-.45-1.05-.676-1.323-.194-.235-.326-.285-.385-.296h-.044c-.055.007-.19.052-.391.296zM4.877 7.25c.062-1.771.34-3.386.773-4.624.099-.284.208-.554.329-.806a6.507 6.507 0 0 0-4.436 5.43h3.334zm-3.334 1.5a6.507 6.507 0 0 0 4.436 5.43 7.974 7.974 0 0 1-.33-.806c-.433-1.238-.71-2.853-.772-4.624H1.543zm4.835 0c.061 1.633.318 3.074.687 4.129.214.61.451 1.05.677 1.323.202.244.336.29.391.297l.044-.001c.06-.01.19-.061.385-.296.226-.273.463-.713.676-1.323.37-1.055.626-2.496.687-4.129H6.378zm5.048 0c-.061 1.771-.339 3.386-.772 4.624-.082.235-.171.46-.268.674a6.506 6.506 0 0 0 4.071-5.298h-3.03zm3.031-1.5a6.507 6.507 0 0 0-4.071-5.298c.097.214.186.44.268.674.433 1.238.711 2.853.772 4.624h3.031z"></path>
+										</svg>
+										<span>English</span>
+									</button>
+								</div>
 							</div>
-						</div>
-						<div>
-							{leftBottomLinks.map((link, index) => (
-								<Link to={link.to}>{link.text}</Link>
-							))}
-						</div>
-						<div>
-							<button>
-								<svg
-									style={{
-										fill: "white",
-										width: "16px",
-									}}
-									xmlns="http://www.w3.org/2000/svg"
-									data-encore-id="icon"
-									role="img"
-									aria-hidden="true"
-									viewBox="0 0 16 16"
-									class="Svg-sc-ytk21e-0 kPpCsU"
-								>
-									<path d="M8.152 16H8a8 8 0 1 1 .152 0zm-.41-14.202c-.226.273-.463.713-.677 1.323-.369 1.055-.626 2.496-.687 4.129h3.547c-.06-1.633-.318-3.074-.687-4.129-.213-.61-.45-1.05-.676-1.323-.194-.235-.326-.285-.385-.296h-.044c-.055.007-.19.052-.391.296zM4.877 7.25c.062-1.771.34-3.386.773-4.624.099-.284.208-.554.329-.806a6.507 6.507 0 0 0-4.436 5.43h3.334zm-3.334 1.5a6.507 6.507 0 0 0 4.436 5.43 7.974 7.974 0 0 1-.33-.806c-.433-1.238-.71-2.853-.772-4.624H1.543zm4.835 0c.061 1.633.318 3.074.687 4.129.214.61.451 1.05.677 1.323.202.244.336.29.391.297l.044-.001c.06-.01.19-.061.385-.296.226-.273.463-.713.676-1.323.37-1.055.626-2.496.687-4.129H6.378zm5.048 0c-.061 1.771-.339 3.386-.772 4.624-.082.235-.171.46-.268.674a6.506 6.506 0 0 0 4.071-5.298h-3.03zm3.031-1.5a6.507 6.507 0 0 0-4.071-5.298c.097.214.186.44.268.674.433 1.238.711 2.853.772 4.624h3.031z"></path>
-								</svg>
-								<span>English</span>
-							</button>
-						</div>
+						)}
 					</div>
 				</div>
 				<div id="spotify-main">
@@ -179,14 +284,46 @@ function Home() {
 								<path d="M4.97.47a.75.75 0 0 0 0 1.06L11.44 8l-6.47 6.47a.75.75 0 1 0 1.06 1.06L13.56 8 6.03.47a.75.75 0 0 0-1.06 0z"></path>
 							</svg>
 						</div>
-						<div>
-							<button onClick={() => navigate("/spotify/sign-up")}>
-								Sign up
-							</button>
-							<button onClick={() => navigate("/spotify/sign-in")}>
-								Log in
-							</button>
-						</div>
+						{userLogedIn ? (
+							<div>
+								<button>Explore Premium</button>
+								<button>Install App</button>
+								<div>
+									<svg
+										data-encore-id="icon"
+										role="img"
+										aria-hidden="true"
+										class="Svg-sc-ytk21e-0 kPpCsU t93PZphItuM19kPhX7tC"
+										viewBox="0 0 16 16"
+										style={{ cursor: "pointer" }}
+									>
+										<path d="M8 1.5a4 4 0 0 0-4 4v3.27a.75.75 0 0 1-.1.373L2.255 12h11.49L12.1 9.142a.75.75 0 0 1-.1-.374V5.5a4 4 0 0 0-4-4zm-5.5 4a5.5 5.5 0 0 1 11 0v3.067l2.193 3.809a.75.75 0 0 1-.65 1.124H10.5a2.5 2.5 0 0 1-5 0H.957a.75.75 0 0 1-.65-1.124L2.5 8.569V5.5zm4.5 8a1 1 0 1 0 2 0H7z"></path>
+									</svg>
+								</div>
+								<div>
+									<svg
+										data-encore-id="icon"
+										role="img"
+										aria-hidden="true"
+										data-testid="user-icon"
+										viewBox="0 0 16 16"
+										class="Svg-sc-ytk21e-0 kPpCsU"
+										style={{ cursor: "pointer" }}
+									>
+										<path d="M6.233.371a4.388 4.388 0 0 1 5.002 1.052c.421.459.713.992.904 1.554.143.421.263 1.173.22 1.894-.078 1.322-.638 2.408-1.399 3.316l-.127.152a.75.75 0 0 0 .201 1.13l2.209 1.275a4.75 4.75 0 0 1 2.375 4.114V16H.382v-1.143a4.75 4.75 0 0 1 2.375-4.113l2.209-1.275a.75.75 0 0 0 .201-1.13l-.126-.152c-.761-.908-1.322-1.994-1.4-3.316-.043-.721.077-1.473.22-1.894a4.346 4.346 0 0 1 .904-1.554c.411-.448.91-.807 1.468-1.052zM8 1.5a2.888 2.888 0 0 0-2.13.937 2.85 2.85 0 0 0-.588 1.022c-.077.226-.175.783-.143 1.323.054.921.44 1.712 1.051 2.442l.002.001.127.153a2.25 2.25 0 0 1-.603 3.39l-2.209 1.275A3.25 3.25 0 0 0 1.902 14.5h12.196a3.25 3.25 0 0 0-1.605-2.457l-2.209-1.275a2.25 2.25 0 0 1-.603-3.39l.127-.153.002-.001c.612-.73.997-1.52 1.052-2.442.032-.54-.067-1.097-.144-1.323a2.85 2.85 0 0 0-.588-1.022A2.888 2.888 0 0 0 8 1.5z"></path>
+									</svg>
+								</div>
+							</div>
+						) : (
+							<div>
+								<button onClick={() => navigate("/spotify/sign-up")}>
+									Sign up
+								</button>
+								<button onClick={() => navigate("/spotify/sign-in")}>
+									Log in
+								</button>
+							</div>
+						)}
 					</nav>
 					<main>
 						<Playlists
@@ -194,12 +331,12 @@ function Home() {
 							playlists={trendingPlaylists}
 						/>
 						<Playlists
-							text="Sleep Playlists"
-							playlists={sleepPlaylists}
-						/>
-						<Playlists
 							text="Dinner Playlists"
 							playlists={dinnerPlaylists}
+						/>
+						<Playlists
+							text="Sleep Playlists"
+							playlists={sleepPlaylists}
 						/>
 					</main>
 					<footer>
@@ -277,18 +414,189 @@ function Home() {
 					</footer>
 				</div>
 			</div>
-			<div>
-				<div>
-					<p>Preview of Spotify</p>
-					<p>
-						Sign up to get unlimited songs and podcasts with occasional
-						ads. No credit card needed.
-					</p>
+			{userLogedIn ? (
+				<div
+					style={{
+						backgroundColor: "transparent",
+						backgroundImage: "none",
+					}}
+					id="playing-container"
+				>
+					<div>
+						<div>
+							<img
+								src="https://i.scdn.co/image/ab67616d000048517dd8f95320e8ef08aa121dfe"
+								alt=""
+							/>
+						</div>
+						<div>
+							<p>You Never Know</p>
+							<p>BLACKPINK</p>
+						</div>
+						<div>
+							<svg
+								data-encore-id="icon"
+								role="img"
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								class="Svg-sc-ytk21e-0 kPpCsU"
+							>
+								<path d="M1.69 2A4.582 4.582 0 0 1 8 2.023 4.583 4.583 0 0 1 11.88.817h.002a4.618 4.618 0 0 1 3.782 3.65v.003a4.543 4.543 0 0 1-1.011 3.84L9.35 14.629a1.765 1.765 0 0 1-2.093.464 1.762 1.762 0 0 1-.605-.463L1.348 8.309A4.582 4.582 0 0 1 1.689 2zm3.158.252A3.082 3.082 0 0 0 2.49 7.337l.005.005L7.8 13.664a.264.264 0 0 0 .311.069.262.262 0 0 0 .09-.069l5.312-6.33a3.043 3.043 0 0 0 .68-2.573 3.118 3.118 0 0 0-2.551-2.463 3.079 3.079 0 0 0-2.612.816l-.007.007a1.501 1.501 0 0 1-2.045 0l-.009-.008a3.082 3.082 0 0 0-2.121-.861z"></path>
+							</svg>
+						</div>
+					</div>
+					<div>
+						<div>
+							<svg
+								data-encore-id="icon"
+								role="img"
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								class="Svg-sc-ytk21e-0 kPpCsU"
+							>
+								<path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75 13.15.922zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"></path>
+								<path d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"></path>
+							</svg>
+							<svg
+								data-encore-id="icon"
+								role="img"
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								class="Svg-sc-ytk21e-0 kPpCsU"
+							>
+								<path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-.7.7H1.7a.7.7 0 0 1-.7-.7V1.7a.7.7 0 0 1 .7-.7h1.6z"></path>
+							</svg>
+							<button>
+								<svg
+									data-encore-id="icon"
+									role="img"
+									aria-hidden="true"
+									viewBox="0 0 16 16"
+									class="Svg-sc-ytk21e-0 kPpCsU"
+								>
+									<path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
+								</svg>
+							</button>
+							<svg
+								data-encore-id="icon"
+								role="img"
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								class="Svg-sc-ytk21e-0 kPpCsU"
+							>
+								<path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-1.6z"></path>
+							</svg>
+							<svg
+								data-encore-id="icon"
+								role="img"
+								aria-hidden="true"
+								viewBox="0 0 16 16"
+								class="Svg-sc-ytk21e-0 kPpCsU"
+							>
+								<path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75v-5z"></path>
+							</svg>
+						</div>
+						<div>
+							<span>1:05</span>
+							<Slider
+								aria-label="Temperature"
+								defaultValue={105}
+								min={0}
+								max={320}
+								// size="small"
+								id="slider"
+								style={{
+									width: "500px",
+									color: "#1fdf64",
+									padding: "0",
+								}}
+							/>
+							<span>3:49</span>
+						</div>
+					</div>
+					<div>
+						<svg
+							data-encore-id="icon"
+							role="img"
+							aria-hidden="true"
+							viewBox="0 0 16 16"
+							class="Svg-sc-ytk21e-0 kPpCsU"
+						>
+							<path d="M11.196 8 6 5v6l5.196-3z"></path>
+							<path d="M15.002 1.75A1.75 1.75 0 0 0 13.252 0h-10.5a1.75 1.75 0 0 0-1.75 1.75v12.5c0 .966.783 1.75 1.75 1.75h10.5a1.75 1.75 0 0 0 1.75-1.75V1.75zm-1.75-.25a.25.25 0 0 1 .25.25v12.5a.25.25 0 0 1-.25.25h-10.5a.25.25 0 0 1-.25-.25V1.75a.25.25 0 0 1 .25-.25h10.5z"></path>
+						</svg>
+						<svg
+							data-encore-id="icon"
+							role="img"
+							aria-hidden="true"
+							viewBox="0 0 16 16"
+							class="Svg-sc-ytk21e-0 kPpCsU"
+						>
+							<path d="M13.426 2.574a2.831 2.831 0 0 0-4.797 1.55l3.247 3.247a2.831 2.831 0 0 0 1.55-4.797zM10.5 8.118l-2.619-2.62A63303.13 63303.13 0 0 0 4.74 9.075L2.065 12.12a1.287 1.287 0 0 0 1.816 1.816l3.06-2.688 3.56-3.129zM7.12 4.094a4.331 4.331 0 1 1 4.786 4.786l-3.974 3.493-3.06 2.689a2.787 2.787 0 0 1-3.933-3.933l2.676-3.045 3.505-3.99z"></path>
+						</svg>
+						<svg
+							data-encore-id="icon"
+							role="img"
+							aria-hidden="true"
+							viewBox="0 0 16 16"
+							class="Svg-sc-ytk21e-0 kPpCsU"
+						>
+							<path d="M15 15H1v-1.5h14V15zm0-4.5H1V9h14v1.5zm-14-7A2.5 2.5 0 0 1 3.5 1h9a2.5 2.5 0 0 1 0 5h-9A2.5 2.5 0 0 1 1 3.5zm2.5-1a1 1 0 0 0 0 2h9a1 1 0 1 0 0-2h-9z"></path>
+						</svg>
+						<svg
+							data-encore-id="icon"
+							role="presentation"
+							aria-hidden="true"
+							class="Svg-sc-ytk21e-0 kPpCsU"
+							viewBox="0 0 16 16"
+						>
+							<path d="M6 2.75C6 1.784 6.784 1 7.75 1h6.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15h-6.5A1.75 1.75 0 0 1 6 13.25V2.75zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h6.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25h-6.5zm-6 0a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25H4V11H1.75A1.75 1.75 0 0 1 0 9.25v-6.5C0 1.784.784 1 1.75 1H4v1.5H1.75zM4 15H2v-1.5h2V15z"></path>
+							<path d="M13 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm-1-5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
+						</svg>
+						<svg
+							data-encore-id="icon"
+							role="presentation"
+							aria-label="Volume medium"
+							aria-hidden="true"
+							id="volume-icon"
+							viewBox="0 0 16 16"
+							class="Svg-sc-ytk21e-0 dAOlPY"
+						>
+							<path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.642 3.642 0 0 1-1.33-4.967 3.639 3.639 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.139 2.139 0 0 0 0 3.7l5.8 3.35V2.8l-5.8 3.35zm8.683 6.087a4.502 4.502 0 0 0 0-8.474v1.65a2.999 2.999 0 0 1 0 5.175v1.649z"></path>
+						</svg>
+						<Slider
+							aria-label="Temperature"
+							defaultValue={30}
+							size="small"
+							id="slider"
+							style={{ width: "100px", color: "#1fdf64" }}
+						/>
+						<svg
+							data-encore-id="icon"
+							role="img"
+							aria-hidden="true"
+							viewBox="0 0 16 16"
+							class="Svg-sc-ytk21e-0 kPpCsU"
+						>
+							<path d="M16 2.45c0-.8-.65-1.45-1.45-1.45H1.45C.65 1 0 1.65 0 2.45v11.1C0 14.35.65 15 1.45 15h5.557v-1.5H1.5v-11h13V7H16V2.45z"></path>
+							<path d="M15.25 9.007a.75.75 0 0 1 .75.75v4.493a.75.75 0 0 1-.75.75H9.325a.75.75 0 0 1-.75-.75V9.757a.75.75 0 0 1 .75-.75h5.925z"></path>
+						</svg>
+					</div>
 				</div>
+			) : (
 				<div>
-					<button>Sign up free</button>
+					<div>
+						<p>Preview of Spotify</p>
+						<p>
+							Sign up to get unlimited songs and podcasts with occasional
+							ads. No credit card needed.
+						</p>
+					</div>
+					<div>
+						<button>Sign up free</button>
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }
