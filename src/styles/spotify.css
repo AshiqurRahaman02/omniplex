@@ -157,7 +157,7 @@ svg {
 	border: 1px solid white;
 }
 
-.playlist-artist{
+.playlist-artist {
 	padding: 8px 15px;
 	display: flex;
 	gap: 20px;
@@ -165,7 +165,7 @@ svg {
 
 	font-weight: 600;
 }
-.playlist-artist>span{
+.playlist-artist > span {
 	background-color: #232323;
 	padding: 6px 13px;
 	border-radius: 20px;
@@ -196,7 +196,7 @@ svg {
 
 	position: relative;
 }
-#spotify-library #main-library > p:nth-child(1) > span>input{
+#spotify-library #main-library > p:nth-child(1) > span > input {
 	padding: 2px;
 	outline: none;
 	height: 30px;
@@ -243,7 +243,8 @@ svg {
 #spotify-main {
 	color: white;
 	background-color: #121212;
-	padding: 10px;
+	/* background-color: #3D6389; */
+	/* padding: 10px; */
 	border-radius: 10px;
 	width: 75%;
 	max-height: 87vh;
@@ -593,4 +594,172 @@ svg {
 	width: 20px;
 	height: 20px;
 	fill: black;
+}
+
+.spotify #playlistCollection {
+	/* padding: 8px 17px; */
+}
+.spotify #playlistCollection > div:nth-child(1) {
+	display: flex;
+	align-items: end;
+	gap: 20px;
+
+	background-color: #3d6389;
+	padding: 20px;
+}
+.spotify #playlistCollection > div:nth-child(1) > div > img {
+	width: 250px;
+	border-radius: 10px;
+	box-shadow: 16px 16px 50px 1px rgba(0, 0, 0, 0.1);
+}
+.spotify #playlistCollection > div:nth-child(2) > div:nth-child(1) {
+	padding: 20px;
+	background: linear-gradient(0deg, rgb(18, 18, 18) 0%, #1e3043 100%);
+
+	display: flex;
+	justify-content: space-between;
+}
+.spotify #playlistCollection > div:nth-child(2) > div:nth-child(1) > div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.spotify
+	#playlistCollection
+	> div:nth-child(2)
+	> div:nth-child(1)
+	> div
+	button,#playIcon {
+	width: 60px;
+	height: 60px;
+	background-color: #1ed760;
+	border: 0;
+	cursor: pointer;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.spotify #playlistCollection #songs {
+	padding: 20px;
+}
+.spotify #playlistCollection #songs > table {
+	width: 100%;
+}
+.spotify #playlistCollection #songs > table th,
+.spotify #playlistCollection #songs > table td {
+	text-align: start;
+}
+
+.spotify #playlistCollection #songs > table .title {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	width: max-content;
+}
+.spotify #playlistCollection #songs > table .title img {
+	width: 48px;
+	height: 48px;
+}
+.spotify #playlistCollection #songs > table .title > p:nth-child(2) > span {
+	font-weight: 600;
+}
+.spotify
+	#playlistCollection
+	#songs
+	> table
+	.title
+	> p:nth-child(2)
+	> span:nth-child(3) {
+	color: #a7a7a7;
+}
+
+.spotify #artist-pick {
+	padding: 20px;
+}
+
+.spotify #artist-pick > h2 {
+	margin: 10px 0px;
+}
+
+.spotify #artist-pick > div {
+	width: 350px;
+	height: 250px;
+	padding: 20px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.spotify #artist-pick > div > p {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: max-content;
+	font-weight: 600;
+	background-color: white;
+	padding: 3px;
+	padding-right: 10px;
+	color: #0f0f0f;
+
+	border-radius: 30px;
+}
+.spotify #artist-pick > div > p > img {
+	width: 25px;
+	height: 25px;
+
+	border-radius: 50%;
+}
+.spotify #artist-pick > div > div {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	z-index: 1;
+}
+.spotify #artist-pick > div > div > img {
+	width: 100px;
+}
+
+.spotify #about {
+	padding: 20px;
+}
+.spotify #about > div {
+	margin-top: 20px;
+	padding: 20px;
+	width: 60%;
+	border-radius: 10px;
+	background-color: #171717;
+
+	display: flex;
+	justify-content: space-between;
+
+	transition: 0.5s;
+}
+.spotify #about > div:hover {
+	transform: scale(1.02);
+}
+.spotify #about > div > div {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.spotify #about > div > div > img {
+	border-radius: 50%;
+	clip-path: circle(45% at 50% 50%);
+}
+.spotify #about > div > div:nth-child(2) {
+	background-color: #0d72ea;
+	width: 90px;
+	height: 90px;
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.spotify #about > div > div:nth-child(2) > span {
+	font-size: 14px;
 }
