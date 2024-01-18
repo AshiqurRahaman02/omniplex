@@ -1,6 +1,6 @@
 import React from "react";
 
-function Collection({ collection }) {
+function Collection({ collection, setSong, setIsPlaying }) {
 	return (
 		<div id="playlistCollection">
 			<div>
@@ -48,7 +48,12 @@ function Collection({ collection }) {
 			<div>
 				<div>
 					<div style={{ gap: "20px" }}>
-						<button>
+						<button
+							onClick={() => {
+								setSong(collection.songs[0]);
+								setIsPlaying(true);
+							}}
+						>
 							<svg
 								data-encore-id="icon"
 								role="img"
@@ -101,7 +106,9 @@ function Collection({ collection }) {
 					<table>
 						<thead>
 							<tr>
-								<th  style={{textAlign:"end",paddingRight:"10px"}}>#</th>
+								<th style={{ textAlign: "end", paddingRight: "10px" }}>
+									#
+								</th>
 								<th>Title</th>
 								<th>Album</th>
 								<th>Date added</th>
@@ -123,7 +130,15 @@ function Collection({ collection }) {
 						<tbody>
 							{collection.songs.map((song, i) => (
 								<tr key={i}>
-									<td style={{textAlign:"end",paddingRight:"10px"}}>{i + 1}</td>
+									<td
+										style={{ textAlign: "end", paddingRight: "10px" }}
+										onClick={() => {
+											setSong(collection.songs[0]);
+											setIsPlaying(true);
+										}}
+									>
+										{i + 1}
+									</td>
 									<td className="title">
 										<p>
 											<img src={song.img} alt="" />

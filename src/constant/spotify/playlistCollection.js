@@ -13,6 +13,7 @@ const playlistCollection = {
 			album: "JENNIE Special Single [You & Me]",
 			date: "6 Oct 2023",
 			duration: "2:59",
+			src:"/assets/spotify/You & Me.mp3"
 		},
 		{
 			name: "THE GIRLS - BLACKPINK THE GAME OST",

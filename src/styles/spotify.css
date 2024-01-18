@@ -625,12 +625,8 @@ svg {
 	gap: 10px;
 }
 
-.spotify
-	#playlistCollection
-	> div:nth-child(2)
-	> div:nth-child(1)
-	> div
-	button,#playIcon {
+.spotify #playlistCollection > div:nth-child(2) > div:nth-child(1) > div button,
+#playIcon {
 	width: 60px;
 	height: 60px;
 	background-color: #1ed760;

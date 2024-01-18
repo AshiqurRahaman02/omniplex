@@ -31,6 +31,9 @@ import NetflixWatch from './pages/netflix/Watch';
 import SpotifyHome from './pages/spotify/Home'
 import SpotifySignIn from "./pages/spotify/Sign"
 
+// weather page
+import WeatherHome from './pages/weather/Home'
+
 function App() {
   return (
     <Router>
@@ -60,6 +63,9 @@ function App() {
         {/* spotify */}
         <Route path="/spotify" element={<SpotifyHome />} />
         <Route path="/spotify/:type" element={<SpotifySignIn />} />
+
+        {/* weather */}
+        <Route path="/weather" element={<WeatherHome />} />
       </Routes>
     </Router>
   );
