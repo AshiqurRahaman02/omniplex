@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Playlists from "./Playlists";
 
-function Artist({ artist ,setDisplayCollection}) {
+function Artist({ artist ,setDisplayCollection, setSong, setIsPlaying}) {
 	const [displayAllSongs, setDisplayAllSongs] = useState(false);
 	return (
 		<div id="playlistCollection">
@@ -31,7 +31,11 @@ function Artist({ artist ,setDisplayCollection}) {
 			<div>
 				<div>
 					<div style={{ gap: "20px" }}>
-						<button>
+						<button 
+							onClick={() => {
+								setSong(artist.artistPick);
+								setIsPlaying(true);
+							}}>
 							<svg
 								data-encore-id="icon"
 								role="img"
@@ -92,6 +96,11 @@ function Artist({ artist ,setDisplayCollection}) {
 												textAlign: "end",
 												paddingRight: "10px",
 											}}
+											
+							onClick={() => {
+								setSong(artist.artistPick);
+								setIsPlaying(true);
+							}}
 										>
 											{i + 1}
 										</td>
@@ -137,7 +146,11 @@ function Artist({ artist ,setDisplayCollection}) {
 								<h3>{artist.artistPick.name}</h3>
 								<p>{artist.artistPick.type}</p>
 							</div>
-							<button id="playIcon"> 
+							<button id="playIcon" 
+							onClick={() => {
+								setSong(artist.artistPick);
+								setIsPlaying(true);
+							}}> 
 							<svg
 								data-encore-id="icon"
 								role="img"
