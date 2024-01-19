@@ -12,21 +12,26 @@ html {
 	font-size: 2.3rem; 
 	color: rgb(17, 144, 0); 
 	margin-bottom: 16px; 
+
+
 } 
 
 .weather-app { 
 	display: flex; 
-	flex-direction: column; 
 	justify-content: center; 
 	align-items: center; 
-	width: 600px; 
+	gap: 100px;
+	width: max-content;
 	min-height: 440px; 
 	background-color: rgb(255, 255, 255); 
 	text-align: center; 
 	margin: 128px auto; 
 	border-radius: 10px; 
-	padding-bottom: 32px; 
+	padding: 32px; 
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+
+	
+	display: flex;
 } 
 
 .city-search { 
