@@ -13,6 +13,14 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "../../styles/weather.css";
 
+const scrolToTop = () => {
+	window.scrollTo({
+		top: 0,
+		behavior: "smooth",
+	});
+};
+scrolToTop();
+
 function Home() {
 	const mapRef = useRef(null);
 
