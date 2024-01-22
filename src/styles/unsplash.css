@@ -1,0 +1,189 @@
+#unsplash-search {
+	border-bottom: 1px solid black;
+	width: max-content;
+	display: flex;
+	justify-content: space-between;
+	padding: 5px;
+}
+#unsplash-search > input {
+	width: 300px;
+	border: 0;
+	outline: 0;
+	padding: 5px 10px;
+	font-size: 15px;
+}
+#unsplash-search > button {
+	font-size: 15px;
+	font-weight: 600;
+	padding: 5px 10px;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+	border-radius: 5px;
+	background: #ffffff;
+	box-shadow: 5px 5px 15px #5a5a5a1a, -2px -1px 10px #3b3a3a2a;
+
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+#unsplash-categories {
+	/* padding: 5px 40px; */
+}
+#unsplash-categories > div {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+#unsplash-categories > div > p {
+	border: 1px solid rgb(201, 199, 199);
+	width: max-content;
+	padding: 2px 10px;
+	border-radius: 3px;
+	background: #ffffff;
+	box-shadow: 5px 5px 15px #5a5a5a00, -2px -1px 10px #3b3a3a1a;
+	cursor: pointer;
+
+	display: flex;
+	gap: 3px;
+	align-items: center;
+}
+#unsplash-categories > div > p > svg {
+	width: 20px;
+	height: 20px;
+	color: red;
+}
+#unsplash-categories > div > .activeCategory {
+	background: #43c6ac;
+	color: white;
+}
+
+#unsplash-select {
+	display: flex;
+	align-items: center;
+}
+#unsplash-select > select {
+	min-width: 100px;
+	text-align: center;
+	font-size: 15px;
+	position: relative;
+	outline: none;
+	background-color: transparent;
+	border: 1px solid rgb(34, 29, 29);
+	color: rgb(0, 0, 0);
+	padding: 8px;
+	padding-right: 20px;
+	border-radius: 5px;
+
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+}
+#unsplash-select > svg{
+	position: relative;
+	right: 30px;
+	z-index: -10;
+}
+
+.unsplash-image-container {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+	/* grid-auto-rows: auto; */
+	padding-bottom: 20px;
+
+	/* display: -ms-flexbox; 
+	display: flex;
+	-ms-flex-wrap: wrap; 
+	flex-wrap: wrap;
+	padding: 0 4px; */
+}
+.unsplash-image-container .column {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	width: 100%;
+	align-content: flex-start;
+
+	/* flex: 33%; */
+	/* max-width: 33%; */
+	padding: 0 4px;
+}
+.unsplash-image-container #image-div {
+	margin: 0;
+	padding: 0;
+	width: max-content;
+	height: max-content;
+	position: relative;
+}
+.unsplash-image-container #image-div:hover > div {
+	opacity: 1;
+}
+.unsplash-image-container #image-div > div {
+	opacity: 0;
+	/* background-color: rgba(24, 24, 24, 0.288); */
+
+	border-image: fill 0 linear-gradient(#0001, #000000c5);
+	border-radius: 8px;
+	position: absolute;
+	top: 0;
+	height: 99%;
+	width: 100%;
+
+	transition: 1s;
+}
+.unsplash-image-container #image-div > div > div {
+	position: absolute;
+
+	color: #ffffff;
+	display: flex;
+	width: 100%;
+	padding: 0px 5%;
+	justify-content: space-between;
+}
+.unsplash-image-container #image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 8px;
+
+	/* margin-top: 8px;
+	vertical-align: middle;
+	width: 100%; */
+}
+.unsplash-image-container #top-content {
+	top: 10px;
+}
+.unsplash-image-container #bottom-content {
+	bottom: 20px;
+}
+.unsplash-image-container #image-div > div button {
+	padding: 5px;
+	margin-left: 5px;
+	background-color: white;
+	border-radius: 5px;
+	border: 0;
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+}
+.unsplash-image-container #image-div > div button > svg {
+	width: 16px;
+	height: 16px;
+	fill: gray;
+}
+.unsplash-image-container #image-div > div button > svg:hover {
+	fill: black;
+}
+.unsplash-image-container #bottom-content > div:nth-child(1) {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+.unsplash-image-container #bottom-content > div:nth-child(1) img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
