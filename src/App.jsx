@@ -34,6 +34,9 @@ import SpotifySignIn from "./pages/spotify/Sign"
 // weather page
 import WeatherHome from './pages/weather/Home'
 
+// unsplash page
+import UnsplashHome from './pages/unsplash/Home'
+
 function App() {
   return (
     <Router>
@@ -66,6 +69,9 @@ function App() {
 
         {/* weather */}
         <Route path="/weather" element={<WeatherHome />} />
+
+        {/* unsplash */}
+        <Route path="/unsplash" element={<UnsplashHome />} />
       </Routes>
     </Router>
   );
