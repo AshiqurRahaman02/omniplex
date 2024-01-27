@@ -37,6 +37,9 @@ import WeatherHome from './pages/weather/Home'
 // unsplash page
 import UnsplashHome from './pages/unsplash/Home'
 
+// CollabCraft page
+import CollabCraftHome from './pages/collabcraft/Home'
+
 function App() {
   return (
     <Router>
@@ -72,6 +75,10 @@ function App() {
 
         {/* unsplash */}
         <Route path="/unsplash" element={<UnsplashHome />} />
+
+        {/* CollabCraft */}
+        <Route path="/collabcraft" element={<CollabCraftHome />} />
+        
       </Routes>
     </Router>
   );
