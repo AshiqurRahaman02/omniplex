@@ -36,7 +36,7 @@ function Sign() {
 				setIsLogin(false);
 			}
 		} else {
-			const newAccount = { name, emailOrPhone, password, rememberMe };
+			const newAccount = { name, emailOrPhone, rememberMe };
 			const storedAccounts =
 				JSON.parse(localStorage.getItem("netflixAccounts")) || [];
 			localStorage.setItem(
