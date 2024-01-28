@@ -110,6 +110,16 @@ const products = [
 		image: "/assets/images/explore/explore-weather.jpg",
 		to: "/weather",
 	},
+	{
+		id: 11,
+		title: "Collabcraft",
+		headline:
+			"Craft together, conquer anything. CollabCraft: Your code and canvas, united in real-time.",
+		details:
+			"Break the boundaries of your imagination with CollabCraft, the ultimate collaborative code editor and canvas. Build, design, and innovate in real-time with your team, fueled by seamless chat, voice, and video. Code like champions, sketch like masterminds, and watch your visions materialize faster than ever before. Join the CollabCraft revolution - where creativity knows no limits.",
+		image: "/assets/images/explore/explore-collabcraft.jpg",
+		to: "/collabcraft",
+	},
 ];
 
 

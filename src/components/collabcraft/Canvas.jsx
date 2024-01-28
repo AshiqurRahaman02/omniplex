@@ -7,7 +7,7 @@ import {
 	ReactSketchCanvasRef,
 } from "react-sketch-canvas";
 
-import "../../styles/collabcraft.css"
+
 
 function InputField({ fieldName, type = "text", canvasProps, setCanvasProps }) {
 	const handleChange = ({ target }) => {
@@ -191,7 +191,6 @@ function Canvas() {
 
   return (
     <main className="container-fluid p-5">
-			
 			<div className="row">
 				<aside className="col-3 border-right">
 					<header className="my-5">
@@ -254,7 +253,286 @@ function Canvas() {
 								></input>
 							</div>
 						</div>
-						
+						<div className="p-2 col-10">
+							<div className="form-check form-switch">
+								<input
+									className="form-check-input"
+									type="checkbox"
+									role="switch"
+									id="switchExportWithBackgroundImage"
+									checked={canvasProps.exportWithBackgroundImage}
+									onChange={(e) => {
+										setCanvasProps((prevCanvasProps) => ({
+											...prevCanvasProps,
+											exportWithBackgroundImage: e.target.checked,
+										}));
+									}}
+								/>
+								<label
+									className="form-check-label"
+									htmlFor="switchExportWithBackgroundImage"
+								>
+									exportWithBackgroundImage
+								</label>
+							</div>
+						</div>
+						<div className="p-2 col-10">
+							<div className="form-check form-switch">
+								<input
+									className="form-check-input"
+									type="checkbox"
+									role="switch"
+									id="switchWithTimestamp"
+									checked={canvasProps.withTimestamp}
+									onChange={(e) => {
+										setCanvasProps((prevCanvasProps) => ({
+											...prevCanvasProps,
+											withTimestamp: e.target.checked,
+										}));
+									}}
+								/>
+								<label
+									className="form-check-label"
+									htmlFor="switchWithTimestamp"
+								>
+									withTimestamp
+								</label>
+							</div>
+						</div>
+						<div className="p-2">
+							<label
+								className="form-check-label"
+								htmlFor="exportImageType"
+							>
+								exportImageType
+							</label>
+							<div id="exportImageType" className="pt-2">
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="exportImageType"
+										id="exportImageTypePng"
+										value="png"
+										checked={exportImageType === "png"}
+										onChange={() => {
+											setexportImageType("png");
+										}}
+									/>
+									<label
+										className="form-check-label"
+										htmlFor="exportImageTypePng"
+									>
+										png
+									</label>
+								</div>
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="exportImageType"
+										id="exportImageTypeJPEG"
+										value="touch"
+										checked={exportImageType === "jpeg"}
+										onChange={() => {
+											setexportImageType("jpeg");
+										}}
+									/>
+									<label
+										className="form-check-label"
+										htmlFor="exportImageTypeJPEG"
+									>
+										jpeg
+									</label>
+								</div>
+							</div>
+						</div>
+						<div className="p-2">
+							<label
+								className="form-check-label"
+								htmlFor="allowOnlyPointerType"
+							>
+								allowOnlyPointerType
+							</label>
+							<div id="allowOnlyPointerType" className="p-2">
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="allowPointer"
+										id="allowPointerAll"
+										value="all"
+										checked={
+											canvasProps.allowOnlyPointerType === "all"
+										}
+										onChange={() => {
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												allowOnlyPointerType: "all",
+											}));
+										}}
+									/>
+									<label
+										className="form-check-label"
+										htmlFor="allowPointerAll"
+									>
+										all
+									</label>
+								</div>
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="allowPointer"
+										id="allowPointerTouch"
+										value="touch"
+										checked={
+											canvasProps.allowOnlyPointerType === "touch"
+										}
+										onChange={() => {
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												allowOnlyPointerType: "touch",
+											}));
+										}}
+									/>
+									<label
+										className="form-check-label"
+										htmlFor="allowPointerTouch"
+									>
+										touch
+									</label>
+								</div>
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="allowPointer"
+										id="allowPointerMouse"
+										value="mouse"
+										checked={
+											canvasProps.allowOnlyPointerType === "mouse"
+										}
+										onChange={() => {
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												allowOnlyPointerType: "mouse",
+											}));
+										}}
+									/>
+									<label
+										className="form-check-label"
+										htmlFor="allowPointerMouse"
+									>
+										mouse
+									</label>
+								</div>
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="allowPointer"
+										id="allowPointerPen"
+										value="pen"
+										checked={
+											canvasProps.allowOnlyPointerType === "pen"
+										}
+										onChange={() => {
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												allowOnlyPointerType: "pen",
+											}));
+										}}
+									/>
+									<label
+										className="form-check-label"
+										htmlFor="allowPointerPen"
+									>
+										pen
+									</label>
+								</div>
+							</div>
+							<div className="p-2 col-10">
+								<label htmlFor="style" className="form-label">
+									style
+								</label>
+								<textarea
+									id="style"
+									className="dataURICode col-12"
+									onChange={(event) => {
+										try {
+											const style = JSON.parse(event.target.value);
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												style: style,
+											}));
+										} catch {
+											return;
+										}
+									}}
+									rows={5}
+									defaultValue={JSON.stringify(
+										canvasProps.style,
+										null,
+										2
+									)}
+								/>
+							</div>
+							<div className="p-2 col-10">
+								<label htmlFor="svg-style" className="form-label">
+									SVG style
+								</label>
+								<textarea
+									id="svg-style"
+									className="dataURICode col-12"
+									onChange={(event) => {
+										try {
+											const svgStyle = JSON.parse(
+												event.target.value
+											);
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												svgStyle: svgStyle,
+											}));
+										} catch {
+											return;
+										}
+									}}
+									rows={5}
+									defaultValue={JSON.stringify(
+										canvasProps.svgStyle,
+										null,
+										2
+									)}
+								/>
+							</div>
+							<div className="p-2 col-10">
+								<label htmlFor="pathsToLoad" className="form-label">
+									Paths to load
+								</label>
+								<textarea
+									name="pathsToLoad"
+									id="pathsToLoad"
+									className="dataURICode col-12"
+									rows={5}
+									value={pathsToLoad}
+									onChange={(e) => {
+										setPathsToLoad(e.target.value);
+									}}
+								/>
+								<button
+									type="button"
+									className="btn btn-primary"
+									onClick={() => {
+										const pathsToUpdate = JSON.parse(pathsToLoad);
+
+										canvasRef.current?.loadPaths(pathsToUpdate);
+									}}
+								>
+									Load Paths
+								</button>
+							</div>
+						</div>
 					</form>
 				</aside>
 				<section className="col-9">
@@ -279,6 +557,112 @@ function Canvas() {
 										createButton(label, handler, themeColor)
 								)}
 							</div>
+						</div>
+					</section>
+
+					<section className="row image-export mt-5 p-3 justify-content-center align-items-start">
+						<div className="col-5 row form-group">
+							<div className="p-2">
+								<label className="col-12" htmlFor="paths">
+									Paths
+								</label>
+								<textarea
+									id="paths"
+									className="dataURICode col-12"
+									readOnly
+									rows={10}
+									value={
+										paths.length !== 0
+											? JSON.stringify(paths, null, 2)
+											: "Sketch to get paths"
+									}
+								/>
+							</div>
+							<div className="p-2">
+								<label className="col-12" htmlFor="last-stroke">
+									Last stroke
+									{lastStroke.isEraser !== null &&
+										":" + (lastStroke.isEraser ? "Eraser" : "Pen")}
+								</label>
+								<textarea
+									id="last-stroke"
+									className="dataURICode col-12"
+									readOnly
+									rows={10}
+									value={
+										lastStroke.stroke !== null
+											? JSON.stringify(lastStroke.stroke, null, 2)
+											: "Sketch to get the last stroke"
+									}
+								/>
+							</div>
+						</div>
+						<div className="col-5 offset-2">
+							<label className="col-12" htmlFor="dataURI">
+								Sketching time
+							</label>
+							<div id="sketchingTime" className="sketchingTime">
+								{(sketchingTime / 1000).toFixed(3)} sec
+							</div>
+						</div>
+					</section>
+
+					<section className="row image-export p-3 justify-content-center align-items-start">
+						<div className="col-5 row form-group">
+							<label className="col-12" htmlFor="imageDataURI">
+								Exported Data URI for imagetype
+							</label>
+							<textarea
+								id="imageDataURI"
+								className="dataURICode col-12"
+								readOnly
+								rows={10}
+								value={dataURI || "Click on export image"}
+							/>
+						</div>
+						<div className="col-5 offset-2">
+							<p>Exported image</p>
+							<img
+								className="exported-image"
+								id="exported-image"
+								src={
+									dataURI ||
+									"https://via.placeholder.com/500x250/000000/FFFFFF/?text=Click on export image"
+								}
+								alt="exported"
+							/>
+						</div>
+					</section>
+
+					<section className="row image-export p-3 justify-content-center align-items-start">
+						<div className="col-5 row form-group">
+							<label className="col-12" htmlFor="svgCode">
+								Exported SVG code
+							</label>
+							<textarea
+								id="svgCode"
+								className="dataURICode col-12"
+								readOnly
+								rows={10}
+								value={svg || "Click on export svg"}
+							/>
+						</div>
+						<div className="col-5 offset-2">
+							<p>Exported SVG</p>
+							{svg ? (
+								<span
+									id="exported-svg"
+									className="exported-image"
+									dangerouslySetInnerHTML={{ __html: svg }}
+								/>
+							) : (
+								<img
+									src="https://via.placeholder.com/500x250/000000/FFFFFF/?text=Click on export SVG"
+									alt="Svg Export"
+									id="exported-svg"
+									className="exported-image"
+								/>
+							)}
 						</div>
 					</section>
 				</section>

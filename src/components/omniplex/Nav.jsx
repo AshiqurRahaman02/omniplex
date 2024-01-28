@@ -54,18 +54,18 @@ function Nav() {
 					<div>
 						<div className="">
 							{navigations.map((navigation, index) => (
-								<Link to={navigation.to} key={index} className="link">
+								<Link to={navigation.to} key={index} className="link" style={{textDecoration:"none"}}>
 									{navigation.text}
 								</Link>
 							))}
 						</div>
 						{isAuthenticated ? (
-							<Link to="/account" className="info">
+							<Link to="/account" className="info shine"  style={{textDecoration:"none"}}>
 								{" "}
 								{userDetails.name}{" "}
 							</Link>
 						) : (
-							<Link to="/sign" className="info shine">
+							<Link to="/sign" className="info shine"  style={{textDecoration:"none"}}>
 								Log in
 							</Link>
 						)}
