@@ -14,7 +14,12 @@ import {
 	faVideo,
 	faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
-import { faCircleStop, faComment } from "@fortawesome/free-regular-svg-icons";
+import {
+	faCircleStop,
+	faComment,
+	faMoon,
+	faSun,
+} from "@fortawesome/free-regular-svg-icons";
 
 const users = [
 	{
@@ -72,12 +77,14 @@ const users = [
 ];
 
 function Home() {
-	const [displayCode, setDisplayCode] = useState(true);
 	const [userDetails, setUserDetails] = useState({
 		audio: true,
 		video: true,
-		displayCode: true,
+		displayCode: false,
+		darkMode: true,
 	});
+
+	const [isMaximized, setIsMaximized] = useState(false);
 
 	return (
 		<div>
@@ -85,14 +92,16 @@ function Home() {
 				<div>
 					<Users users={users} />
 				</div>
-				<div id="collabcraft-room-details">
+				<div id="collabcraft-room-details" style={{marginBottom:"0"}}>
 					<p>
 						<span>Omniplex</span>{" "}
 						<span>
 							{userDetails.audio && (
-								<FontAwesomeIcon icon={faMicrophone} size="2xs"/>
+								<FontAwesomeIcon icon={faMicrophone} size="2xs" />
 							)}{" "}
-							{userDetails.video && <FontAwesomeIcon icon={faVideo}  size="2xs"/>}{" "}
+							{userDetails.video && (
+								<FontAwesomeIcon icon={faVideo} size="2xs" />
+							)}{" "}
 							{(userDetails.audio || userDetails.video) && (
 								<FontAwesomeIcon
 									icon={faCircleStop}
@@ -104,38 +113,89 @@ function Home() {
 					</p>
 					<div>
 						<div>
-						<button   onClick={() => setUserDetails((pre) => ({...pre,audio:!userDetails.audio}))}>
-							{userDetails.audio ? (
-								<FontAwesomeIcon icon={faMicrophone}  size="xl"/>
-							) : (
-								<FontAwesomeIcon icon={faMicrophoneSlash}   size="xl"/>
-							)}
-						</button>
-						<button   onClick={() => setUserDetails((pre) => ({...pre,video:!userDetails.video}))}>
-							{userDetails.video ? (
-								<FontAwesomeIcon icon={faVideo}   size="xl"/>
-							) : (
-								<FontAwesomeIcon icon={faVideoSlash}   size="xl"/>
-							)}
-						</button>
-						<button>
-							<FontAwesomeIcon icon={faComment}   size="xl"/>
-						</button>
-						<button  onClick={() => setUserDetails((pre) => ({...pre,displayCode:!userDetails.displayCode}))}>
-							<FontAwesomeIcon icon={faRepeat}   size="xl" />
-						</button>
+							<button
+								onClick={() =>
+									setUserDetails((pre) => ({
+										...pre,
+										audio: !userDetails.audio,
+									}))
+								}
+							>
+								{userDetails.audio ? (
+									<FontAwesomeIcon icon={faMicrophone} size="xl" />
+								) : (
+									<FontAwesomeIcon
+										icon={faMicrophoneSlash}
+										size="xl"
+									/>
+								)}
+							</button>
+							<button
+								onClick={() =>
+									setUserDetails((pre) => ({
+										...pre,
+										video: !userDetails.video,
+									}))
+								}
+							>
+								{userDetails.video ? (
+									<FontAwesomeIcon icon={faVideo} size="xl" />
+								) : (
+									<FontAwesomeIcon icon={faVideoSlash} size="xl" />
+								)}
+							</button>
+							<button>
+								<FontAwesomeIcon icon={faComment} size="xl" />
+							</button>
+							<button
+								onClick={() =>
+									setUserDetails((pre) => ({
+										...pre,
+										displayCode: !userDetails.displayCode,
+									}))
+								}
+							>
+								<FontAwesomeIcon icon={faRepeat} size="xl" />
+							</button>
+							<button
+								onClick={() =>
+									setUserDetails((pre) => ({
+										...pre,
+										darkMode: !userDetails.darkMode,
+									}))
+								}
+							>
+								{userDetails.darkMode ? (
+									<FontAwesomeIcon icon={faMoon} size="xl" />
+								) : (
+									<FontAwesomeIcon icon={faSun} size="xl" />
+								)}
+							</button>
 						</div>
 						<div>
-						<button>
-							<FontAwesomeIcon icon={faArrowRightFromBracket}   size="xl"
-									style={{ color: "#e32b2b" }}/>
-						</button>
+							<button>
+								<FontAwesomeIcon
+									icon={faArrowRightFromBracket}
+									size="xl"
+									style={{ color: "#e32b2b" }}
+								/>
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div>
-				{userDetails.displayCode ? <CodeEditor /> : <Canvas />}
+				{userDetails.displayCode ? (
+					<CodeEditor
+						darkMode={userDetails.darkMode}
+						isMaximized={isMaximized}
+						setIsMaximized={setIsMaximized}
+					/>
+				) : (
+					<Canvas darkMode={userDetails.darkMode}
+					isMaximized={isMaximized}
+					setIsMaximized={setIsMaximized}/>
+				)}
 			</div>
 		</div>
 	);

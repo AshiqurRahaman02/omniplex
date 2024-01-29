@@ -1,4 +1,16 @@
-import React from 'react'
+import {
+	faArrowsRotate,
+	faChevronRight,
+	faCompress,
+	faEraser,
+	faExpand,
+	faPen,
+	faRotateLeft,
+	faRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Slider, Typography } from "@mui/material";
+import React, { useRef, useState } from "react";
 import {
 	CanvasPath,
 	ExportImageType,
@@ -6,8 +18,6 @@ import {
 	ReactSketchCanvasProps,
 	ReactSketchCanvasRef,
 } from "react-sketch-canvas";
-
-
 
 function InputField({ fieldName, type = "text", canvasProps, setCanvasProps }) {
 	const handleChange = ({ target }) => {
@@ -38,15 +48,19 @@ function InputField({ fieldName, type = "text", canvasProps, setCanvasProps }) {
 	);
 }
 
-function Canvas() {
+const graphBackgroundImage = {
+	dark: "https://media.istockphoto.com/id/186196340/vector/black-graph-paper-background.jpg?s=612x612&w=0&k=20&c=UpwOIphmFumrRbt3n-dkkIYRr2ZuJhnuKSHvwLl74HE=",
+	light: "https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg",
+};
 
-    const [canvasProps, setCanvasProps] = React.useState({
+function Canvas({ darkMode, isMaximized, setIsMaximized }) {
+	const [canvasProps, setCanvasProps] = React.useState({
 		className: "react-sketch-canvas",
 		width: "100%",
-		height: "500px",
+		height: "100%",
 		backgroundImage:
 			"https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg",
-		preserveBackgroundImageAspectRatio: "none",
+		preserveBackgroundImageAspectRatio: "cover",
 		strokeWidth: 5,
 		eraserWidth: 5,
 		strokeColor: "#000000",
@@ -57,17 +71,16 @@ function Canvas() {
 		withTimestamp: true,
 		allowOnlyPointerType: "all",
 	});
+	const [displayTools, setDisplayTools] = useState(true);
+	const [eraseMode, setEraseMode] = useState(false);
 
 	const inputProps = [
-		["className", "text"],
-		["width", "text"],
-		["height", "text"],
 		["backgroundImage", "text"],
-		["preserveBackgroundImageAspectRatio", "text"],
 		["strokeWidth", "range"],
 		["eraserWidth", "range"],
 	];
 
+	const canvasDivRef = useRef();
 	const canvasRef = React.createRef();
 
 	const [dataURI, setDataURI] = React.useState("");
@@ -118,6 +131,7 @@ function Canvas() {
 
 		if (eraseMode) {
 			eraseMode(false);
+			setEraseMode(false);
 		}
 	};
 
@@ -126,6 +140,7 @@ function Canvas() {
 
 		if (eraseMode) {
 			eraseMode(true);
+			setEraseMode(true);
 		}
 	};
 
@@ -179,19 +194,215 @@ function Canvas() {
 		["Reset All", resetCanvasHandler, "primary"],
 		["Pen", penHandler, "secondary"],
 		["Eraser", eraserHandler, "secondary"],
-		// ["Export Image", imageExportHandler, "success"],
-		// ["Export SVG", svgExportHandler, "success"],
-		// ["Get Sketching time", getSketchingTimeHandler, "success"],
+		["Export Image", imageExportHandler, "success"],
+		["Export SVG", svgExportHandler, "success"],
+		["Get Sketching time", getSketchingTimeHandler, "success"],
 	];
 
 	const onChange = (updatedPaths) => {
 		setPaths(updatedPaths);
 	};
 
+	const toggleMaximize = () => {
+		const divElement = canvasDivRef.current;
 
-  return (
-    <main className="container-fluid p-5">
-			<div className="row">
+		setIsMaximized((pre) => !pre);
+
+		if (divElement) {
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			} else {
+				divElement.requestFullscreen().catch((err) => {
+					console.error(
+						"Error attempting to enable full-screen mode:",
+						err
+					);
+				});
+			}
+		}
+	};
+
+	return (
+		<div style={{ width: "100%", padding: "0px 10px" }}>
+			<div>
+				<button></button>
+			</div>
+			<div ref={canvasDivRef} id="canvasDiv">
+				<div>
+					<div
+						id="canvas-tools"
+						style={{
+							position: "relative",
+							display: "flex",
+							gap: "5px",
+							transition: "2s",
+							minWidth: "50px",
+							left: displayTools ? "0" : "50px",
+							opacity: displayTools ? 1 : 0,
+						}}
+					>
+						<button
+							style={{
+								position: "relative",
+								left: displayTools ? "0" : "180px",
+								transition: "1.9s",
+							}}
+							onClick={undoHandler}
+						>
+							<FontAwesomeIcon icon={faRotateLeft} size="lg" />
+						</button>
+						<button
+							style={{
+								position: "relative",
+								left: displayTools ? "0" : "135px",
+								transition: "1.6s",
+							}}
+							onClick={redoHandler}
+						>
+							<FontAwesomeIcon icon={faRotateRight} size="lg" />
+						</button>
+						<button
+							style={{
+								position: "relative",
+								left: displayTools ? "0" : "90px",
+								transition: "1.3s",
+							}}
+							onClick={clearHandler}
+						>
+							<FontAwesomeIcon icon={faArrowsRotate} size="lg" />
+						</button>
+						<button
+							style={{
+								position: "relative",
+								left: displayTools ? "0" : "45px",
+								transition: "1s",
+							}}
+							onClick={penHandler}
+						>
+							<FontAwesomeIcon icon={faPen} size="lg" />
+						</button>
+						<button onClick={eraserHandler}>
+							<FontAwesomeIcon icon={faEraser} size="lg" />
+						</button>
+					</div>
+					<button
+						onClick={() => setDisplayTools((pre) => !pre)}
+						style={{ zIndex: "15" }}
+					>
+						<FontAwesomeIcon
+							icon={faChevronRight}
+							style={{ transition: "1s" }}
+							rotation={displayTools ? 0 : 180}
+							size="xl"
+						/>
+					</button>
+					<input
+						style={{ zIndex: "15" }}
+						type="color"
+						name="strokeColor"
+						id="strokeColorInput"
+						value={canvasProps.strokeColor}
+						onChange={(e) => {
+							setCanvasProps((prevCanvasProps) => ({
+								...prevCanvasProps,
+								strokeColor: e.target.value,
+							}));
+						}}
+					></input>
+					<input
+						style={{ zIndex: "15" }}
+						name="canvasColor"
+						type="color"
+						id="canvasColorInput"
+						value={canvasProps.canvasColor}
+						title="Choose stroke color"
+						onChange={(e) => {
+							setCanvasProps((prevCanvasProps) => ({
+								...prevCanvasProps,
+								backgroundImage: "",
+								canvasColor: e.target.value,
+							}));
+						}}
+					></input>
+					<button onClick={toggleMaximize} style={{ zIndex: "15" }}>
+						{isMaximized ? (
+							<FontAwesomeIcon icon={faCompress} size="xl" />
+						) : (
+							<FontAwesomeIcon icon={faExpand} size="xl" />
+						)}
+					</button>
+					<div
+						id="input"
+						style={{
+							top: displayTools ? "45px" : "0px",
+							opacity: displayTools ? "1" : "0",
+							transition: "1s",
+						}}
+					>
+						{eraseMode ? (
+							<>
+								<Typography
+									id="non-linear-slider"
+									gutterBottom
+									style={{ position: "relative", left: "-10px",color: canvasProps.strokeColor }}
+								>
+									Eraser Width: {canvasProps.strokeWidth}
+								</Typography>
+								<Slider
+									value={canvasProps.eraserWidth}
+									min={1}
+									step={1}
+									max={50}
+									onChange={(e) =>
+										setCanvasProps((prevCanvasProps) => ({
+											...prevCanvasProps,
+											eraserWidth: e.target.value,
+										}))
+									}
+									valueLabelDisplay="auto"
+									aria-labelledby="non-linear-slider"
+									style={{color: canvasProps.strokeColor}}
+								/>
+							</>
+						) : (
+							<>
+								<Typography
+									id="non-linear-slider"
+									gutterBottom
+									style={{ position: "relative", left: "-10px",color: canvasProps.strokeColor }}
+								>
+									Stroke Width: {canvasProps.strokeWidth}
+								</Typography>
+								<Slider
+									value={canvasProps.strokeWidth}
+									min={1}
+									step={1}
+									max={50}
+									onChange={(e) =>
+										setCanvasProps((prevCanvasProps) => ({
+											...prevCanvasProps,
+											strokeWidth: e.target.value,
+										}))
+									}
+									valueLabelDisplay="auto"
+									aria-labelledby="non-linear-slider"
+									style={{color: canvasProps.strokeColor}}
+								/>
+							</>
+						)}
+					</div>
+				</div>
+
+				<ReactSketchCanvas
+					ref={canvasRef}
+					onChange={onChange}
+					onStroke={(stroke, isEraser) =>
+						setLastStroke({ stroke, isEraser })
+					}
+					{...canvasProps}
+				/>
+			</div>
+			{/* <div className="row">
 				<aside className="col-3 border-right">
 					<header className="my-5">
 						<h3>Props</h3>
@@ -666,9 +877,9 @@ function Canvas() {
 						</div>
 					</section>
 				</section>
-			</div>
-		</main>
-  )
+			</div> */}
+		</div>
+	);
 }
 
-export default Canvas
+export default Canvas;

@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faArrowsRotate,
+	faCompress,
+	faExpand,
+} from "@fortawesome/free-solid-svg-icons";
 
-const sampleCode = {
+let sampleCode = {
 	plaintext: `
         This is a sample plaintext document.
         It can contain any plain text without any specific syntax.
@@ -158,66 +164,95 @@ const sampleCode = {
     `,
 };
 
-function CodeEditor() {
+function CodeEditor({ darkMode, isMaximized, setIsMaximized }) {
+	const editorRef = useRef(null);
 	const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-	const [selectedTheme, setSelectedTheme] = useState("vs-dark");
 	const [code, setCode] = useState(
 		'console.log("Hello, React Monaco Editor!");'
 	);
+
 	const handleCodeChange = (newCode) => {
+		sampleCode[selectedLanguage] = newCode;
 		console.log("Code changed:", newCode);
+	};
+	const handelCodeClear = () => {
+		sampleCode[selectedLanguage] = "";
+		setCode("");
 	};
 
 	const handleLanguageChange = (event) => {
 		setSelectedLanguage(event.target.value);
 		setCode(sampleCode[event.target.value]);
 	};
-	const handleThemeChange = (event) => {
-		setSelectedTheme(event.target.value);
+
+	const toggleMaximize = () => {
+		const divElement = editorRef.current;
+
+		setIsMaximized((pre) => !pre);
+
+		if (divElement) {
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			} else {
+				divElement.requestFullscreen().catch((err) => {
+					console.error(
+						"Error attempting to enable full-screen mode:",
+						err
+					);
+				});
+			}
+		}
 	};
 
-	function handleEditorChange(value, event) {
-		console.log("here is the current model value:", value);
-	}
 	return (
-		<div style={{ width: "1200px", border: "1px solid red", margin: "auto" }}>
-			<select
-				id="languageSelect"
-				value={selectedLanguage}
-				onChange={handleLanguageChange}
+		<div style={{ width: "100%", padding: "0px 10px" }}>
+			<div style={{ display: "flex", gap: "10px", marginBottom: "5px" }}>
+				<select
+					id="languageSelect"
+					value={selectedLanguage}
+					onChange={handleLanguageChange}
+				>
+					<option value="plaintext">plaintext</option>
+					<option value="javascript">javascript</option>
+					<option value="python">python</option>
+					<option value="java">java</option>
+					<option value="php">php</option>
+					<option value="ruby">ruby</option>
+					<option value="html">html</option>
+					<option value="css">css</option>
+					<option value="typescript">typescript</option>
+					<option value="go">go</option>
+					<option value="csharp">csharp</option>
+					<option value="swift">swift</option>
+					<option value="rust">rust</option>
+					<option value="sql">sql</option>
+				</select>
+				<button onClick={handelCodeClear}>
+					<FontAwesomeIcon icon={faArrowsRotate} size="lg" />
+					clear
+				</button>
+			</div>
+			<div
+				id="codeEditor"
+				ref={editorRef}
+				style={{ border: "1px solid black", overflow: "hidden" }}
 			>
-				<option value="plaintext">plaintext</option>
-				<option value="javascript">javascript</option>
-				<option value="python">python</option>
-				<option value="java">java</option>
-				<option value="php">php</option>
-				<option value="ruby">ruby</option>
-				<option value="html">html</option>
-				<option value="css">css</option>
-				<option value="typescript">typescript</option>
-				<option value="go">go</option>
-				<option value="csharp">csharp</option>
-				<option value="swift">swift</option>
-				<option value="rust">rust</option>
-				<option value="sql">sql</option>
-			</select>
-			<select
-				name=""
-				id="themeSelect"
-				value={selectedTheme}
-				onChange={handleThemeChange}
-			>
-				<option value="light">Light</option>
-				<option value="vs-dark">Dark</option>
-			</select>
-			<Editor
-				width="1200px"
-				height="90vh"
-				theme={selectedTheme}
-				language={selectedLanguage}
-				value={code}
-				onChange={handleCodeChange}
-			/>
+				<button onClick={toggleMaximize}>
+					{isMaximized ? (
+						<FontAwesomeIcon icon={faCompress} size="xl" />
+					) : (
+						<FontAwesomeIcon icon={faExpand} size="xl" />
+					)}
+				</button>
+				<Editor
+					width="100%"
+					height="100%"
+					theme={darkMode ? "vs-dark" : "light"}
+					language={selectedLanguage}
+					value={code}
+					onChange={handleCodeChange}
+				/>
+			</div>
 		</div>
 	);
 }
