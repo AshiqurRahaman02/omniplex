@@ -1,202 +1,132 @@
 import React, { useState } from "react";
-import CodeEditor from "../../components/collabcraft/CodeEditor";
-import Canvas from "../../components/collabcraft/Canvas";
 
-import "../../styles/collabcraft.css";
-import Users from "../../components/collabcraft/Users";
+import Nav from "../../components/omniplex/Nav";
+import Footer from "../../components/omniplex/Footer";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faArrowRightFromBracket,
-	faMicrophone,
-	faMicrophoneSlash,
-	faRepeat,
-	faVideo,
-	faVideoSlash,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-	faCircleStop,
-	faComment,
-	faMoon,
-	faSun,
-} from "@fortawesome/free-regular-svg-icons";
-
-const users = [
+const rooms = [
 	{
-		name: "Alice Johnson",
-		id: 123456,
-		profile_image:
-			"https://yt3.ggpht.com/yti/AGOGRCoKDiOEMfqiN_o_j6ac4at4z9JiMW3KV2FF8NZ1Fw=s88-c-k-c0x00ffffff-no-rj",
+		roomName: "Conference Room A",
+		currentUsers: 15,
 	},
 	{
-		name: "Bob Smith",
-		id: 789012,
+		roomName: "Team Huddle Space",
+		currentUsers: 8,
 	},
 	{
-		name: "Cindy Brown",
-		id: 345678,
-		profile_image:
-			"https://yt3.ggpht.com/yti/AGOGRCoKDiOEMfqiN_o_j6ac4at4z9JiMW3KV2FF8NZ1Fw=s88-c-k-c0x00ffffff-no-rj",
+		roomName: "Innovation Lab",
+		currentUsers: 12,
 	},
 	{
-		name: "David Taylor",
-		id: 901234,
-		profile_image:
-			"https://yt3.ggpht.com/yti/AGOGRCoKDiOEMfqiN_o_j6ac4at4z9JiMW3KV2FF8NZ1Fw=s88-c-k-c0x00ffffff-no-rj",
+		roomName: "Boardroom 1",
+		currentUsers: 20,
 	},
 	{
-		name: "Emily Davis",
-		id: 567890,
-		profile_image:
-			"https://yt3.ggpht.com/yti/AGOGRCoKDiOEMfqiN_o_j6ac4at4z9JiMW3KV2FF8NZ1Fw=s88-c-k-c0x00ffffff-no-rj",
+		roomName: "Creative Studio",
+		currentUsers: 10,
 	},
 	{
-		name: "Frank Miller",
-		id: 112233,
+		roomName: "Project Planning Room",
+		currentUsers: 6,
 	},
 	{
-		name: "Grace Turner",
-		id: 445566,
-		profile_image:
-			"https://yt3.ggpht.com/yti/AGOGRCoKDiOEMfqiN_o_j6ac4at4z9JiMW3KV2FF8NZ1Fw=s88-c-k-c0x00ffffff-no-rj",
+		roomName: "Virtual Collaboration Space",
+		currentUsers: 18,
 	},
 	{
-		name: "Henry White",
-		id: 778899,
+		roomName: "Training Room 2",
+		currentUsers: 14,
 	},
 	{
-		name: "Isabel Reed",
-		id: 990011,
-		profile_image:
-			"https://yt3.ggpht.com/yti/AGOGRCoKDiOEMfqiN_o_j6ac4at4z9JiMW3KV2FF8NZ1Fw=s88-c-k-c0x00ffffff-no-rj",
-	},
-	{
-		name: "Jackie Brown",
-		id: 334455,
+		roomName: "Executive Suite",
+		currentUsers: 5,
 	},
 ];
 
 function Home() {
-	const [userDetails, setUserDetails] = useState({
-		audio: true,
-		video: true,
-		displayCode: false,
-		darkMode: true,
-	});
+	const [roomName, setRoomName] = useState("");
+	const [password, setPassword] = useState("");
 
-	const [isMaximized, setIsMaximized] = useState(false);
-
+	const [joinRoom, setJoinRoom] = useState(true);
 	return (
-		<div>
-			<div>
-				<div>
-					<Users users={users} />
-				</div>
-				<div id="collabcraft-room-details" style={{marginBottom:"0"}}>
-					<p>
-						<span>Omniplex</span>{" "}
-						<span>
-							{userDetails.audio && (
-								<FontAwesomeIcon icon={faMicrophone} size="2xs" />
-							)}{" "}
-							{userDetails.video && (
-								<FontAwesomeIcon icon={faVideo} size="2xs" />
-							)}{" "}
-							{(userDetails.audio || userDetails.video) && (
-								<FontAwesomeIcon
-									icon={faCircleStop}
-									style={{ color: "#e32b2b" }}
-									size="2xs"
-								/>
-							)}
-						</span>
-					</p>
+		<div id="collabcraft">
+			<Nav title="Collabcraft" />
+			<div id="collabcraft-home">
+				<div id="collabcraft-rooms">
+					<h1>Your Rooms</h1>
 					<div>
-						<div>
-							<button
-								onClick={() =>
-									setUserDetails((pre) => ({
-										...pre,
-										audio: !userDetails.audio,
-									}))
-								}
-							>
-								{userDetails.audio ? (
-									<FontAwesomeIcon icon={faMicrophone} size="xl" />
-								) : (
-									<FontAwesomeIcon
-										icon={faMicrophoneSlash}
-										size="xl"
-									/>
-								)}
-							</button>
-							<button
-								onClick={() =>
-									setUserDetails((pre) => ({
-										...pre,
-										video: !userDetails.video,
-									}))
-								}
-							>
-								{userDetails.video ? (
-									<FontAwesomeIcon icon={faVideo} size="xl" />
-								) : (
-									<FontAwesomeIcon icon={faVideoSlash} size="xl" />
-								)}
-							</button>
-							<button>
-								<FontAwesomeIcon icon={faComment} size="xl" />
-							</button>
-							<button
-								onClick={() =>
-									setUserDetails((pre) => ({
-										...pre,
-										displayCode: !userDetails.displayCode,
-									}))
-								}
-							>
-								<FontAwesomeIcon icon={faRepeat} size="xl" />
-							</button>
-							<button
-								onClick={() =>
-									setUserDetails((pre) => ({
-										...pre,
-										darkMode: !userDetails.darkMode,
-									}))
-								}
-							>
-								{userDetails.darkMode ? (
-									<FontAwesomeIcon icon={faMoon} size="xl" />
-								) : (
-									<FontAwesomeIcon icon={faSun} size="xl" />
-								)}
-							</button>
-						</div>
-						<div>
-							<button>
-								<FontAwesomeIcon
-									icon={faArrowRightFromBracket}
-									size="xl"
-									style={{ color: "#e32b2b" }}
-								/>
-							</button>
-						</div>
+						{rooms.map((room, indes) => (
+							<div>
+								<h2>{room.roomName}</h2>
+								<p>Current Users: {room.currentUsers}</p>
+								<button>Join Now </button>
+							</div>
+						))}
 					</div>
 				</div>
+				<div id="join-create-form">
+					<h1 style={{ opacity: "0" }}>Join-Create</h1>
+					<div>
+						<span
+							style={{
+								backgroundColor: joinRoom
+									? "rgb(245, 245, 245)"
+									: "white",
+								borderBottom: joinRoom
+									? "0"
+									: "1px solid rgb(212, 212, 212)",
+							}}
+							onClick={()=>setJoinRoom(true)}
+						>
+							Join Room
+						</span>
+						<span
+							style={{
+								backgroundColor: !joinRoom
+									? "rgb(245, 245, 245)"
+									: "white",
+								borderBottom: !joinRoom
+									? "0"
+									: "1px solid rgb(212, 212, 212)",
+							}}
+
+							onClick={()=>setJoinRoom(false)}
+						>
+							Create Room
+						</span>
+					</div>
+					<div>
+					{joinRoom ? (
+						<h2>Join Room</h2>
+					) : (
+						<h2>Create Room</h2>
+					)}
+						<div className="form-control">
+							<input
+								type="text"
+								required
+								value={roomName}
+								onChange={(e) => setRoomName(e.target.value)}
+							/>
+							<label>Enter Room Name</label>
+						</div>
+						<div className="form-control">
+							<input
+								type="password"
+								required
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+							/>
+							<label>Enter Password</label>
+						</div>
+					</div>
+					{joinRoom ? (
+						<button>Join Room</button>
+					) : (
+						<button>Create Room</button>
+					)}
+				</div>
 			</div>
-			<div>
-				{userDetails.displayCode ? (
-					<CodeEditor
-						darkMode={userDetails.darkMode}
-						isMaximized={isMaximized}
-						setIsMaximized={setIsMaximized}
-					/>
-				) : (
-					<Canvas darkMode={userDetails.darkMode}
-					isMaximized={isMaximized}
-					setIsMaximized={setIsMaximized}/>
-				)}
-			</div>
+			{/* <Footer /> */}
 		</div>
 	);
 }

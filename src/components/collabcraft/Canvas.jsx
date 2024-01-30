@@ -2,15 +2,18 @@ import {
 	faArrowsRotate,
 	faChevronRight,
 	faCompress,
+	faDownload,
 	faEraser,
 	faExpand,
+	faImage,
 	faPen,
 	faRotateLeft,
 	faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Slider, Typography } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Draggable from 'react-draggable';
 import {
 	CanvasPath,
 	ExportImageType,
@@ -58,8 +61,8 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 		className: "react-sketch-canvas",
 		width: "100%",
 		height: "100%",
-		backgroundImage:
-			"https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg",
+		// backgroundImage:
+		// 	"https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg",
 		preserveBackgroundImageAspectRatio: "cover",
 		strokeWidth: 5,
 		eraserWidth: 5,
@@ -222,13 +225,41 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 		}
 	};
 
+	const downloadImage = async (photo) => {
+		if (!paths.length) {
+			alert("No paths specified for image download");
+			return;
+		} else if (!isMaximized) {
+			alert("Download image in maximized mode");
+		} else {
+			const exportImage = canvasRef.current?.exportImage;
+
+			if (exportImage) {
+				const exportedDataURI = await exportImage(exportImageType);
+				setDataURI(exportedDataURI);
+
+				const response = await fetch(exportedDataURI);
+
+				const file = await response.blob();
+				const link = document.createElement("a");
+				link.href = URL.createObjectURL(file);
+				link.download = `image${new Date().getTime()}`;
+				link.click();
+			}
+		}
+	};
+
+	  
+
 	return (
 		<div style={{ width: "100%", padding: "0px 10px" }}>
 			<div>
-				<button></button>
+				<button style={{ visibility: "hidden" }}></button>
 			</div>
 			<div ref={canvasDivRef} id="canvasDiv">
-				<div>
+				<Draggable
+				>
+					<div>
 					<div
 						id="canvas-tools"
 						style={{
@@ -236,58 +267,80 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 							display: "flex",
 							gap: "5px",
 							transition: "2s",
-							minWidth: "50px",
-							left: displayTools ? "0" : "50px",
 							opacity: displayTools ? 1 : 0,
 						}}
 					>
 						<button
 							style={{
-								position: "relative",
-								left: displayTools ? "0" : "180px",
+								position: "absolute",
+								right: displayTools ? "225px" : "-45px",
 								transition: "1.9s",
 							}}
 							onClick={undoHandler}
+							title="Undo drawing"
 						>
 							<FontAwesomeIcon icon={faRotateLeft} size="lg" />
 						</button>
 						<button
 							style={{
-								position: "relative",
-								left: displayTools ? "0" : "135px",
+								position: "absolute",
+								right: displayTools ? "180px" : "-45px",
 								transition: "1.6s",
 							}}
 							onClick={redoHandler}
+							title="Redo drawing"
 						>
 							<FontAwesomeIcon icon={faRotateRight} size="lg" />
 						</button>
 						<button
 							style={{
-								position: "relative",
-								left: displayTools ? "0" : "90px",
+								position: "absolute",
+								right: displayTools ? "135px" : "-45px",
 								transition: "1.3s",
 							}}
 							onClick={clearHandler}
+							title="Clear drawing"
 						>
 							<FontAwesomeIcon icon={faArrowsRotate} size="lg" />
 						</button>
 						<button
 							style={{
-								position: "relative",
-								left: displayTools ? "0" : "45px",
+								position: "absolute",
+								right: displayTools ? "90px" : "-45px",
 								transition: "1s",
 							}}
 							onClick={penHandler}
+							title="Select pen"
 						>
 							<FontAwesomeIcon icon={faPen} size="lg" />
 						</button>
-						<button onClick={eraserHandler}>
+						<button
+							style={{
+								position: "absolute",
+								right: displayTools ? "45px" : "-45px",
+								transition: ".7s",
+							}}
+							onClick={eraserHandler}
+							title="Select eraser"
+						>
 							<FontAwesomeIcon icon={faEraser} size="lg" />
+						</button>
+						<button
+							onClick={downloadImage}
+							title="Download image"
+							style={{
+								position: "absolute",
+								right: displayTools ? "0px" : "-45px",
+								transition: ".4s",
+							}}
+						>
+							<FontAwesomeIcon icon={faDownload} size="lg" />
 						</button>
 					</div>
 					<button
 						onClick={() => setDisplayTools((pre) => !pre)}
 						style={{ zIndex: "15" }}
+						title={displayTools ? "Hide tools" : "Display tools"}
 					>
 						<FontAwesomeIcon
 							icon={faChevronRight}
@@ -302,6 +355,7 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 						name="strokeColor"
 						id="strokeColorInput"
 						value={canvasProps.strokeColor}
+						title="Choose stroke color"
 						onChange={(e) => {
 							setCanvasProps((prevCanvasProps) => ({
 								...prevCanvasProps,
@@ -315,7 +369,7 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 						type="color"
 						id="canvasColorInput"
 						value={canvasProps.canvasColor}
-						title="Choose stroke color"
+						title="Choose canvas color"
 						onChange={(e) => {
 							setCanvasProps((prevCanvasProps) => ({
 								...prevCanvasProps,
@@ -324,7 +378,11 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 							}));
 						}}
 					></input>
-					<button onClick={toggleMaximize} style={{ zIndex: "15" }}>
+					<button
+						onClick={toggleMaximize}
+						style={{ zIndex: "15" }}
+						title={isMaximized ? "Minimize canvas" : "Maximize canvas"}
+					>
 						{isMaximized ? (
 							<FontAwesomeIcon icon={faCompress} size="xl" />
 						) : (
@@ -334,7 +392,7 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 					<div
 						id="input"
 						style={{
-							top: displayTools ? "45px" : "0px",
+							top: displayTools ? "45px" : "-20px",
 							opacity: displayTools ? "1" : "0",
 							transition: "1s",
 						}}
@@ -344,7 +402,11 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 								<Typography
 									id="non-linear-slider"
 									gutterBottom
-									style={{ position: "relative", left: "-10px",color: canvasProps.strokeColor }}
+									style={{
+										position: "relative",
+										left: "-10px",
+										color: canvasProps.strokeColor,
+									}}
 								>
 									Eraser Width: {canvasProps.strokeWidth}
 								</Typography>
@@ -361,7 +423,7 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 									}
 									valueLabelDisplay="auto"
 									aria-labelledby="non-linear-slider"
-									style={{color: canvasProps.strokeColor}}
+									style={{ color: canvasProps.strokeColor }}
 								/>
 							</>
 						) : (
@@ -369,7 +431,11 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 								<Typography
 									id="non-linear-slider"
 									gutterBottom
-									style={{ position: "relative", left: "-10px",color: canvasProps.strokeColor }}
+									style={{
+										position: "relative",
+										left: "-10px",
+										color: canvasProps.strokeColor,
+									}}
 								>
 									Stroke Width: {canvasProps.strokeWidth}
 								</Typography>
@@ -386,12 +452,13 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 									}
 									valueLabelDisplay="auto"
 									aria-labelledby="non-linear-slider"
-									style={{color: canvasProps.strokeColor}}
+									style={{ color: canvasProps.strokeColor }}
 								/>
 							</>
 						)}
 					</div>
-				</div>
+					</div>
+				</Draggable>
 
 				<ReactSketchCanvas
 					ref={canvasRef}
