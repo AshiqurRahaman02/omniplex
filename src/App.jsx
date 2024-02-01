@@ -39,6 +39,7 @@ import UnsplashHome from './pages/unsplash/Home'
 
 // CollabCraft page
 import CollabCraftHome from './pages/collabcraft/Home'
+import CollabCraftRoom from './pages/collabcraft/Room';
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
 
         {/* CollabCraft */}
         <Route path="/collabcraft" element={<CollabCraftHome />} />
+        <Route path="/collabcraft/room/:roomId" element={<CollabCraftRoom />} />
         
       </Routes>
     </Router>

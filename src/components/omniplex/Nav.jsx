@@ -12,7 +12,7 @@ const navigations = [
 	{ text: "About", to: "/about" },
 ];
 
-function Nav() {
+function Nav({title="Omniplex"}) {
 	const [userDetails, setUserDetails] = useState();
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -48,7 +48,7 @@ function Nav() {
 					}}
 				>
 					<img src={Logo} alt="Omniplex Logo" width={"45px"} />
-					<h1>Omniplex</h1>
+					<h1>{title}</h1>
 				</div>
 				{!isSmallDevice ? (
 					<div>
