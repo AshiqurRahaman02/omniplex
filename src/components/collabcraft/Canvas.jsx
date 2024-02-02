@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Slider, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import Draggable from 'react-draggable';
+import Draggable from "react-draggable";
 import {
 	CanvasPath,
 	ExportImageType,
@@ -21,6 +21,30 @@ import {
 	ReactSketchCanvasProps,
 	ReactSketchCanvasRef,
 } from "react-sketch-canvas";
+
+const useDebounce = (func, delay) => {
+	const timeoutRef = useRef(null);
+
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		};
+	}, []);
+
+	const debouncedFunction = (...args) => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+
+		timeoutRef.current = setTimeout(() => {
+			func(...args);
+		}, delay);
+	};
+
+	return debouncedFunction;
+};
 
 function InputField({ fieldName, type = "text", canvasProps, setCanvasProps }) {
 	const handleChange = ({ target }) => {
@@ -56,7 +80,7 @@ const graphBackgroundImage = {
 	light: "https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg",
 };
 
-function Canvas({ darkMode, isMaximized, setIsMaximized }) {
+function Canvas({ darkMode, isMaximized, setIsMaximized, socketRef }) {
 	const [canvasProps, setCanvasProps] = React.useState({
 		className: "react-sketch-canvas",
 		width: "100%",
@@ -202,9 +226,16 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 		["Get Sketching time", getSketchingTimeHandler, "success"],
 	];
 
-	const onChange = (updatedPaths) => {
-		setPaths(updatedPaths);
-	};
+	useEffect(() => {
+		socketRef.current.on("canvasChange", (path) => {
+			const pathsToUpdate = JSON.parse(path.message);
+
+			canvasRef.current?.loadPaths(pathsToUpdate);
+		});
+	}, []);
+	const onChange = useDebounce((updatedPaths) => {
+		socketRef.current.emit("canvasChange", JSON.stringify(updatedPaths));
+	}, 3000);
 
 	const toggleMaximize = () => {
 		const divElement = canvasDivRef.current;
@@ -249,214 +280,211 @@ function Canvas({ darkMode, isMaximized, setIsMaximized }) {
 		}
 	};
 
-	  
-
 	return (
 		<div style={{ width: "100%", padding: "0px 10px" }}>
 			<div>
 				<button style={{ visibility: "hidden" }}></button>
 			</div>
 			<div ref={canvasDivRef} id="canvasDiv">
-				<Draggable
-				>
+				<Draggable>
 					<div>
-					<div
-						id="canvas-tools"
-						style={{
-							position: "relative",
-							display: "flex",
-							gap: "5px",
-							transition: "2s",
-							opacity: displayTools ? 1 : 0,
-						}}
-					>
-						<button
+						<div
+							id="canvas-tools"
 							style={{
-								position: "absolute",
-								right: displayTools ? "225px" : "-45px",
-								transition: "1.9s",
+								position: "relative",
+								display: "flex",
+								gap: "5px",
+								transition: "2s",
+								opacity: displayTools ? 1 : 0,
 							}}
-							onClick={undoHandler}
-							title="Undo drawing"
 						>
-							<FontAwesomeIcon icon={faRotateLeft} size="lg" />
-						</button>
+							<button
+								style={{
+									position: "absolute",
+									right: displayTools ? "225px" : "-45px",
+									transition: "1.9s",
+								}}
+								onClick={undoHandler}
+								title="Undo drawing"
+							>
+								<FontAwesomeIcon icon={faRotateLeft} size="lg" />
+							</button>
+							<button
+								style={{
+									position: "absolute",
+									right: displayTools ? "180px" : "-45px",
+									transition: "1.6s",
+								}}
+								onClick={redoHandler}
+								title="Redo drawing"
+							>
+								<FontAwesomeIcon icon={faRotateRight} size="lg" />
+							</button>
+							<button
+								style={{
+									position: "absolute",
+									right: displayTools ? "135px" : "-45px",
+									transition: "1.3s",
+								}}
+								onClick={clearHandler}
+								title="Clear drawing"
+							>
+								<FontAwesomeIcon icon={faArrowsRotate} size="lg" />
+							</button>
+							<button
+								style={{
+									position: "absolute",
+									right: displayTools ? "90px" : "-45px",
+									transition: "1s",
+								}}
+								onClick={penHandler}
+								title="Select pen"
+							>
+								<FontAwesomeIcon icon={faPen} size="lg" />
+							</button>
+							<button
+								style={{
+									position: "absolute",
+									right: displayTools ? "45px" : "-45px",
+									transition: ".7s",
+								}}
+								onClick={eraserHandler}
+								title="Select eraser"
+							>
+								<FontAwesomeIcon icon={faEraser} size="lg" />
+							</button>
+							<button
+								onClick={downloadImage}
+								title="Download image"
+								style={{
+									position: "absolute",
+									right: displayTools ? "0px" : "-45px",
+									transition: ".4s",
+								}}
+							>
+								<FontAwesomeIcon icon={faDownload} size="lg" />
+							</button>
+						</div>
 						<button
-							style={{
-								position: "absolute",
-								right: displayTools ? "180px" : "-45px",
-								transition: "1.6s",
+							onClick={() => setDisplayTools((pre) => !pre)}
+							style={{ zIndex: "15" }}
+							title={displayTools ? "Hide tools" : "Display tools"}
+						>
+							<FontAwesomeIcon
+								icon={faChevronRight}
+								style={{ transition: "1s" }}
+								rotation={displayTools ? 0 : 180}
+								size="xl"
+							/>
+						</button>
+						<input
+							style={{ zIndex: "15" }}
+							type="color"
+							name="strokeColor"
+							id="strokeColorInput"
+							value={canvasProps.strokeColor}
+							title="Choose stroke color"
+							onChange={(e) => {
+								setCanvasProps((prevCanvasProps) => ({
+									...prevCanvasProps,
+									strokeColor: e.target.value,
+								}));
 							}}
-							onClick={redoHandler}
-							title="Redo drawing"
-						>
-							<FontAwesomeIcon icon={faRotateRight} size="lg" />
-						</button>
-						<button
-							style={{
-								position: "absolute",
-								right: displayTools ? "135px" : "-45px",
-								transition: "1.3s",
+						></input>
+						<input
+							style={{ zIndex: "15" }}
+							name="canvasColor"
+							type="color"
+							id="canvasColorInput"
+							value={canvasProps.canvasColor}
+							title="Choose canvas color"
+							onChange={(e) => {
+								setCanvasProps((prevCanvasProps) => ({
+									...prevCanvasProps,
+									backgroundImage: "",
+									canvasColor: e.target.value,
+								}));
 							}}
-							onClick={clearHandler}
-							title="Clear drawing"
-						>
-							<FontAwesomeIcon icon={faArrowsRotate} size="lg" />
-						</button>
+						></input>
 						<button
+							onClick={toggleMaximize}
+							style={{ zIndex: "15" }}
+							title={isMaximized ? "Minimize canvas" : "Maximize canvas"}
+						>
+							{isMaximized ? (
+								<FontAwesomeIcon icon={faCompress} size="xl" />
+							) : (
+								<FontAwesomeIcon icon={faExpand} size="xl" />
+							)}
+						</button>
+						<div
+							id="input"
 							style={{
-								position: "absolute",
-								right: displayTools ? "90px" : "-45px",
+								top: displayTools ? "45px" : "-20px",
+								opacity: displayTools ? "1" : "0",
 								transition: "1s",
 							}}
-							onClick={penHandler}
-							title="Select pen"
 						>
-							<FontAwesomeIcon icon={faPen} size="lg" />
-						</button>
-						<button
-							style={{
-								position: "absolute",
-								right: displayTools ? "45px" : "-45px",
-								transition: ".7s",
-							}}
-							onClick={eraserHandler}
-							title="Select eraser"
-						>
-							<FontAwesomeIcon icon={faEraser} size="lg" />
-						</button>
-						<button
-							onClick={downloadImage}
-							title="Download image"
-							style={{
-								position: "absolute",
-								right: displayTools ? "0px" : "-45px",
-								transition: ".4s",
-							}}
-						>
-							<FontAwesomeIcon icon={faDownload} size="lg" />
-						</button>
-					</div>
-					<button
-						onClick={() => setDisplayTools((pre) => !pre)}
-						style={{ zIndex: "15" }}
-						title={displayTools ? "Hide tools" : "Display tools"}
-					>
-						<FontAwesomeIcon
-							icon={faChevronRight}
-							style={{ transition: "1s" }}
-							rotation={displayTools ? 0 : 180}
-							size="xl"
-						/>
-					</button>
-					<input
-						style={{ zIndex: "15" }}
-						type="color"
-						name="strokeColor"
-						id="strokeColorInput"
-						value={canvasProps.strokeColor}
-						title="Choose stroke color"
-						onChange={(e) => {
-							setCanvasProps((prevCanvasProps) => ({
-								...prevCanvasProps,
-								strokeColor: e.target.value,
-							}));
-						}}
-					></input>
-					<input
-						style={{ zIndex: "15" }}
-						name="canvasColor"
-						type="color"
-						id="canvasColorInput"
-						value={canvasProps.canvasColor}
-						title="Choose canvas color"
-						onChange={(e) => {
-							setCanvasProps((prevCanvasProps) => ({
-								...prevCanvasProps,
-								backgroundImage: "",
-								canvasColor: e.target.value,
-							}));
-						}}
-					></input>
-					<button
-						onClick={toggleMaximize}
-						style={{ zIndex: "15" }}
-						title={isMaximized ? "Minimize canvas" : "Maximize canvas"}
-					>
-						{isMaximized ? (
-							<FontAwesomeIcon icon={faCompress} size="xl" />
-						) : (
-							<FontAwesomeIcon icon={faExpand} size="xl" />
-						)}
-					</button>
-					<div
-						id="input"
-						style={{
-							top: displayTools ? "45px" : "-20px",
-							opacity: displayTools ? "1" : "0",
-							transition: "1s",
-						}}
-					>
-						{eraseMode ? (
-							<>
-								<Typography
-									id="non-linear-slider"
-									gutterBottom
-									style={{
-										position: "relative",
-										left: "-10px",
-										color: canvasProps.strokeColor,
-									}}
-								>
-									Eraser Width: {canvasProps.strokeWidth}
-								</Typography>
-								<Slider
-									value={canvasProps.eraserWidth}
-									min={1}
-									step={1}
-									max={50}
-									onChange={(e) =>
-										setCanvasProps((prevCanvasProps) => ({
-											...prevCanvasProps,
-											eraserWidth: e.target.value,
-										}))
-									}
-									valueLabelDisplay="auto"
-									aria-labelledby="non-linear-slider"
-									style={{ color: canvasProps.strokeColor }}
-								/>
-							</>
-						) : (
-							<>
-								<Typography
-									id="non-linear-slider"
-									gutterBottom
-									style={{
-										position: "relative",
-										left: "-10px",
-										color: canvasProps.strokeColor,
-									}}
-								>
-									Stroke Width: {canvasProps.strokeWidth}
-								</Typography>
-								<Slider
-									value={canvasProps.strokeWidth}
-									min={1}
-									step={1}
-									max={50}
-									onChange={(e) =>
-										setCanvasProps((prevCanvasProps) => ({
-											...prevCanvasProps,
-											strokeWidth: e.target.value,
-										}))
-									}
-									valueLabelDisplay="auto"
-									aria-labelledby="non-linear-slider"
-									style={{ color: canvasProps.strokeColor }}
-								/>
-							</>
-						)}
-					</div>
+							{eraseMode ? (
+								<>
+									<Typography
+										id="non-linear-slider"
+										gutterBottom
+										style={{
+											position: "relative",
+											left: "-10px",
+											color: canvasProps.strokeColor,
+										}}
+									>
+										Eraser Width: {canvasProps.strokeWidth}
+									</Typography>
+									<Slider
+										value={canvasProps.eraserWidth}
+										min={1}
+										step={1}
+										max={50}
+										onChange={(e) =>
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												eraserWidth: e.target.value,
+											}))
+										}
+										valueLabelDisplay="auto"
+										aria-labelledby="non-linear-slider"
+										style={{ color: canvasProps.strokeColor }}
+									/>
+								</>
+							) : (
+								<>
+									<Typography
+										id="non-linear-slider"
+										gutterBottom
+										style={{
+											position: "relative",
+											left: "-10px",
+											color: canvasProps.strokeColor,
+										}}
+									>
+										Stroke Width: {canvasProps.strokeWidth}
+									</Typography>
+									<Slider
+										value={canvasProps.strokeWidth}
+										min={1}
+										step={1}
+										max={50}
+										onChange={(e) =>
+											setCanvasProps((prevCanvasProps) => ({
+												...prevCanvasProps,
+												strokeWidth: e.target.value,
+											}))
+										}
+										valueLabelDisplay="auto"
+										aria-labelledby="non-linear-slider"
+										style={{ color: canvasProps.strokeColor }}
+									/>
+								</>
+							)}
+						</div>
 					</div>
 				</Draggable>
 

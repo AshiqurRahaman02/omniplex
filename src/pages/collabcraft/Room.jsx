@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import io from "socket.io-client";
 import CodeEditor from "../../components/collabcraft/CodeEditor";
 import Canvas from "../../components/collabcraft/Canvas";
 
@@ -28,7 +29,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { roomRoutes } from "../../routes/collabcraft.route";
 import Draggable from "react-draggable";
 
-const users = [
+const rondomUsers = [
 	{
 		name: "Alice Johnson",
 		id: 123456,
@@ -83,11 +84,11 @@ const users = [
 	},
 ];
 
-const notify = (message = "done", type = "success") => {
+const notify = (message = "done", type = "success", time = 5000) => {
 	if (type === "error") {
 		toast.error(message, {
 			position: "top-right",
-			autoClose: 5000,
+			autoClose: time,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: true,
@@ -98,7 +99,7 @@ const notify = (message = "done", type = "success") => {
 	} else if (type === "success") {
 		toast.success(message, {
 			position: "top-right",
-			autoClose: 5000,
+			autoClose: time,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: true,
@@ -109,7 +110,7 @@ const notify = (message = "done", type = "success") => {
 	} else if (type === "info") {
 		toast.info(message, {
 			position: "top-right",
-			autoClose: 5000,
+			autoClose: time,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: true,
@@ -120,7 +121,7 @@ const notify = (message = "done", type = "success") => {
 	} else if (type === "warning") {
 		toast.warn(message, {
 			position: "top-right",
-			autoClose: 5000,
+			autoClose: time,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: true,
@@ -131,7 +132,7 @@ const notify = (message = "done", type = "success") => {
 	} else {
 		toast("🦄 Wow so easy!", {
 			position: "top-right",
-			autoClose: 5000,
+			autoClose: time,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: true,
@@ -144,27 +145,26 @@ const notify = (message = "done", type = "success") => {
 
 function Room() {
 	const { roomId } = useParams();
+	const socketRef = useRef(null);
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
 	const [userState, setUserState] = useState({
 		audio: false,
 		video: false,
-		displayCode: false,
+		displayCode: true,
 		darkMode: true,
 	});
-	const [roomChats, setRoomChats] = useState([
-		{
-			userId: "a;ldkjf",
-			message: "Room",
-			time: new Date(),
-			userName: "a;lkdjffhkjsfg",
-		},
-	]);
+	const [roomChats, setRoomChats] = useState([]);
+	const [chatInput, setChatInput] = useState("");
 	const [isMaximized, setIsMaximized] = useState(false);
 	const [displayChats, setDisplayChats] = useState(false);
 	const [userDetails, setUserDetails] = useState();
 	const [token, setToken] = useState();
 
 	const [roomDetails, setRoomDetails] = useState();
+	const [users, setUsers] = useState(rondomUsers);
+
+	
 
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
@@ -174,7 +174,75 @@ function Room() {
 			setUserDetails(parsedUserDetails);
 			setToken(token);
 
-			getRoomDetails(token);
+			const host = "http://localhost:8080/";
+			socketRef.current = io(`${host}`, { transports: ["websocket"] });
+
+			socketRef.current.on("connect", () => {
+				console.log("Connected to the socket server");
+
+				fetch(`${roomRoutes.getRoomDetails}${roomId}`, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: token,
+					},
+				})
+					.then((res) => res.json())
+					.then((res) => {
+						if (res.isError) {
+							notify(res.message, "warning");
+							if (res.joinRequired) {
+								setTimeout(() => {
+									navigate("/collabcraft");
+								}, 2000);
+							}
+						} else {
+							setRoomDetails(res.room);
+							let details = {
+								userName: parsedUserDetails.name,
+								userId: parsedUserDetails._id,
+								roomId: res.room._id,
+								roomName: res.room.name,
+							};
+							console.log(details);
+							socketRef.current.emit("joinRoom", details);
+
+							setTimeout(() => {
+								setLoading(false);
+							}, 4000);
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+						notify(err.message, "error");
+					});
+			});
+			socketRef.current.on("connect_error", (err) => {
+				notify("Failed to connect with socket server", "error");
+
+				setTimeout(() => {
+					navigate("/collabcraft");
+				}, 3000);
+			});
+
+			socketRef.current.on("message", (message) => {
+				notify(message, "info", 2000);
+			});
+			socketRef.current.on("chat", (chat) => {
+				setRoomChats((pre) => [...pre, chat]);
+			});
+			// socketRef.current.on("codeChange", (code) => {
+			// 	setCode(code);
+			// });
+
+			socketRef.current.on("roomUsers", (users) => {
+				console.log(users.users);
+				setUsers(users.users);
+			});
+
+			return () => {
+				socketRef.current.disconnect();
+			};
 		} else {
 			let message = "Please Login first.";
 			notify(message, "error");
@@ -182,10 +250,10 @@ function Room() {
 				navigate("/sign");
 			}, 3000);
 		}
-	}, []);
+	}, [roomId]);
 
-	const getRoomDetails = (token) => {
-		fetch(`${roomRoutes.getRoomDetails}${roomId}`, {
+	const getRoomDetails = async (token) => {
+		await fetch(`${roomRoutes.getRoomDetails}${roomId}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -198,6 +266,11 @@ function Room() {
 					notify(res.message, "warning");
 				} else {
 					setRoomDetails(res.room);
+					console.log(res.room);
+
+					setTimeout(() => {
+						setLoading(false);
+					}, 4000);
 				}
 			})
 			.catch((err) => {
@@ -235,174 +308,218 @@ function Room() {
 		}
 	}
 
+	const handelSendChat = () => {
+		if (chatInput) {
+			socketRef.current.emit("chat", chatInput);
+		}
+	};
+
+	
+
+
 	return (
 		<div>
-			<div>
-				<div>
-					<Users users={users} />
+			{loading ? (
+				<div id="room-loading">
+					<div id="loading-background"></div>
+					<div id="main-loading"></div>
 				</div>
-				<div id="collabcraft-room-details" style={{ marginBottom: "0" }}>
-					<p>
-						<span>Omniplex</span>{" "}
-						<span>
-							{userState.audio && (
-								<FontAwesomeIcon icon={faMicrophone} size="2xs" />
-							)}{" "}
-							{userState.video && (
-								<FontAwesomeIcon icon={faVideo} size="2xs" />
-							)}{" "}
-							{(userState.audio || userState.video) && (
-								<FontAwesomeIcon
-									icon={faCircleStop}
-									style={{ color: "#e32b2b" }}
-									size="2xs"
-								/>
-							)}
-						</span>
-					</p>
+			) : (
+				<>
 					<div>
 						<div>
-							<button
-								onClick={() =>
-									setUserState((pre) => ({
-										...pre,
-										audio: !userState.audio,
-									}))
-								}
-							>
-								{userState.audio ? (
-									<FontAwesomeIcon icon={faMicrophone} size="xl" />
-								) : (
-									<FontAwesomeIcon
-										icon={faMicrophoneSlash}
-										size="xl"
-									/>
-								)}
-							</button>
-							<button
-								onClick={() =>
-									setUserState((pre) => ({
-										...pre,
-										video: !userState.video,
-									}))
-								}
-							>
-								{userState.video ? (
-									<FontAwesomeIcon icon={faVideo} size="xl" />
-								) : (
-									<FontAwesomeIcon icon={faVideoSlash} size="xl" />
-								)}
-							</button>
-							<button onClick={() => setDisplayChats((pre) => !pre)}>
-								<FontAwesomeIcon icon={faComment} size="xl" />
-							</button>
-							<button
-								onClick={() =>
-									setUserState((pre) => ({
-										...pre,
-										displayCode: !userState.displayCode,
-									}))
-								}
-							>
-								<FontAwesomeIcon icon={faRepeat} size="xl" />
-							</button>
-							<button
-								onClick={() =>
-									setUserState((pre) => ({
-										...pre,
-										darkMode: !userState.darkMode,
-									}))
-								}
-							>
-								{userState.darkMode ? (
-									<FontAwesomeIcon icon={faMoon} size="xl" />
-								) : (
-									<FontAwesomeIcon icon={faSun} size="xl" />
-								)}
-							</button>
+							<Users users={users} />
 						</div>
-						<div>
-							<button>
-								<FontAwesomeIcon
-									icon={faArrowRightFromBracket}
-									size="xl"
-									style={{ color: "#e32b2b" }}
-								/>
-							</button>
+						<div
+							id="collabcraft-room-details"
+							style={{ marginBottom: "0" }}
+						>
+							<p>
+								<span>Omniplex</span>{" "}
+								<span>
+									{userState.audio && (
+										<FontAwesomeIcon icon={faMicrophone} size="2xs" />
+									)}{" "}
+									{userState.video && (
+										<FontAwesomeIcon icon={faVideo} size="2xs" />
+									)}{" "}
+									{(userState.audio || userState.video) && (
+										<FontAwesomeIcon
+											icon={faCircleStop}
+											style={{ color: "#e32b2b" }}
+											size="2xs"
+										/>
+									)}
+								</span>
+							</p>
+							<div>
+								<div>
+									<button
+										onClick={() =>
+											setUserState((pre) => ({
+												...pre,
+												audio: !userState.audio,
+											}))
+										}
+									>
+										{userState.audio ? (
+											<FontAwesomeIcon
+												icon={faMicrophone}
+												size="xl"
+											/>
+										) : (
+											<FontAwesomeIcon
+												icon={faMicrophoneSlash}
+												size="xl"
+											/>
+										)}
+									</button>
+									<button
+										onClick={() =>
+											setUserState((pre) => ({
+												...pre,
+												video: !userState.video,
+											}))
+										}
+									>
+										{userState.video ? (
+											<FontAwesomeIcon icon={faVideo} size="xl" />
+										) : (
+											<FontAwesomeIcon
+												icon={faVideoSlash}
+												size="xl"
+											/>
+										)}
+									</button>
+									<button
+										onClick={() => setDisplayChats((pre) => !pre)}
+									>
+										<FontAwesomeIcon icon={faComment} size="xl" />
+									</button>
+									<button
+										onClick={() =>
+											setUserState((pre) => ({
+												...pre,
+												displayCode: !userState.displayCode,
+											}))
+										}
+									>
+										<FontAwesomeIcon icon={faRepeat} size="xl" />
+									</button>
+									<button
+										onClick={() =>
+											setUserState((pre) => ({
+												...pre,
+												darkMode: !userState.darkMode,
+											}))
+										}
+									>
+										{userState.darkMode ? (
+											<FontAwesomeIcon icon={faMoon} size="xl" />
+										) : (
+											<FontAwesomeIcon icon={faSun} size="xl" />
+										)}
+									</button>
+								</div>
+								<div>
+									<button>
+										<FontAwesomeIcon
+											icon={faArrowRightFromBracket}
+											size="xl"
+											style={{ color: "#e32b2b" }}
+										/>
+									</button>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div style={{ position: "relative" }}>
-				{displayChats && (
-					<Draggable>
-						<div id="chat-container">
-							<div>
-								<FontAwesomeIcon
-									icon={faCircleXmark}
-									size="xl"
-									style={{
-										position: "absolute",
-										top: "-10px",
-										right: "0px",
-										zIndex:"20",
-										cursor:"pointer"
-									}}
+					<div style={{ position: "relative" }}>
+						{displayChats && (
+							<Draggable>
+								<div id="chat-container">
+									<div>
+										<FontAwesomeIcon
+											icon={faCircleXmark}
+											size="xl"
+											style={{
+												position: "absolute",
+												top: "-25px",
+												right: "0px",
+												zIndex: "20",
+												cursor: "pointer",
+											}}
+											onClick={() => setDisplayChats(false)}
+										/>
+									</div>
+									<div id="all-chats">
+										{roomChats.length > 0 &&
+											roomChats.map((chat) => {
+												return chat.userId === userDetails._id ? (
+													<div id="own-update">
+														<p>{chat.message}</p>
+														<span>
+															{timeConverter(chat.time)}
+														</span>
+													</div>
+												) : (
+													<div>
+														<span>{chat.userName}</span>
+														<p>{chat.message}</p>
+														<span>
+															{timeConverter(chat.time)}
+														</span>
+													</div>
+												);
+											})}
+									</div>
+									<div>
+										<input
+											type="text"
+											value={chatInput}
+											onChange={(e) => setChatInput(e.target.value)}
+										/>
+										<FontAwesomeIcon
+											icon={faPaperPlane}
+											size="lg"
+											style={{
+												position: "absolute",
+												top: "5px",
+												right: "10px",
+											}}
+											onClick={handelSendChat}
+										/>
+									</div>
+								</div>
+							</Draggable>
+						)}
+					</div>
 
-									onClick={()=>setDisplayChats(false)}
-								/>
-							</div>
-							<div id="all-chats">
-								{roomChats.length > 0 &&
-									roomChats.map((chat) => {
-										return false &&
-											chat.userId === userDetails._id ? (
-											<div id="own-update">
-												<p>{chat.message}</p>
-												<span>{timeConverter(chat.time)}</span>
-											</div>
-										) : (
-											<div>
-												<span>{chat.userName}</span>
-												<p>{chat.message}</p>
-												<span>{timeConverter(chat.time)}</span>
-											</div>
-										);
-									})}
-							</div>
-							<div>
-								<input type="text" />
-								<FontAwesomeIcon
-									icon={faPaperPlane}
-									size="lg"
-									style={{
-										position: "absolute",
-										top: "5px",
-										right: "10px",
-									}}
-								/>
-							</div>
-						</div>
-					</Draggable>
-				)}
-			</div>
+					<div>
+						{userState.displayCode ? (
+							<CodeEditor
+								darkMode={userState.darkMode}
+								isMaximized={isMaximized}
+								setIsMaximized={setIsMaximized}
+								socketRef= {socketRef}
+							/>
+						) : (
+							<Canvas
+								darkMode={userState.darkMode}
+								isMaximized={isMaximized}
+								setIsMaximized={setIsMaximized}
+								socketRef={socketRef}
+							/>
+						)}
+					</div>
+				</>
+			)}
 
-			<div>
-				{userState.displayCode ? (
-					<CodeEditor
-						darkMode={userState.darkMode}
-						isMaximized={isMaximized}
-						setIsMaximized={setIsMaximized}
-					/>
-				) : (
-					<Canvas
-						darkMode={userState.darkMode}
-						isMaximized={isMaximized}
-						setIsMaximized={setIsMaximized}
-					/>
-				)}
-			</div>
 			<ToastContainer />
+
+			{/* <div id="room-loading">
+				<div id="loading-background"></div>
+				<div id="main-loading"></div>
+			</div> */}
 		</div>
 	);
 }

@@ -36,10 +36,10 @@ function Users({ users }) {
 							{user.profile_image ? (
 								<img src={user.profile_image} alt="" />
 							) : (
-								<h1>{user.name[0]}</h1>
+								<h1>{user.username[0]}</h1>
 							)}
 						</div>
-						<p>{user.name}</p>
+						<p>{user.username}</p>
 					</div>
 				))}
 			</div>

@@ -305,7 +305,7 @@ code {
 	right: 0;
 }
 
-#collabcraft-home{
+#collabcraft-home {
 	max-width: 97%;
 	margin: auto;
 	padding: 20px 50px;
@@ -314,15 +314,15 @@ code {
 	justify-content: space-between;
 	/* flex-wrap: wrap; */
 }
-#collabcraft-rooms{
+#collabcraft-rooms {
 	min-width: 300px;
 }
-#collabcraft-rooms>div{
+#collabcraft-rooms > div {
 	display: flex;
 	gap: 10px;
 	flex-wrap: wrap;
 }
-#collabcraft-rooms>div>div{
+#collabcraft-rooms > div > div {
 	cursor: pointer;
 	border: 1px solid rgb(212, 212, 212);
 	border-radius: 5px;
@@ -332,10 +332,9 @@ code {
 	height: 129px;
 	padding: 0px 0px 0px 5px;
 }
-#collabcraft-rooms>div>div>p{
-	
+#collabcraft-rooms > div > div > p {
 }
-#collabcraft-rooms>div>div>button{
+#collabcraft-rooms > div > div > button {
 	position: absolute;
 	bottom: 10px;
 	left: 5px;
@@ -347,16 +346,16 @@ code {
 	border: rgb(0, 255, 64) 2px solid;
 	padding: 5px 10px;
 	cursor: pointer;
-	transition: .5s;
+	transition: 0.5s;
 }
-#collabcraft-rooms>div>div>button:hover{
+#collabcraft-rooms > div > div > button:hover {
 	background-color: rgb(0, 255, 64);
 	gap: 5px;
 }
-#collabcraft #join-create-form>div {
+#collabcraft #join-create-form > div {
 	width: 300px;
 }
-#collabcraft #join-create-form>div:nth-child(2){
+#collabcraft #join-create-form > div:nth-child(2) {
 	display: flex;
 	justify-content: space-around;
 	font-size: 18px;
@@ -365,7 +364,7 @@ code {
 	position: relative;
 	z-index: 1;
 }
-#collabcraft #join-create-form>div:nth-child(2)>span{
+#collabcraft #join-create-form > div:nth-child(2) > span {
 	text-align: center;
 	width: 50%;
 	margin: 0px 10px;
@@ -376,23 +375,23 @@ code {
 
 	background-color: rgb(245, 245, 245);
 }
-#collabcraft #join-create-form>div:nth-child(3){
+#collabcraft #join-create-form > div:nth-child(3) {
 	position: relative;
 	top: -0.5px;
 	/* z-index: -1; */
-	padding: 5px ;
+	padding: 5px;
 	border: 1px solid rgb(212, 212, 212);
 	background-color: rgb(245, 245, 245);
 	padding: 50px 5px;
 }
-#collabcraft #join-create-form>div:nth-child(3) .form-control>input{
+#collabcraft #join-create-form > div:nth-child(3) .form-control > input {
 	color: black;
 	font-size: 16px;
 	font-weight: 600;
 	border-bottom: 1px solid rgb(0, 0, 0);
 	background-color: rgb(245, 245, 245);
 }
-#join-create-room{
+#join-create-room {
 	display: flex;
 	gap: 10px;
 	align-items: center;
@@ -400,40 +399,39 @@ code {
 	border: rgb(0, 255, 64) 2px solid;
 	padding: 5px 10px;
 	cursor: pointer;
-	transition: .5s;
+	transition: 0.5s;
 	margin-top: 20px;
 }
-#join-create-room:hover{
+#join-create-room:hover {
 	background-color: rgb(0, 255, 64);
 	gap: 5px;
 }
 
-@media (max-width: 700px)  {
-	#collabcraft-home{
+@media (max-width: 700px) {
+	#collabcraft-home {
 		flex-direction: column-reverse;
 	}
 }
-@media (max-width: 450px)  {
-	#collabcraft-home{
+@media (max-width: 450px) {
+	#collabcraft-home {
 		width: 100%;
 		padding: 20px 10px;
 	}
 }
 
-#chat-container{
+#chat-container {
 	position: absolute;
 	top: 50px;
 	left: 40%;
 	z-index: 20;
 	background-color: white;
 	border: 1px solid rgb(173, 173, 173);
-	padding: 20px 10px;
+	padding: 10px;
 	width: 330px;
-	
-	
+	padding-top: 35px;
 }
-#all-chats{
-	min-height: 250px;
+#all-chats {
+	min-height: 300px;
 	max-height: 350px;
 	overflow: scroll;
 }
@@ -444,7 +442,7 @@ code {
 #all-chats::-webkit-scrollbar-thumb {
 	background-color: rgba(49, 209, 209, 0.295);
 }
-#chat-container>div>div{
+#chat-container > div > div {
 	border: #dfdfdf 1px solid;
 	width: max-content;
 	padding: 2px 0px;
@@ -456,10 +454,10 @@ code {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-#chat-container>div>div>span{
+#chat-container > div > div > span {
 	font-size: 10px;
 }
-#chat-container>div>#own-update{
+#chat-container > div > #own-update {
 	text-align: end;
 	margin-left: auto;
 	padding-right: 0px;
@@ -470,13 +468,49 @@ code {
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
-#chat-container>div{
+#chat-container > div {
 	position: relative;
 }
-#chat-container>div>input{
+#chat-container > div > input {
 	width: 100%;
 	font-size: 16px;
 	padding-left: 5px;
 	padding-right: 50px;
 	height: 35px;
+}
+
+#room-loading > div {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	height: 25px;
+	border: 0;
+
+	/* background-color: #000000; */
+}
+
+#room-loading #loading-background {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #8b8b8b;
+}
+#room-loading #main-loading {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #ffffff;
+	transition: 1s;
+	animation: loading 5s;
+}
+
+@keyframes loading {
+	0% {
+		width: 0%;
+	}
+	100% {
+		width: 100%;
+	}
 }
