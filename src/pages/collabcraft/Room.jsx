@@ -174,8 +174,10 @@ function Room() {
 			setUserDetails(parsedUserDetails);
 			setToken(token);
 
-			const host = "http://localhost:8080/";
-			socketRef.current = io(`${host}`, { transports: ["websocket"] });
+			const host = "wss://collabcraft-socket-server.onrender.com/";
+			socketRef.current = io(`${host}`, { transports: ["websocket"],headers:{
+				"user-agent":"websocket"
+			} });
 
 			socketRef.current.on("connect", () => {
 				console.log("Connected to the socket server");
@@ -335,7 +337,7 @@ function Room() {
 							style={{ marginBottom: "0" }}
 						>
 							<p>
-								<span>Omniplex</span>{" "}
+								<span>{roomDetails.name}</span>{" "}
 								<span>
 									{userState.audio && (
 										<FontAwesomeIcon icon={faMicrophone} size="2xs" />

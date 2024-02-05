@@ -46,7 +46,7 @@ function CodeEditor({ darkMode, isMaximized, setIsMaximized, socketRef }) {
 
 	const handleCodeChange = useDebounce((newCode) => {
 		socketRef.current.emit("codeChange", newCode);
-	}, 3000);
+	}, 1000);
 	const handelCodeClear = () => {
 		setCode("");
 	};
