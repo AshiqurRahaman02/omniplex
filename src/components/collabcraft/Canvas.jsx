@@ -235,7 +235,7 @@ function Canvas({ darkMode, isMaximized, setIsMaximized, socketRef }) {
 	}, []);
 	const onChange = useDebounce((updatedPaths) => {
 		socketRef.current.emit("canvasChange", JSON.stringify(updatedPaths));
-	}, 3000);
+	}, 1000);
 
 	const toggleMaximize = () => {
 		const divElement = canvasDivRef.current;
