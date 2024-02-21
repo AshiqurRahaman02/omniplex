@@ -365,7 +365,7 @@ main {
 	border-radius: 3px;
 	background: var(--text-primary-navy-blue);
 	font-size: 17px;
-	color: var(--bg-dominant-white);
+	color: white;
 	transition: 0.5s;
 	cursor: pointer;
 }
@@ -477,7 +477,7 @@ input[type="checkbox"] {
 	border: 0px;
 	background: var(--text-primary-navy-blue);
 	font-size: 17px;
-	color: var(--bg-dominant-white);
+	/* color: var(--bg-dominant-white); */
 	border-radius: 5px;
 	transition: 0.5s;
 	cursor: pointer;

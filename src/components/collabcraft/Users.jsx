@@ -34,7 +34,7 @@ function Users({ users }) {
 					<div id="collabcraft-user">
 						<div>
 							{user.profile_image ? (
-								<img src={user.profile_image} alt="" />
+								<img loading="lazy" src={user.profile_image} alt="" />
 							) : (
 								<h1>{user.username[0]}</h1>
 							)}

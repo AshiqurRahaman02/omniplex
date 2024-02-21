@@ -10,44 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { roomRoutes } from "../../routes/collabcraft.route";
 
-const rooms = [
-	{
-		roomName: "Conference Room A",
-		currentUsers: 15,
-	},
-	{
-		roomName: "Team Huddle Space",
-		currentUsers: 8,
-	},
-	{
-		roomName: "Innovation Lab",
-		currentUsers: 12,
-	},
-	{
-		roomName: "Boardroom 1",
-		currentUsers: 20,
-	},
-	{
-		roomName: "Creative Studio",
-		currentUsers: 10,
-	},
-	{
-		roomName: "Project Planning Room",
-		currentUsers: 6,
-	},
-	{
-		roomName: "Virtual Collaboration Space",
-		currentUsers: 18,
-	},
-	{
-		roomName: "Training Room 2",
-		currentUsers: 14,
-	},
-	{
-		roomName: "Executive Suite",
-		currentUsers: 5,
-	},
-];
 
 const notify = (message = "done", type = "success") => {
 	if (type === "error") {
@@ -114,7 +76,7 @@ function Home() {
 	const [userDetails, setUserDetails] = useState();
 	const [token, setToken] = useState();
 
-	const [userRooms, setUserRooms] = useState(rooms);
+	const [userRooms, setUserRooms] = useState([]);
 	const [roomName, setRoomName] = useState("");
 	const [roomPassword, setRoomPassword] = useState("");
 
@@ -228,13 +190,13 @@ function Home() {
 				<div id="collabcraft-rooms">
 					<h1>Your Rooms</h1>
 					<div>
-						{rooms.map((room, indes) => (
+						{userRooms.map((room, indes) => (
 							<div>
-								<h2>{room.roomName}</h2>
-								<p>Current Users: {room.currentUsers}</p>
+								<h2>{room.name}</h2>
+								<p>Current Users: {room.users.length - 1}</p>
 								<button
 									onClick={() =>
-										navigate(`/collabcraft/room/${room.id}`)
+										navigate(`/collabcraft/room/${room._id}`)
 									}
 								>
 									<span>Join Now </span>
