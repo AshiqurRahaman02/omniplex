@@ -14,6 +14,7 @@ import {
 	faMicrophone,
 	faMicrophoneSlash,
 	faRepeat,
+	faShareNodes,
 	faVideo,
 	faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -164,8 +165,6 @@ function Room() {
 	const [roomDetails, setRoomDetails] = useState();
 	const [users, setUsers] = useState(rondomUsers);
 
-	
-
 	useEffect(() => {
 		const userDetails = localStorage.getItem("userInfo");
 		const token = localStorage.getItem("token");
@@ -175,13 +174,15 @@ function Room() {
 			setToken(token);
 
 			const host = "wss://collabcraft-socket-server.onrender.com/";
-			socketRef.current = io(`${host}`, { transports: ["websocket"],headers:{
-				"user-agent":"websocket"
-			} });
+			// const host = "http://localhost:8080/";
+			socketRef.current = io(`${host}`, {
+				transports: ["websocket"],
+				headers: {
+					"user-agent": "websocket",
+				},
+			});
 
 			socketRef.current.on("connect", () => {
-				console.log("Connected to the socket server");
-
 				fetch(`${roomRoutes.getRoomDetails}${roomId}`, {
 					method: "GET",
 					headers: {
@@ -206,7 +207,6 @@ function Room() {
 								roomId: res.room._id,
 								roomName: res.room.name,
 							};
-							console.log(details);
 							socketRef.current.emit("joinRoom", details);
 
 							setTimeout(() => {
@@ -254,33 +254,6 @@ function Room() {
 		}
 	}, [roomId]);
 
-	const getRoomDetails = async (token) => {
-		await fetch(`${roomRoutes.getRoomDetails}${roomId}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: token,
-			},
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				if (res.isError) {
-					notify(res.message, "warning");
-				} else {
-					setRoomDetails(res.room);
-					console.log(res.room);
-
-					setTimeout(() => {
-						setLoading(false);
-					}, 4000);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-				notify(err.message, "error");
-			});
-	};
-
 	function timeConverter(inputDate) {
 		const currentDate = new Date();
 		const inputDateTime = new Date(inputDate);
@@ -315,9 +288,6 @@ function Room() {
 			socketRef.current.emit("chat", chatInput);
 		}
 	};
-
-	
-
 
 	return (
 		<div>
@@ -358,10 +328,10 @@ function Room() {
 								<div>
 									<button
 										onClick={() =>
-											setUserState((pre) => ({
-												...pre,
-												audio: !userState.audio,
-											}))
+											notify(
+												"This feature is currently experimental",
+												"info"
+											)
 										}
 									>
 										{userState.audio ? (
@@ -378,10 +348,10 @@ function Room() {
 									</button>
 									<button
 										onClick={() =>
-											setUserState((pre) => ({
-												...pre,
-												video: !userState.video,
-											}))
+											notify(
+												"This feature is currently experimental",
+												"info"
+											)
 										}
 									>
 										{userState.video ? (
@@ -422,9 +392,12 @@ function Room() {
 											<FontAwesomeIcon icon={faSun} size="xl" />
 										)}
 									</button>
+									<button>
+									<FontAwesomeIcon icon={faShareNodes} />
+									</button>
 								</div>
 								<div>
-									<button>
+									<button onClick={()=>navigate("/collabcraft")}>
 										<FontAwesomeIcon
 											icon={faArrowRightFromBracket}
 											size="xl"
@@ -502,7 +475,7 @@ function Room() {
 								darkMode={userState.darkMode}
 								isMaximized={isMaximized}
 								setIsMaximized={setIsMaximized}
-								socketRef= {socketRef}
+								socketRef={socketRef}
 							/>
 						) : (
 							<Canvas
