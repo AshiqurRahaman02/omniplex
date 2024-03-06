@@ -66,8 +66,6 @@
 	}
 }
 
-
-
 .menu {
 	position: absolute;
 	right: 0;
@@ -226,7 +224,6 @@ main {
 .left > aside > img,
 .right > aside > img {
 	width: 500px;
-	
 }
 .left > aside:nth-child(2) {
 	text-align: end;
@@ -404,7 +401,6 @@ main {
 	height: 60vh;
 	padding: 30px;
 	margin: 15vh auto 0px;
-	
 }
 #signinForm > h2 {
 	font-size: 30px;
@@ -562,6 +558,31 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /***************************************** Explore Page ***************************************/
+
+#explore-nav {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+
+	position: sticky;
+	z-index: 10;
+	top: 0;
+	padding: 3px;
+	background-color: #F8F8F8;
+}
+
+#explore-nav img {
+	width: 100px;
+
+	width: 90px;
+	padding: 5px;
+	border: #1f1d1d 1px solid;
+	border-radius: 5px;
+	margin: auto;
+	aspect-ratio: 3/2;
+	object-fit: contain;
+	cursor: pointer;
+}
 
 .explore-sections {
 	padding: 50px;
