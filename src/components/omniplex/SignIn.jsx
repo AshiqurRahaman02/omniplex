@@ -8,7 +8,7 @@ import { userRoutes, mailRoutes } from "../../routes/omniplex.route";
 
 import Popup from "./Popup";
 
-const SignIn = () => {
+const SignIn = ({redirectUrl}) => {
 	// State for form inputs and validation flags
 	const [signInEmail, setSignInEmail] = useState("");
 	const [signInPassword, setSignInPassword] = useState("");
@@ -144,7 +144,12 @@ const SignIn = () => {
 		localStorage.setItem("userInfo", JSON.stringify(user));
 		localStorage.setItem("token", res.token);
 		setTimeout(() => {
-			navigate("/");
+			if(redirectUrl){
+				navigate(redirectUrl);
+				window.location.reload();
+			}else{
+				navigate('/');
+			}
 		}, 3000);
 	};
 

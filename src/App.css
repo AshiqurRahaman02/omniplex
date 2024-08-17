@@ -318,10 +318,7 @@ main {
 	margin-right: 10px;
 }
 @media screen and (max-width: 430px) {
-	body {
-		padding-left: 20px;
-		padding-right: 20px;
-	}
+	
 	.tweet-header {
 		flex-direction: column;
 	}
@@ -398,9 +395,9 @@ main {
 #signinForm {
 	background-color: rgb(127, 255, 212);
 	width: 350px;
-	height: 60vh;
+	/* height: 60vh; */
 	padding: 30px;
-	margin: 15vh auto 0px;
+	margin: 0vh auto 0px;
 }
 #signinForm > h2 {
 	font-size: 30px;
@@ -488,13 +485,14 @@ input[type="checkbox"] {
 	position: absolute;
 	background-color: rgba(36, 35, 35, 0.685);
 	backdrop-filter: blur(25px);
-	height: 80vh;
+	/* height: 80vh; */
 	/* width: 370px; */
 	border-radius: 30px;
 	text-align: center;
 	margin: auto;
 	border: #e2e2e2 1px solid;
 	padding: 5px;
+	padding-bottom: 20px;
 
 	top: 130px;
 }

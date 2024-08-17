@@ -2,6 +2,7 @@ const REACT_APP_BACKEND_APP_BASE_URL=process.env.REACT_APP_BACKEND_APP_BASE_URL
 
 export const todoListRoutes = {
     getTodoList: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/get-todolist/`,
+    getTaskList: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/get-tasklist/`,
     addTeamWork: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/work/add-team/`,
     addTeamProject: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/project/add-team/`,
     addTeamPersonal: `${REACT_APP_BACKEND_APP_BASE_URL}/todolist/personal/add-team/`,
