@@ -180,7 +180,7 @@ function Home() {
 				navigate("/sign");
 			}, 3000);
 		}
-	}, []);
+	}, [navigate]);
 
 	const getQuote = () => {
 		fetch("https://type.fit/api/quotes")

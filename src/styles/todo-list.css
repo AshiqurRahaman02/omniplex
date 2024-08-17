@@ -160,7 +160,6 @@
 	transform: scale(1.05);
 }
 
-
 .add-note {
 	margin: auto;
 	font-weight: 600;
@@ -208,23 +207,23 @@
 	backdrop-filter: blur(10px);
 	font-family: monospace;
 }
-.add-note-form>div  h3 {
+.add-note-form > div h3 {
 	font-size: 25px;
 }
 
-.add-note-form>div  label {
+.add-note-form > div label {
 	margin-top: 10px;
 	font-size: 18px;
 }
-.add-note-form>div  input,
-.add-note-form>div  textarea {
+.add-note-form > div input,
+.add-note-form > div textarea {
 	font-size: 18px;
 	width: 100%;
 	padding: 2px;
 	resize: none;
 }
 
-.add-note-form  #buttons { 
+.add-note-form #buttons {
 	margin-top: 20px;
 	display: flex;
 	justify-content: space-between;
@@ -365,22 +364,22 @@
 
 	gap: 10px;
 }
-#updates{
+#updates {
 	width: 400px;
 }
-#updates>main:nth-child(2){
+#updates > main:nth-child(2) {
 	min-height: 250px;
 	max-height: 350px;
 	overflow: scroll;
 }
-#updates>main:nth-child(2)::-webkit-scrollbar {
+#updates > main:nth-child(2)::-webkit-scrollbar {
 	width: 5px;
 	background-color: rgba(247, 247, 247, 0.3);
 }
-#updates>main:nth-child(2)::-webkit-scrollbar-thumb {
+#updates > main:nth-child(2)::-webkit-scrollbar-thumb {
 	background-color: rgba(49, 209, 209, 0.295);
 }
-#updates>main:nth-child(2)>p{
+#updates > main:nth-child(2) > p {
 	text-align: center;
 	width: max-content;
 	padding: 3px 5px;
@@ -392,7 +391,7 @@
 	border: #dfdfdf 1px solid;
 	margin-bottom: 20px;
 }
-#updates>main:nth-child(2)>div{
+#updates > main:nth-child(2) > div {
 	border: #dfdfdf 1px solid;
 	width: max-content;
 	padding: 2px 0px;
@@ -404,10 +403,10 @@
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-#updates>main:nth-child(2)>div>span{
+#updates > main:nth-child(2) > div > span {
 	font-size: 10px;
 }
-#updates>main:nth-child(2)>#own-update{
+#updates > main:nth-child(2) > #own-update {
 	text-align: end;
 	margin-left: auto;
 	padding-right: 0px;
@@ -418,17 +417,17 @@
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
-#updates>div:nth-child(3){
+#updates > div:nth-child(3) {
 	position: relative;
 }
-#updates>div:nth-child(3)>input{
+#updates > div:nth-child(3) > input {
 	width: 100%;
 	font-size: 16px;
 	padding-left: 5px;
 	padding-right: 50px;
 	height: 35px;
 }
-#updates>div:nth-child(3)>div{
+#updates > div:nth-child(3) > div {
 	position: absolute;
 	top: 5px;
 	right: 3px;
@@ -729,26 +728,25 @@
 	gap: 10px;
 }
 
-#financial>div{
+#financial > div {
 	display: flex;
 	justify-content: space-evenly;
 	margin-top: 20px;
 }
-#financial>div>aside{
+#financial > div > aside {
 	padding: 10px;
 	border: 1px solid black;
 	border-radius: 10px;
 	box-shadow: -2px 3px 29px 1px rgba(204, 204, 204, 0.5);
 }
-#track{
+#track {
 	width: 850px;
 }
 
-
-#record{
+#record {
 	width: 400px;
 }
-#financial>div>aside>div:nth-child(1){
+#financial > div > aside > div:nth-child(1) {
 	display: flex;
 	padding: 10px;
 	gap: 10px 50px;
@@ -756,19 +754,19 @@
 	justify-content: space-between;
 	font-size: 25px;
 }
-#record>main:nth-child(2){
+#record > main:nth-child(2) {
 	min-height: 250px;
 	max-height: 350px;
 	overflow: scroll;
 }
-#record>main:nth-child(2)::-webkit-scrollbar {
+#record > main:nth-child(2)::-webkit-scrollbar {
 	width: 5px;
 	background-color: rgba(247, 247, 247, 0.3);
 }
-#record>main:nth-child(2)::-webkit-scrollbar-thumb {
+#record > main:nth-child(2)::-webkit-scrollbar-thumb {
 	background-color: rgba(49, 209, 209, 0.295);
 }
-#record>main:nth-child(2)>div>p{
+#record > main:nth-child(2) > div > p {
 	text-align: center;
 	width: max-content;
 	padding: 3px 5px;
@@ -780,7 +778,7 @@
 	border: #dfdfdf 1px solid;
 	margin-bottom: 20px;
 }
-#record>main:nth-child(2)>div>div{
+#record > main:nth-child(2) > div > div {
 	border: #3cff56 1px solid;
 	width: max-content;
 	padding: 2px 0px;
@@ -792,10 +790,10 @@
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-#record>main:nth-child(2)>div>div>span{
+#record > main:nth-child(2) > div > div > span {
 	font-size: 10px;
 }
-#record #own-update{
+#record #own-update {
 	text-align: end;
 	margin-left: auto;
 	padding-right: 0px;
@@ -806,37 +804,103 @@
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 }
-#record>div:nth-child(3){
+#record > div:nth-child(3) {
 	position: relative;
 }
-#record>div:nth-child(3)>p{
+#record > div:nth-child(3) > p {
 	display: flex;
 	width: 100%;
 	justify-content: space-evenly;
 }
-#record>div:nth-child(3)>input{
+#record > div:nth-child(3) > input {
 	width: 100%;
 	font-size: 16px;
 	padding-left: 5px;
 	padding-right: 50px;
 	height: 35px;
 }
-#record>div:nth-child(3)>div{
+#record > div:nth-child(3) > div {
 	position: absolute;
 	top: 25px;
 	right: 3px;
 }
 
-#habit{
+#habit {
 	min-height: 250px;
 	max-height: 350px;
 	overflow: scroll;
 	padding: 10px;
 }
-#habit>div{
+#habit > div {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	font-size: 18px;
 	padding: 5px;
+}
+
+#todolist-iframe {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+#todolist-iframe > div > h2 {
+	border: 1px solid teal;
+	padding: 2px 10px;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
+}
+
+#todolist-iframe #task {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	margin-left: 10px;
+}
+
+.loader {
+	position: absolute;
+	width: 5em;
+	height: 5em;
+	top: calc(50% - 2.5em);
+	left: calc(50% - 2.5em);
+	z-index: 20;
+}
+
+.loader > img {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	/* z-index: 10; */
+
+	filter: drop-shadow(0px 0px 10px #e4e4e454);
+}
+.loader > span {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	transform: scale(1);
+	border-radius: 50%;
+	background: #e4e4e454;
+
+	animation: loader infinite 3s ease-in-out;
+}
+
+@keyframes loader {
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
 }

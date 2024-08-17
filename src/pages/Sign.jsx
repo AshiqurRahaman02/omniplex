@@ -17,7 +17,7 @@ function Sign() {
 	return (
 		<div>
 			<Nav />
-			<main>
+			<main style={{marginTop:'15vh'}}>
 				{/* Sign In Form */}
 				{isSignInVisible && <SignIn />}
 

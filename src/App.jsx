@@ -40,6 +40,7 @@ import UnsplashHome from "./pages/unsplash/Home";
 // CollabCraft pages
 import CollabCraftHome from "./pages/collabcraft/Home";
 import CollabCraftRoom from "./pages/collabcraft/Room";
+import TodoListIframe from "./pages/todo-list/TodoListIframe";
 
 function App() {
 	return (
@@ -52,6 +53,7 @@ function App() {
 				<Route path="/explore" element={<Explore />} />
 
 				{/* todo-list */}
+				<Route path="/todolist/iframe" element={<TodoListIframe />} />
 				<Route path="/todolist" element={<TodoListHome />} />
 				<Route path="/todolist/team/join/:teamId" element={<Join />} />
 
